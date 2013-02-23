@@ -39,7 +39,7 @@ print_r('bankName ' . $inpaymentSlip->getbankName() . '<br>');
 print_r('bankCity ' . $inpaymentSlip->getbankCity() . '<br>');
 print_r('accountNumber ' . $inpaymentSlip->getAccountNumber() . '<br>');
 
-$inpaymentSlip->setAccountNumber('123456');
+$inpaymentSlip->setAccountNumber('01-2345-6');
 print_r('accountNumber ' . $inpaymentSlip->getAccountNumber() . '<br>');
 
 $inpaymentSlip->setRecipientData('ORCA Services AG', 'Bahnhofstrasse 11', '4133 Pratteln');
@@ -56,6 +56,8 @@ print_r('payerLine4 ' . $inpaymentSlip->getPayerLine4() . '<br>');
 
 $inpaymentSlip->setAmount(105.38);
 print_r('amount ' . $inpaymentSlip->getAmount() . '<br>');
+print_r('Francs ' . $inpaymentSlip->getAmountFrancs() . '<br>');
+print_r('Cents ' . $inpaymentSlip->getAmountCents() . '<br>');
 
 $inpaymentSlip->setReferenceNumber('1234567890');
 $inpaymentSlip->setBankingCustomerId('99999');
@@ -71,6 +73,8 @@ print_r('paymentReasonLine1  ' . $inpaymentSlip->getPaymentReasonLine1() . '<br>
 print_r('paymentReasonLine2  ' . $inpaymentSlip->getPaymentReasonLine2() . '<br>');
 print_r('paymentReasonLine3  ' . $inpaymentSlip->getPaymentReasonLine3() . '<br>');
 print_r('paymentReasonLine4  ' . $inpaymentSlip->getPaymentReasonLine4() . '<br>');
+
+print_r('codeLine  ' . $inpaymentSlip->getCodeLine() . '<br>');
 
 var_dump($inpaymentSlip);
 

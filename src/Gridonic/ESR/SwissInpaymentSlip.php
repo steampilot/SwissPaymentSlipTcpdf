@@ -903,22 +903,6 @@ class SwissInpaymentSlip
 	}
 
 	/**
-	 * Set payment data
-	 *
-	 * @param float $amount
-	 * @param int   $referenceNumber
-	 *
-	 * @return bool Always true
-	 */
-	public function setPaymentData($amount, $referenceNumber = null)
-	{
-		$this->amount          = sprintf("%01.2f",$amount);
-		$this->referenceNumber = $referenceNumber;
-
-		return true;
-	}
-
-	/**
 	 * Set the amount of the inpayment slip. Only possible if it's not a ESR+
 	 *
 	 * @param float $amount The amount to be payed into
@@ -1348,6 +1332,85 @@ class SwissInpaymentSlip
 			return $this->breakStringIntoBlocks($this->getIban(), 4, false);
 		}
 		return false;
+	}
+
+	/**
+	 * Get the full code line at the bottom of the ESR
+	 *
+	 * @return string|bool Either the full code line or false if something was wrong
+	 */
+	public function getCodeLine()
+	{
+		$francs = $this->getAmountFrancs();
+		if ($francs === false) {
+			return false;
+		}
+		$cents = $this->getAmountCents();
+		if ($cents === false) {
+			return false;
+		}
+
+		$referenceNumber = $this->getCompleteReferenceNumber(false);
+		if ($referenceNumber === false) {
+			return false;
+		}
+		$accountNumber = $this->getAccountDigits();
+		if ($accountNumber === false) {
+			return false;
+		}
+
+		if ($this->getWithAmount()) {
+			$francs = str_pad($francs, 8 ,'0', STR_PAD_LEFT);
+			$cents = str_pad($cents, 2 ,'0', STR_PAD_RIGHT);
+			$amountPart = '01' . $francs . $cents;
+			$amountPart = $amountPart . $this->modulo10($amountPart) .  '>';
+		} else {
+			$amountPart = '042>';
+		}
+		$referenceNumberPart = str_pad($referenceNumber, 27 ,'0', STR_PAD_LEFT) . "+ ";
+		$accountNumberPart = substr($accountNumber,0, 2) .
+			str_pad(substr($accountNumber,2), 7 ,'0', STR_PAD_LEFT) . ">";
+
+		$codeLine = $amountPart . $referenceNumberPart . $accountNumberPart;
+
+		return $codeLine;
+	}
+
+	/**
+	 * Clear the account of the two hyphens
+	 *
+	 */
+	private function getAccountDigits()
+	{
+		if ($this->getWithAccountNumber()) {
+			$accountNumber = $this->getAccountNumber();
+			if ($accountNumber) {
+				$accountDigits = str_replace('-', '', $accountNumber, $replacedHyphens);
+				if ($replacedHyphens == 2) {
+					return $accountDigits;
+				}
+			}
+		}
+		return false;
+	}
+
+	public function getAmountFrancs() {
+		$amount = $this->getAmount();
+		if ($amount === false) {
+			return false;
+		}
+		$francs = intval($amount);
+		return $francs;
+	}
+
+	public function getAmountCents() {
+		$amount = $this->getAmount();
+		if ($amount === false) {
+			return false;
+		}
+		$francs = intval($amount);
+		$cents = ($amount - $francs) * 100;
+		return $cents;
 	}
 
 	/**

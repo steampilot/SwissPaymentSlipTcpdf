@@ -42,12 +42,7 @@ $inpaymentSlip->setBankingCustomerId('215703');
 print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber() . '<br>');
 print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(false) . '<br>');
 
-var_dump($inpaymentSlip);
-
-$inpaymentSlip->setWithBankingCustomerId(false);
-
-print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber() . '<br>');
-print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(false) . '<br>');
+print_r('codeLine  ' . $inpaymentSlip->getCodeLine() . '<br>');
 
 var_dump($inpaymentSlip);
 ?>
