@@ -14,7 +14,11 @@
         {
             "name": "Peter Siska",
             "email": "pesche@gridonic.ch"
-        }
+        },
+		{
+			"name": "Marc Würth",
+			"email": "ravage@bluewin.ch"
+		}
     ],
     "autoload": {
         "psr-0": {
