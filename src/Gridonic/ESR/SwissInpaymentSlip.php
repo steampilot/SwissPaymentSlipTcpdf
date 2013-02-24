@@ -15,6 +15,9 @@
 
 namespace Gridonic\ESR;
 
+// TODO create tests
+// TODO test docs generated
+
 use InvalidArgumentException;
 
 /**
