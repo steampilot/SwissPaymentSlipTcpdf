@@ -21,11 +21,11 @@ namespace Gridonic\ESR;
 use InvalidArgumentException;
 
 /**
- * Creates standard Swiss inpayment slips with or without reference number.
+ * Creates data containers for standard Swiss inpayment slips with or without reference number.
  * It doesn't actually do much. It's mostly a data container class to keep
  * including classes from having to care about how ESR works.
  * But it provides a flexibility of which data it holds, because not always
- * all fields are needed in an application.
+ * all slip fields are needed in an application.
  *
  * Glossary:
  * ESR = Einzahlungsschein mit Referenznummer
@@ -46,6 +46,7 @@ use InvalidArgumentException;
  *
  * @link https://www.postfinance.ch/content/dam/pf/de/doc/consult/manual/dlserv/inpayslip_isr_man_de.pdf German manual
  *
+ * @todo implement full red slip support (code line + additional code line)
  * @todo implement currency (CHF, EUR), means different prefixes in code line
  * @todo implement inpayment on own account, means different prefixes in code line --> edge case!
  * @todo implement notForInpaying (XXXX.XX)
@@ -1323,7 +1324,6 @@ class SwissInpaymentSlip
 					// get reference number and fill with zeros
 					$completeReferenceNumber = $this->getReferenceNumber();
 				}
-
 			}
 
 			// add check digit

@@ -46,16 +46,24 @@ $inpaymentSlip->setBankingCustomerId('215703');
 
 $inpaymentSlipPdf = new SwissInpaymentSlipPdf($fPdf, $inpaymentSlip, 0, 0);
 
-//$inpaymentSlipPdf->setBankLeftAttr(10, 20, 100, 50, null, 'Helvetica', 11, '#123', 4, 'left');
+var_dump($inpaymentSlipPdf);
 
 $inpaymentSlipPdf->setBankLeftAttr(null, null, null, null, null, 'Helvetica');
 
-$inpaymentSlipPdf->createInpaymentSlip();
+$inpaymentSlipPdf->createInpaymentSlip(false);
+
+$inpaymentSlipPdf = new SwissInpaymentSlipPdf($fPdf, $inpaymentSlip);
+
+$inpaymentSlipPdf->createInpaymentSlip(true);
+/*
+var_dump($inpaymentSlipPdf);
 
 $inpaymentSlipPdf->setSlipPosition(0, 191);
 
-$inpaymentSlipPdf->createInpaymentSlip();
+var_dump($inpaymentSlipPdf);
 
+$inpaymentSlipPdf->createInpaymentSlip(false);
+*/
 $fPdf->Output('d:\test.pdf', 'F');
 
 var_dump($inpaymentSlipPdf);

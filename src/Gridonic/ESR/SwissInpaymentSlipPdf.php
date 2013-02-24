@@ -30,6 +30,12 @@ namespace Gridonic\ESR;
 // TODO class docblock
 // TODO test docs generated
 
+/**
+ * The whole class could even be completely decoupled from FPDF by moving creating getters for all needed data
+ * and moving the function createInpaymentSlip() and its helper function writeInpaymentSlipLines into a new class.
+ * Like this you could also achieve that this class (in combination with the already general SwissInpaymentSlip class)
+ * would become a general purpose class for swiss inpayment slips but not specifically for creating PDFs from it.
+ */
 class SwissInpaymentSlipPdf
 {
 
@@ -59,11 +65,11 @@ class SwissInpaymentSlipPdf
 	 *
 	 * @var int Starting Y position of the slip in mm
 	 */
-	private $slipPosY = 0;
+	private $slipPosY = 191;
 
-	private $slipHeight = 0; // TODO how much?
+	private $slipHeight = 106; // default height of an orange slip
 
-	private $slipWidth = 0; // TODO how much, A4 width?
+	private $slipWidth = 210; // default width of an orange slip
 
 	/**
 	 * Background of the slip
@@ -140,6 +146,13 @@ class SwissInpaymentSlipPdf
 	 */
 	private $displayPaymentReason = false;
 
+	/**
+	 * Determines if the code line at the bottom should be displayed
+	 *
+	 * @var bool True if yes, false if no
+	 */
+	private $displayCodeLine = true;
+
 	private $bankLeftAttr = array();
 	private $bankRightAttr = array();
 	private $recipientLeftAttr = array();
@@ -156,7 +169,7 @@ class SwissInpaymentSlipPdf
 	private $payerRightAttr = array();
 	private $codeLineAttr = array();
 
-	public function __construct($fPdf, $inpaymentSlip, $slipPosX = 0, $slipPosY = 0)
+	public function __construct($fPdf, $inpaymentSlip, $slipPosX = null, $slipPosY = null)
 	{
 		if (is_object($fPdf)) {
 			$this->fPdf = $fPdf;
@@ -168,12 +181,18 @@ class SwissInpaymentSlipPdf
 		} else {
 			// throw error
 		}
-		if (!$this->setSlipPosX($slipPosX)) {
-			// throw error
+		if (!is_null($slipPosX)) {
+			if (!$this->setSlipPosX($slipPosX)) {
+				// throw error
+			}
 		}
-		if (!$this->setSlipPosY($slipPosY)) {
-			// throw error
+		if (!is_null($slipPosY)) {
+			if (!$this->setSlipPosY($slipPosY)) {
+				// throw error
+			}
 		}
+
+		// TODO distinguish between red and orange type (get from SwissInpaymentSlip class)
 
 		$this->setBankLeftAttr(3, 8, 50, 4);
 		$this->setBankRightAttr(66, 8, 50, 4);
@@ -190,10 +209,12 @@ class SwissInpaymentSlipPdf
 		$this->setPayerLeftAttr(3, 65, 50, 4);
 		$this->setPayerRightAttr(125, 48, 50, 4);
 		$this->setCodeLineAttr(64, 85, 140, 4, null, 'OCRB10');
+
+		$this->setSlipBackground(__DIR__.'/Resources/img/ezs_orange.gif');
 	}
 
 	/**
-	 * Set slip X & > position
+	 * Set slip X & Y position
 	 *
 	 * @param $slipPosX
 	 * @param $slipPosY
@@ -210,7 +231,7 @@ class SwissInpaymentSlipPdf
 
 	private function setSlipPosX($slipPosX)
 	{
-		if (is_int($slipPosX)) {
+		if (is_int($slipPosX) || is_float($slipPosX)) {
 			$this->slipPosX = $slipPosX;
 			return true;
 		}
@@ -219,11 +240,54 @@ class SwissInpaymentSlipPdf
 
 	private function setSlipPosY($slipPosY)
 	{
-		if (is_int($slipPosY)) {
+		if (is_int($slipPosY) || is_float($slipPosY)) {
 			$this->slipPosY = $slipPosY;
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Set slip height & width
+	 *
+	 * @param $slipHeight
+	 * @param $slipWidth
+	 * @return bool True if successful, else false
+	 */
+	public function setSlipSize($slipHeight, $slipWidth)
+	{
+		if ($this->setSlipHeight($slipHeight) &&
+			$this->setSlipWidth($slipWidth)) {
+			return true;
+		}
+		return false;
+	}
+
+	private function setSlipHeight($slipHeight)
+	{
+		if (is_int($slipHeight) || is_float($slipHeight)) {
+			$this->slipPosX = $slipHeight;
+			return true;
+		}
+		return false;
+	}
+
+	private function setSlipWidth($slipWidth)
+	{
+		if (is_int($slipWidth) || is_float($slipWidth)) {
+			$this->slipPosY = $slipWidth;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param null $slipBackground
+	 */
+	public function setSlipBackground($slipBackground)
+	{
+		// TODO check if it's a color or a path to a file
+		$this->slipBackground = $slipBackground;
 	}
 
 	private function setAttributes(&$attributes, $posX = null, $posY = null, $height = null, $width = null, $background = null,
@@ -554,343 +618,231 @@ class SwissInpaymentSlipPdf
 		return $this->displayReferenceNr;
 	}
 
-	public function createInpaymentSlip() {
+	/**
+	 * Set whether or not to display the IBAN
+	 *
+	 * @param bool $displayIban True if yes, false if no
+	 * @return bool True if successful, else false
+	 */
+	public function setDisplayIban($displayIban = true)
+	{
+		if (is_bool($displayIban)) {
+			$this->displayIban = $displayIban;
+			return true;
+		}
+		return false;
+	}
 
+	/**
+	 * Get whether or not to display the IBAN
+	 *
+	 * @return bool True if yes, false if no
+	 */
+	public function getDisplayIban()
+	{
+		return $this->displayIban;
+	}
+
+	/**
+	 * Set whether or not to display the payment reason lines
+	 *
+	 * @param bool $displayPaymentReason True if yes, false if no
+	 * @return bool True if successful, else false
+	 */
+	public function setDisplayPaymentReason($displayPaymentReason = true)
+	{
+		if (is_bool($displayPaymentReason)) {
+			$this->displayPaymentReason = $displayPaymentReason;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get whether or not to display the payment reason lines
+	 *
+	 * @return bool True if yes, false if no
+	 */
+	public function getDisplayPaymentReason()
+	{
+		return $this->displayPaymentReason;
+	}
+
+	/**
+	 * Set whether or not to display the code line at the bottom
+	 *
+	 * @param bool $displayCodeLine True if yes, false if no
+	 * @return bool True if successful, else false
+	 */
+	public function setDisplayCodeLine($displayCodeLine = true)
+	{
+		if (is_bool($displayCodeLine)) {
+			$this->displayCodeLine = $displayCodeLine;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get whether or not to display the code line at the bottom
+	 *
+	 * @return bool True if yes, false if no
+	 */
+	public function getDisplayCodeLine()
+	{
+		return $this->displayCodeLine;
+	}
+
+	private function writeInpaymentSlipLines($lines, $attributes) {
+
+		$fPdf = $this->fPdf;
+
+		if (is_array($lines) && is_array($attributes)) {
+
+			$posX = $attributes['PosX'];
+			$posY = $attributes['PosY'];
+			$height = $attributes['Height'];
+			$width = $attributes['Width'];
+			$fontFamily = $attributes['FontFamily'];
+			$background = $attributes['Background'];
+			$fontSize = $attributes['FontSize'];
+			$fontColor = $attributes['FontColor'];
+			$lineHeight = $attributes['LineHeight'];
+			$textAlign = $attributes['TextAlign'];
+
+			$fPdf->SetFont($fontFamily, '', $fontSize);
+			//$fPdf->SetFillColor(255, 0 , 0);  // TODO replace with conditional coloring (check for transparent) color conversion?
+
+			foreach ($lines as $lineNr => $line) {
+				$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + ($lineNr * $lineHeight));
+				$fPdf->Cell($height, $width, utf8_decode($line), 0, 0, $textAlign, false);
+			}
+		}
+	}
+
+	public function createInpaymentSlip($withBackground = true) {
 		$fPdf = $this->fPdf;
 		$inpaymentSlip = $this->inpaymentSlip;
 
 		// Place background
-		if (true) { // TODO implement switch, either as parameter or as property
-			$fPdf->Image(__DIR__.'/Resources/img/ezs_orange.gif', $this->slipPosX, $this->slipPosY, 210, 106, "GIF");
+		if ($withBackground) {
+			// TODO check if slipBackground is a color or a path to a file
+			$fPdf->Image($this->slipBackground, $this->slipPosX, $this->slipPosY, $this->slipWidth, $this->slipHeight, "GIF");
 		}
-
-		//$fPdf->SetFillColor(255, 0 , 0); // TODO replace with conditional coloring (check for transparent) color conversion?
 
 		// Place left bank lines
 		if ($this->getDisplayBank()) {
-			$posX = $this->bankLeftAttr['PosX'];
-			$posY = $this->bankLeftAttr['PosY'];
-			$height = $this->bankLeftAttr['Height'];
-			$width = $this->bankLeftAttr['Width'];
-			$fontFamily = $this->bankLeftAttr['FontFamily'];
-			$background = $this->bankLeftAttr['Background'];
-			$fontSize = $this->bankLeftAttr['FontSize'];
-			$fontColor = $this->bankLeftAttr['FontColor'];
-			$lineHeight = $this->bankLeftAttr['LineHeight'];
-			$textAlign = $this->bankLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getBankName(),
+								$inpaymentSlip->getBankCity());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getBankName()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getBankCity()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->bankLeftAttr);
 		}
 
 		// Place right bank lines
 		if ($this->getDisplayBank()) {
-			$posX = $this->bankRightAttr['PosX'];
-			$posY = $this->bankRightAttr['PosY'];
-			$height = $this->bankRightAttr['Height'];
-			$width = $this->bankRightAttr['Width'];
-			$fontFamily = $this->bankRightAttr['FontFamily'];
-			$background = $this->bankRightAttr['Background'];
-			$fontSize = $this->bankRightAttr['FontSize'];
-			$fontColor = $this->bankRightAttr['FontColor'];
-			$lineHeight = $this->bankRightAttr['LineHeight'];
-			$textAlign = $this->bankRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getBankName(),
+				$inpaymentSlip->getBankCity());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getBankName()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getBankCity()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->bankRightAttr);
 		}
 
 		// Place left recipient lines
 		if ($this->getDisplayRecipient()) {
-			$posX = $this->recipientLeftAttr['PosX'];
-			$posY = $this->recipientLeftAttr['PosY'];
-			$height = $this->recipientLeftAttr['Height'];
-			$width = $this->recipientLeftAttr['Width'];
-			$fontFamily = $this->recipientLeftAttr['FontFamily'];
-			$background = $this->recipientLeftAttr['Background'];
-			$fontSize = $this->recipientLeftAttr['FontSize'];
-			$fontColor = $this->recipientLeftAttr['FontColor'];
-			$lineHeight = $this->recipientLeftAttr['LineHeight'];
-			$textAlign = $this->recipientLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getRecipientLine1(),
+				$inpaymentSlip->getRecipientLine2(), $inpaymentSlip->getRecipientLine3(),
+				$inpaymentSlip->getRecipientLine4());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine1()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine2()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine3()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine4()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->recipientLeftAttr);
 		}
 
 		// Place right recipient lines
 		if ($this->getDisplayRecipient()) {
-			$posX = $this->recipientRightAttr['PosX'];
-			$posY = $this->recipientRightAttr['PosY'];
-			$height = $this->recipientRightAttr['Height'];
-			$width = $this->recipientRightAttr['Width'];
-			$fontFamily = $this->recipientRightAttr['FontFamily'];
-			$background = $this->recipientRightAttr['Background'];
-			$fontSize = $this->recipientRightAttr['FontSize'];
-			$fontColor = $this->recipientRightAttr['FontColor'];
-			$lineHeight = $this->recipientRightAttr['LineHeight'];
-			$textAlign = $this->recipientRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getRecipientLine1(),
+				$inpaymentSlip->getRecipientLine2(), $inpaymentSlip->getRecipientLine3(),
+				$inpaymentSlip->getRecipientLine4());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine1()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine2()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine3()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getRecipientLine4()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->recipientRightAttr);
 		}
 
 		// Place left account number
 		if ($this->getDisplayAccount()) {
-			$posX = $this->accountLeftAttr['PosX'];
-			$posY = $this->accountLeftAttr['PosY'];
-			$height = $this->accountLeftAttr['Height'];
-			$width = $this->accountLeftAttr['Width'];
-			$fontFamily = $this->accountLeftAttr['FontFamily'];
-			$background = $this->accountLeftAttr['Background'];
-			$fontSize = $this->accountLeftAttr['FontSize'];
-			$fontColor = $this->accountLeftAttr['FontColor'];
-			$lineHeight = $this->accountLeftAttr['LineHeight'];
-			$textAlign = $this->accountLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getAccountNumber());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getAccountNumber()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->accountLeftAttr);
 		}
 
 		// Place right account number
 		if ($this->getDisplayAccount()) {
-			$posX = $this->accountRightAttr['PosX'];
-			$posY = $this->accountRightAttr['PosY'];
-			$height = $this->accountRightAttr['Height'];
-			$width = $this->accountRightAttr['Width'];
-			$fontFamily = $this->accountRightAttr['FontFamily'];
-			$background = $this->accountRightAttr['Background'];
-			$fontSize = $this->accountRightAttr['FontSize'];
-			$fontColor = $this->accountRightAttr['FontColor'];
-			$lineHeight = $this->accountRightAttr['LineHeight'];
-			$textAlign = $this->accountRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getAccountNumber());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getAccountNumber()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->accountRightAttr);
 		}
 
 		// Place left amount in francs
 		if ($this->getDisplayAmount()) {
-			$posX = $this->amountFrancsLeftAttr['PosX'];
-			$posY = $this->amountFrancsLeftAttr['PosY'];
-			$height = $this->amountFrancsLeftAttr['Height'];
-			$width = $this->amountFrancsLeftAttr['Width'];
-			$fontFamily = $this->amountFrancsLeftAttr['FontFamily'];
-			$background = $this->amountFrancsLeftAttr['Background'];
-			$fontSize = $this->amountFrancsLeftAttr['FontSize'];
-			$fontColor = $this->amountFrancsLeftAttr['FontColor'];
-			$lineHeight = $this->amountFrancsLeftAttr['LineHeight'];
-			$textAlign = $this->amountFrancsLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getAmountFrancs());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getAmountFrancs()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->amountFrancsLeftAttr);
 		}
 
 		// Place right amount in francs
 		if ($this->getDisplayAmount()) {
-			$posX = $this->amountFrancsRightAttr['PosX'];
-			$posY = $this->amountFrancsRightAttr['PosY'];
-			$height = $this->amountFrancsRightAttr['Height'];
-			$width = $this->amountFrancsRightAttr['Width'];
-			$fontFamily = $this->amountFrancsRightAttr['FontFamily'];
-			$background = $this->amountFrancsRightAttr['Background'];
-			$fontSize = $this->amountFrancsRightAttr['FontSize'];
-			$fontColor = $this->amountFrancsRightAttr['FontColor'];
-			$lineHeight = $this->amountFrancsRightAttr['LineHeight'];
-			$textAlign = $this->amountFrancsRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getAmountFrancs());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getAmountFrancs()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->amountFrancsRightAttr);
 		}
 
 		// Place left amount in cents
 		if ($this->getDisplayAmount()) {
-			$posX = $this->amountCentsLeftAttr['PosX'];
-			$posY = $this->amountCentsLeftAttr['PosY'];
-			$height = $this->amountCentsLeftAttr['Height'];
-			$width = $this->amountCentsLeftAttr['Width'];
-			$fontFamily = $this->amountCentsLeftAttr['FontFamily'];
-			$background = $this->amountCentsLeftAttr['Background'];
-			$fontSize = $this->amountCentsLeftAttr['FontSize'];
-			$fontColor = $this->amountCentsLeftAttr['FontColor'];
-			$lineHeight = $this->amountCentsLeftAttr['LineHeight'];
-			$textAlign = $this->amountCentsLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getAmountCents());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getAmountCents()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->amountCentsLeftAttr);
 		}
 
 		// Place right amount in cents
 		if ($this->getDisplayAmount()) {
-			$posX = $this->amountCentsRightAttr['PosX'];
-			$posY = $this->amountCentsRightAttr['PosY'];
-			$height = $this->amountCentsRightAttr['Height'];
-			$width = $this->amountCentsRightAttr['Width'];
-			$fontFamily = $this->amountCentsRightAttr['FontFamily'];
-			$background = $this->amountCentsRightAttr['Background'];
-			$fontSize = $this->amountCentsRightAttr['FontSize'];
-			$fontColor = $this->amountCentsRightAttr['FontColor'];
-			$lineHeight = $this->amountCentsRightAttr['LineHeight'];
-			$textAlign = $this->amountCentsRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getAmountCents());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getAmountCents()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->amountCentsRightAttr);
 		}
 
 		// Place left reference number
 		if ($this->getDisplayReferenceNr()) {
-			$posX = $this->referenceNumberLeftAttr['PosX'];
-			$posY = $this->referenceNumberLeftAttr['PosY'];
-			$height = $this->referenceNumberLeftAttr['Height'];
-			$width = $this->referenceNumberLeftAttr['Width'];
-			$fontFamily = $this->referenceNumberLeftAttr['FontFamily'];
-			$background = $this->referenceNumberLeftAttr['Background'];
-			$fontSize = $this->referenceNumberLeftAttr['FontSize'];
-			$fontColor = $this->referenceNumberLeftAttr['FontColor'];
-			$lineHeight = $this->referenceNumberLeftAttr['LineHeight'];
-			$textAlign = $this->referenceNumberLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getCompleteReferenceNumber());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getCompleteReferenceNumber()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->referenceNumberLeftAttr);
 		}
 
 		// Place right reference number
 		if ($this->getDisplayReferenceNr()) {
-			$posX = $this->referenceNumberRightAttr['PosX'];
-			$posY = $this->referenceNumberRightAttr['PosY'];
-			$height = $this->referenceNumberRightAttr['Height'];
-			$width = $this->referenceNumberRightAttr['Width'];
-			$fontFamily = $this->referenceNumberRightAttr['FontFamily'];
-			$background = $this->referenceNumberRightAttr['Background'];
-			$fontSize = $this->referenceNumberRightAttr['FontSize'];
-			$fontColor = $this->referenceNumberRightAttr['FontColor'];
-			$lineHeight = $this->referenceNumberRightAttr['LineHeight'];
-			$textAlign = $this->referenceNumberRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getCompleteReferenceNumber());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getCompleteReferenceNumber()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->referenceNumberRightAttr);
 		}
 
 		// Place left payer lines
 		if ($this->getDisplayPayer()) {
-			$posX = $this->payerLeftAttr['PosX'];
-			$posY = $this->payerLeftAttr['PosY'];
-			$height = $this->payerLeftAttr['Height'];
-			$width = $this->payerLeftAttr['Width'];
-			$fontFamily = $this->payerLeftAttr['FontFamily'];
-			$background = $this->payerLeftAttr['Background'];
-			$fontSize = $this->payerLeftAttr['FontSize'];
-			$fontColor = $this->payerLeftAttr['FontColor'];
-			$lineHeight = $this->payerLeftAttr['LineHeight'];
-			$textAlign = $this->payerLeftAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getPayerLine1(),
+				$inpaymentSlip->getPayerLine2(), $inpaymentSlip->getPayerLine3(),
+				$inpaymentSlip->getPayerLine4());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine1()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine2()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine3()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine4()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->payerLeftAttr);
 		}
 
 		// Place right payer lines
 		if ($this->getDisplayPayer()) {
-			$posX = $this->payerRightAttr['PosX'];
-			$posY = $this->payerRightAttr['PosY'];
-			$height = $this->payerRightAttr['Height'];
-			$width = $this->payerRightAttr['Width'];
-			$fontFamily = $this->payerRightAttr['FontFamily'];
-			$background = $this->payerRightAttr['Background'];
-			$fontSize = $this->payerRightAttr['FontSize'];
-			$fontColor = $this->payerRightAttr['FontColor'];
-			$lineHeight = $this->payerRightAttr['LineHeight'];
-			$textAlign = $this->payerRightAttr['TextAlign'];
+			$bankLines = array($inpaymentSlip->getPayerLine1(),
+				$inpaymentSlip->getPayerLine2(), $inpaymentSlip->getPayerLine3(),
+				$inpaymentSlip->getPayerLine4());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine1()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine2()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine3()), 0, 0, $textAlign, false);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY + $lineHeight + $lineHeight + $lineHeight);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getPayerLine4()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->payerRightAttr);
 		}
 
 		// Place code line
-		if (true) { // TODO implement getDisplayCodeLine
-			$posX = $this->codeLineAttr['PosX'];
-			$posY = $this->codeLineAttr['PosY'];
-			$height = $this->codeLineAttr['Height'];
-			$width = $this->codeLineAttr['Width'];
-			$fontFamily = $this->codeLineAttr['FontFamily'];
-			$background = $this->codeLineAttr['Background'];
-			$fontSize = $this->codeLineAttr['FontSize'];
-			$fontColor = $this->codeLineAttr['FontColor'];
-			$lineHeight = $this->codeLineAttr['LineHeight'];
-			$textAlign = $this->codeLineAttr['TextAlign'];
+		if ($this->getDisplayCodeLine()) {
+			$bankLines = array($inpaymentSlip->getCodeLine());
 
-			$fPdf->SetFont($fontFamily, '', $fontSize);
-
-			$fPdf->SetXY($this->slipPosX + $posX, $this->slipPosY + $posY);
-			$fPdf->Cell($height, $width, utf8_decode($inpaymentSlip->getCodeLine()), 0, 0, $textAlign, false);
+			$this->writeInpaymentSlipLines($bankLines, $this->codeLineAttr);
 		}
 	}
 }
