@@ -27,7 +27,7 @@ use Gridonic\ESR\SwissInpaymentSlip;
 use Gridonic\ESR\SwissInpaymentSlipPdf;
 use fpdf\FPDF;
 
-$fpdf = new FPDF('P','mm','A4');
+$fPdf = new FPDF('P','mm','A4');
 
 $inpaymentSlip = new SwissInpaymentSlip();
 

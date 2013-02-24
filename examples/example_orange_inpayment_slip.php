@@ -60,10 +60,18 @@ print_r('Francs ' . $inpaymentSlip->getAmountFrancs() . '<br>');
 print_r('Cents ' . $inpaymentSlip->getAmountCents() . '<br>');
 
 $inpaymentSlip->setReferenceNumber('1234567890');
-$inpaymentSlip->setBankingCustomerId('99999');
+$inpaymentSlip->setBankingCustomerId('654321');
 print_r('referenceNumber  ' . $inpaymentSlip->getReferenceNumber() . '<br>');
 print_r('bankingCustomerId  ' . $inpaymentSlip->getBankingCustomerId() . '<br>');
+
 print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber() . '<br>');
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(false) . '<br>');
+
+$inpaymentSlip->setWithBankingCustomerId(false);
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber() . '<br>');
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(false) . '<br>');
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(true, false) . '<br>');
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(false, false) . '<br>');
 
 $inpaymentSlip->setIban('1234567890123456789');
 print_r('iban  ' . $inpaymentSlip->getIban() . '<br>');
@@ -107,6 +115,8 @@ print_r('amount ' . $inpaymentSlip->getAmount() . '<br>');
 
 $inpaymentSlip->setWithReferenceNumber(false);
 print_r('referenceNumber  ' . $inpaymentSlip->getReferenceNumber() . '<br>');
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(false) . '<br>');
+print_r('completeReferenceNumber  ' . $inpaymentSlip->getCompleteReferenceNumber(true, false) . '<br>');
 
 var_dump($inpaymentSlip);
 

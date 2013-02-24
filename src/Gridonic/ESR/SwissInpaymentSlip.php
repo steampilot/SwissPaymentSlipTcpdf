@@ -40,6 +40,14 @@ use InvalidArgumentException;
  * ES = Einzahlungsschein
  * 		Inpayment slip
  * 		Red inpayment slip for paying into a post cheque or bank account without reference number but message box
+ *
+ * @link https://www.postfinance.ch/content/dam/pf/de/doc/consult/manual/dlserv/inpayslip_isr_man_de.pdf German manual
+ *
+ * @todo implement currency (CHF, EUR), means different prefixes in code line
+ * @todo implement inpayment on own account, means different prefixes in code line --> edge case!
+ * @todo implement notForInpaying (XXXX.XX)
+ * @todo implement cash on delivery (Nachnahme), means different prefixes in code line --> do it on demand
+ * @todo implement amount check for unrounded (.05) cents, document why (see manual)
  */
 class SwissInpaymentSlip
 {
@@ -968,6 +976,7 @@ class SwissInpaymentSlip
 	public function setBankingCustomerId($bankingCustomerId)
 	{
 		if ($this->getWithBankingCustomerId()) {
+			// TODO check length (exactly 6)
 			$this->bankingCustomerId = $bankingCustomerId;
 			return true;
 		}
@@ -1291,10 +1300,11 @@ class SwissInpaymentSlip
 	 * Get complete reference number
 	 *
 	 * @param bool $formatted Should the returned reference be formatted in blocks of five (for better readability)
+	 * @param bool $fillZeros Fill up with leading zeros, only applies to the case where no banking customer id is used
 	 * @return string|bool The complete (with/without bank customer id), formatted reference number with check digit
 	 * or false if withReferenceNumber is false
 	 */
-	public function getCompleteReferenceNumber($formatted = true)
+	public function getCompleteReferenceNumber($formatted = true, $fillZeros = true)
 	{
 		if ($this->getWithReferenceNumber()) {
 			if ($this->getWithBankingCustomerId()) {
@@ -1303,8 +1313,14 @@ class SwissInpaymentSlip
 				// add banking customer identification code
 				$completeReferenceNumber = $this->getBankingCustomerId() . $completeReferenceNumber;
 			} else {
-				// get reference number
-				$completeReferenceNumber = $this->getReferenceNumber();
+				if ($fillZeros) {
+					// get reference number and fill with zeros
+					$completeReferenceNumber = str_pad($this->getReferenceNumber(), 26 ,'0', STR_PAD_LEFT);
+				} else{
+					// get reference number and fill with zeros
+					$completeReferenceNumber = $this->getReferenceNumber();
+				}
+
 			}
 
 			// add check digit
