@@ -77,7 +77,7 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
 	$inpaymentSlipFpdf->createInpaymentSlip();
 }
 
-$fPdf->Output('d:\test.pdf', 'F');
+$fPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'test.pdf', 'F');
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
