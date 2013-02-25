@@ -37,8 +37,12 @@ $fPdf->AddFont('OCRB10');
 
 // setup objects
 $inpaymentSlip = new SwissInpaymentSlip();
-$inpaymentSlipData = $inpaymentSlip->getSlipData();
+$inpaymentSlipData = $inpaymentSlip->getInpaymentSlipData();
 $inpaymentSlipFpdf = new SwissInpaymentSlipFpdf($fPdf, $inpaymentSlip);
+
+$time_end = microtime(true);
+$time = $time_end - $time_start;
+echo "Setup took $time seconds <br>";
 
 // create 1000 fake inpayment slips on 500 pages
 for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
@@ -77,11 +81,14 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
 	$inpaymentSlipFpdf->createInpaymentSlip();
 }
 
+$time_end = microtime(true);
+$time = $time_end - $time_start;
+echo "Collecting data took $time seconds <br>";
+
 $fPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'test.pdf', 'F');
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
-
 echo "Generation took $time seconds <br>";
 echo 'Peak memory usage: ' . memory_get_peak_usage() / 1024 / 1024;
 ?>

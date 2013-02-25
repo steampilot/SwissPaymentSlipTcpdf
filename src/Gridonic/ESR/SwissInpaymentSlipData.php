@@ -71,42 +71,42 @@ class SwissInpaymentSlipData
 	 *
 	 * @var string Orange or red inpayment slip
 	 */
-	private $type = self::ORANGE;
+	protected $type = self::ORANGE;
 
 	/**
 	 * Determines if the inpayment slip has a recipient bank. Can be disabled for preprinted inpayment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withBank = true;
+	protected $withBank = true;
 
 	/**
 	 * Determines if the inpayment slip has a account number. Can be disabled for preprinted inpayment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withAccountNumber = true;
+	protected $withAccountNumber = true;
 
 	/**
 	 * Determines if the inpayment slip has a recipient. Can be disabled for preprinted inpayment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withRecipient = true;
+	protected $withRecipient = true;
 
 	/**
 	 * Determines if it's an ESR or an ESR+
 	 *
 	 * @var bool True for ESR, false for ESR+
 	 */
-	private $withAmount = true;
+	protected $withAmount = true;
 
 	/**
 	 * Determines if the inpayment slip has a reference number. Can be disabled for preprinted inpayment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withReferenceNumber = true;
+	protected $withReferenceNumber = true;
 
 	/**
 	 * Determines if the payment slip's reference number should contain the banking customer id.
@@ -114,14 +114,14 @@ class SwissInpaymentSlipData
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withBankingCustomerId = true;
+	protected $withBankingCustomerId = true;
 
 	/**
 	 * Determines if the payment slip has a payer. Can be disabled for preprinted inpayment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withPayer = true;
+	protected $withPayer = true;
 
 	/**
 	 * Determines if the payment slip has a IBAN specified. Can be disabled for preprinted inpayment slips
@@ -129,7 +129,7 @@ class SwissInpaymentSlipData
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withIban = false;
+	protected $withIban = false;
 
 	/**
 	 * Determines if the payment slip has a payment reason. Can be disabled for preprinted inpayment slips
@@ -137,143 +137,140 @@ class SwissInpaymentSlipData
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $withPaymentReason = true;
+	protected $withPaymentReason = true;
 
 	/**
 	 * The name of the bank
 	 *
 	 * @var string The name of the bank
 	 */
-	private $bankName = '';
+	protected $bankName = '';
 
 	/**
 	 * The postal code and city of the bank
 	 *
 	 * @var string The postal code and city of the bank
 	 */
-	private $bankCity = '';
+	protected $bankCity = '';
 
 	/**
 	 * The bank or post cheque account where the money will be transferred to
 	 *
 	 * @var string The bank or post cheque account
 	 */
-	private $accountNumber = '';
+	protected $accountNumber = '';
 
 	/**
 	 * The first line of the recipient, e.g. "My Company Ltd."
 	 *
 	 * @var string The first line of the recipient
 	 */
-	private $recipientLine1 = '';
+	protected $recipientLine1 = '';
 
 	/**
 	 * The second line of the recipient, e.g. "Examplestreet 61"
 	 *
 	 * @var string The second line of the recipient
 	 */
-	private $recipientLine2 = '';
+	protected $recipientLine2 = '';
 
 	/**
 	 * The third line of the recipient, e.g. "8000 Zürich"
 	 *
 	 * @var string The third line of the recipient
 	 */
-	private $recipientLine3 = '';
+	protected $recipientLine3 = '';
 
 	/**
 	 * The fourth line of the recipient, if needed
 	 *
 	 * @var string The fourth line of the recipient
 	 */
-	private $recipientLine4 = '';
+	protected $recipientLine4 = '';
 
 	/**
 	 * The amount to be payed into. Can be disabled with withAmount = false for ESR+ slips
 	 *
 	 * @var float The amount to be payed into
 	 */
-	private $amount = 0.0;
+	protected $amount = 0.0;
 
 	/**
 	 * The reference number, without banking customer id and check digit
 	 *
 	 * @var string The reference number
 	 */
-	private $referenceNumber = '';
+	protected $referenceNumber = '';
 
 	/**
 	 * The banking customer id, which will be prepended to the reference number
 	 *
 	 * @var string The banking customer id
 	 */
-	private $bankingCustomerId = '';
+	protected $bankingCustomerId = '';
 
 	/**
 	 * The first line of the payer, e.g. "Hans Mustermann"
 	 *
 	 * @var string The first line of the payer
 	 */
-	private $payerLine1 = '';
-
+	protected $payerLine1 = '';
 
 	/**
 	 * The second line of the payer, e.g. "Main Street 11"
 	 *
 	 * @var string The second line of the payer
 	 */
-	private $payerLine2 = '';
-
+	protected $payerLine2 = '';
 
 	/**
 	 * The third line of the payer, e.g. "4052 Basel"
 	 *
 	 * @var string The third line of the payer
 	 */
-	private $payerLine3 = '';
-
+	protected $payerLine3 = '';
 
 	/**
 	 * The fourth line of the payer, if needed
 	 *
 	 * @var string The fourth line of the payer
 	 */
-	private $payerLine4 = '';
+	protected $payerLine4 = '';
 
 	/**
 	 * The IBAN of the recipient of a ES. Not available on a ESR
 	 *
 	 * @var string The IBAN of the recipient
 	 */
-	private $iban = '';
+	protected $iban = '';
 
 	/**
 	 * The first line of the payment reason of a ES. Not available on a ESR
 	 *
 	 * @var string The first line of the payment reason
 	 */
-	private $paymentReasonLine1 = '';
+	protected $paymentReasonLine1 = '';
 
 	/**
 	 * The second line of the payment reason of a ES. Not available on a ESR
 	 *
 	 * @var string The second line of the payment reason
 	 */
-	private $paymentReasonLine2 = '';
+	protected $paymentReasonLine2 = '';
 
 	/**
 	 * The third line of the payment reason of a ES. Not available on a ESR
 	 *
 	 * @var string The third line of the payment reason
 	 */
-	private $paymentReasonLine3 = '';
+	protected $paymentReasonLine3 = '';
 
 	/**
 	 * The fourth line of the payment reason of a ES. Not available on a ESR
 	 *
 	 * @var string The fourth line of the payment reason
 	 */
-	private $paymentReasonLine4 = '';
+	protected $paymentReasonLine4 = '';
 
 	/**
 	 * Construct an empty inpayment slip
@@ -302,30 +299,38 @@ class SwissInpaymentSlipData
 			$this->type = $type;
 			if ($this->type != $type || $forceReset) {
 				if ($type == self::ORANGE) {
-					$this->setwithBank(true);
-					$this->setWithAccountNumber(true);
-					$this->setWithRecipient(true);
-					$this->setWithAmount(true);
-					$this->setWithReferenceNumber(true);
-					$this->setWithBankingCustomerId(true);
-					$this->setWithPayer(true);
-					$this->setWithIban(false);
-					$this->setWithPaymentReason(false);
+					$this->setOrangeDefaults();
 				} elseif ($type == self::RED) {
-					$this->setwithBank(true);
-					$this->setWithAccountNumber(true);
-					$this->setWithRecipient(true);
-					$this->setWithAmount(true);
-					$this->setWithReferenceNumber(false);
-					$this->setWithBankingCustomerId(false);
-					$this->setWithPayer(true);
-					$this->setWithIban(true);
-					$this->setWithPaymentReason(true);
+					$this->setRedDefaults();
 				}
 			}
 			return true;
 		}
 		return false;
+	}
+
+	protected function setOrangeDefaults() {
+		$this->setWithBank(true);
+		$this->setWithAccountNumber(true);
+		$this->setWithRecipient(true);
+		$this->setWithAmount(true);
+		$this->setWithReferenceNumber(true);
+		$this->setWithBankingCustomerId(true);
+		$this->setWithPayer(true);
+		$this->setWithIban(false);
+		$this->setWithPaymentReason(false);
+	}
+
+	protected function setRedDefaults() {
+		$this->setWithBank(true);
+		$this->setWithAccountNumber(true);
+		$this->setWithRecipient(true);
+		$this->setWithAmount(true);
+		$this->setWithReferenceNumber(false);
+		$this->setWithBankingCustomerId(false);
+		$this->setWithPayer(true);
+		$this->setWithIban(true);
+		$this->setWithPaymentReason(true);
 	}
 
 	/**
@@ -694,7 +699,7 @@ class SwissInpaymentSlipData
 	 * @param string $bankName The name of the bank
 	 * @return bool True if successful, else false
 	 */
-	private function setBankName($bankName)
+	protected function setBankName($bankName)
 	{
 		if ($this->getWithBank()) {
 			// TODO check max length
@@ -723,7 +728,7 @@ class SwissInpaymentSlipData
 	 * @param string $bankCity The postal code and city of the bank
 	 * @return bool True if successful, else false
 	 */
-	private function setBankCity($bankCity)
+	protected function setBankCity($bankCity)
 	{
 		if ($this->getWithBank()) {
 			// TODO check max length
@@ -804,7 +809,7 @@ class SwissInpaymentSlipData
 	 * @param string $recipientLine1 The first line of the recipient, e.g. "My Company Ltd."
 	 * @return bool True if successful, else false
 	 */
-	private function setRecipientLine1($recipientLine1)
+	protected function setRecipientLine1($recipientLine1)
 	{
 		if ($this->getWithRecipient()) {
 			$this->recipientLine1 = $recipientLine1;
@@ -833,7 +838,7 @@ class SwissInpaymentSlipData
 	 * @param string $recipientLine2 The second line of the recipient, e.g. "Examplestreet 61"
 	 * @return bool True if successful, else false
 	 */
-	private function setRecipientLine2($recipientLine2)
+	protected function setRecipientLine2($recipientLine2)
 	{
 		if ($this->getWithRecipient()) {
 			$this->recipientLine2 = $recipientLine2;
@@ -862,7 +867,7 @@ class SwissInpaymentSlipData
 	 * @param string $recipientLine3 The third line of the recipient, e.g. "8000 Zürich"
 	 * @return bool True if successful, else false
 	 */
-	private function setRecipientLine3($recipientLine3)
+	protected function setRecipientLine3($recipientLine3)
 	{
 		if ($this->getWithRecipient()) {
 			$this->recipientLine3 = $recipientLine3;
@@ -891,7 +896,7 @@ class SwissInpaymentSlipData
 	 * @param string $recipientLine4 The fourth line of the recipient, if needed
 	 * @return bool True if successful, else false
 	 */
-	private function setRecipientLine4($recipientLine4)
+	protected function setRecipientLine4($recipientLine4)
 	{
 		if ($this->getWithRecipient()) {
 			$this->recipientLine4 = $recipientLine4;
@@ -1026,7 +1031,7 @@ class SwissInpaymentSlipData
 	 * @param string $payerLine1 The first line of the payer, e.g. "Hans Mustermann"
 	 * @return bool True if successful, else false
 	 */
-	private function setPayerLine1($payerLine1)
+	protected function setPayerLine1($payerLine1)
 	{
 		if ($this->getWithPayer()) {
 			$this->payerLine1 = $payerLine1;
@@ -1055,7 +1060,7 @@ class SwissInpaymentSlipData
 	 * @param string $payerLine2 The second line of the payer, e.g. "Main Street 11"
 	 * @return bool True if successful, else false
 	 */
-	private function setPayerLine2($payerLine2)
+	protected function setPayerLine2($payerLine2)
 	{
 		if ($this->getWithPayer()) {
 			$this->payerLine2 = $payerLine2;
@@ -1084,7 +1089,7 @@ class SwissInpaymentSlipData
 	 * @param string $payerLine3 The third line of the payer, e.g. "4052 Basel"
 	 * @return bool True if successful, else false
 	 */
-	private function setPayerLine3($payerLine3)
+	protected function setPayerLine3($payerLine3)
 	{
 		if ($this->getWithPayer()) {
 			$this->payerLine3 = $payerLine3;
@@ -1113,7 +1118,7 @@ class SwissInpaymentSlipData
 	 * @param string $payerLine4 The fourth line of the payer, if needed
 	 * @return bool True if successful, else false
 	 */
-	private function setPayerLine4($payerLine4)
+	protected function setPayerLine4($payerLine4)
 	{
 		if ($this->getWithPayer()) {
 			$this->payerLine4 = $payerLine4;
@@ -1194,7 +1199,7 @@ class SwissInpaymentSlipData
 	 * @param string $paymentReasonLine1 The first line of the payment reason
 	 * @return bool True if successful, else false
 	 */
-	private function setPaymentReasonLine1($paymentReasonLine1)
+	protected function setPaymentReasonLine1($paymentReasonLine1)
 	{
 		if ($this->getWithPaymentReason()) {
 			$this->paymentReasonLine1 = $paymentReasonLine1;
@@ -1222,7 +1227,7 @@ class SwissInpaymentSlipData
 	 * @param string $paymentReasonLine2 The second line of the payment reason
 	 * @return bool True if successful, else false
 	 */
-	private function setPaymentReasonLine2($paymentReasonLine2)
+	protected function setPaymentReasonLine2($paymentReasonLine2)
 	{
 		if ($this->getWithPaymentReason()) {
 			$this->paymentReasonLine2 = $paymentReasonLine2;
@@ -1250,7 +1255,7 @@ class SwissInpaymentSlipData
 	 * @param string $paymentReasonLine3 The third line of the payment reason
 	 * @return bool True if successful, else false
 	 */
-	private function setPaymentReasonLine3($paymentReasonLine3)
+	protected function setPaymentReasonLine3($paymentReasonLine3)
 	{
 		if ($this->getWithPaymentReason()) {
 			$this->paymentReasonLine3 = $paymentReasonLine3;
@@ -1278,7 +1283,7 @@ class SwissInpaymentSlipData
 	 * @param string $paymentReasonLine4 The fourth line of the payment reason
 	 * @return bool True if successful, else false
 	 */
-	private function setPaymentReasonLine4($paymentReasonLine4)
+	protected function setPaymentReasonLine4($paymentReasonLine4)
 	{
 		if ($this->getWithPaymentReason()) {
 			$this->paymentReasonLine4 = $paymentReasonLine4;
@@ -1356,9 +1361,10 @@ class SwissInpaymentSlipData
 	/**
 	 * Get the full code line at the bottom of the ESR
 	 *
+	 * @param bool $fillZeros Fill up with leading zeros
 	 * @return string|bool Either the full code line or false if something was wrong
 	 */
-	public function getCodeLine()
+	public function getCodeLine($fillZeros = true)
 	{
 		$francs = $this->getAmountFrancs();
 		if ($francs === false) {
@@ -1369,7 +1375,7 @@ class SwissInpaymentSlipData
 			return false;
 		}
 
-		$referenceNumber = $this->getCompleteReferenceNumber(false);
+		$referenceNumber = $this->getCompleteReferenceNumber(false, $fillZeros);
 		if ($referenceNumber === false) {
 			return false;
 		}
@@ -1386,7 +1392,11 @@ class SwissInpaymentSlipData
 		} else {
 			$amountPart = '042>';
 		}
-		$referenceNumberPart = str_pad($referenceNumber, 27 ,'0', STR_PAD_LEFT) . "+ ";
+		if ($fillZeros) {
+			$referenceNumberPart = str_pad($referenceNumber, 27 ,'0', STR_PAD_LEFT) . "+ ";
+		} else {
+			$referenceNumberPart = $referenceNumber . "+ ";
+		}
 		$accountNumberPart = substr($accountNumber,0, 2) .
 			str_pad(substr($accountNumber,2), 7 ,'0', STR_PAD_LEFT) . ">";
 
@@ -1399,7 +1409,7 @@ class SwissInpaymentSlipData
 	 * Clear the account of the two hyphens
 	 *
 	 */
-	private function getAccountDigits()
+	protected function getAccountDigits()
 	{
 		if ($this->getWithAccountNumber()) {
 			$accountNumber = $this->getAccountNumber();
@@ -1429,7 +1439,7 @@ class SwissInpaymentSlipData
 		}
 		$francs = intval($amount);
 		$cents = ($amount - $francs) * 100;
-		return $cents;
+		return str_pad($cents, 2 ,'0', STR_PAD_RIGHT);
 	}
 
 	/**

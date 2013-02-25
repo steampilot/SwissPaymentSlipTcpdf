@@ -24,7 +24,6 @@ use fpdf\FPDF;
  */
 abstract class SwissInpaymentSlipPdf
 {
-
 	/**
 	 * The PDF engine object to generate the PDF output
 	 *
@@ -59,7 +58,9 @@ abstract class SwissInpaymentSlipPdf
 		}
 	}
 
-	abstract protected function setFont($fontFamily, $fontSize);
+	abstract protected function displayImage($background);
+
+	abstract protected function setFont($fontFamily, $fontSize, $fontColor);
 
 	abstract protected function setBackground($background);
 
@@ -67,153 +68,50 @@ abstract class SwissInpaymentSlipPdf
 
 	abstract protected function createCell($height, $width, $line,$textAlign, $fill);
 
-	private function writeInpaymentSlipLines($lines, $attributes) {
-		if (is_array($lines) && is_array($attributes)) {
-			$posX = $attributes['PosX'];
-			$posY = $attributes['PosY'];
-			$height = $attributes['Height'];
-			$width = $attributes['Width'];
-			$fontFamily = $attributes['FontFamily'];
-			$background = $attributes['Background'];
-			$fontSize = $attributes['FontSize'];
-			$fontColor = $attributes['FontColor'];
-			$lineHeight = $attributes['LineHeight'];
-			$textAlign = $attributes['TextAlign'];
+	protected function writeInpaymentSlipLines($element) {
 
-			$this->setFont($fontFamily, $fontSize);
-			$this->setBackground($background);// TODO replace with conditional coloring (check for transparent) color conversion?
+		if (is_array($element)) {
 
-			foreach ($lines as $lineNr => $line) {
-				$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
-				$this->createCell($height, $width, $line, 0, 0, $textAlign, false);
+			if (isset($element['lines']) && isset($element['attributes'])) {
+				$lines = $element['lines'];
+				$attributes = $element['attributes'];
+
+				if (is_array($lines) && is_array($attributes)) {
+					$posX = $attributes['PosX'];
+					$posY = $attributes['PosY'];
+					$height = $attributes['Height'];
+					$width = $attributes['Width'];
+					$fontFamily = $attributes['FontFamily'];
+					$background = $attributes['Background'];
+					$fontSize = $attributes['FontSize'];
+					$fontColor = $attributes['FontColor'];
+					$lineHeight = $attributes['LineHeight'];
+					$textAlign = $attributes['TextAlign'];
+
+					$this->setFont($fontFamily, $fontSize, $fontColor);
+					$this->setBackground($background);// TODO replace with conditional coloring (check for transparent) color conversion?
+
+					foreach ($lines as $lineNr => $line) {
+						$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
+						$this->createCell($height, $width, $line, $textAlign, false);
+					}
+				}
 			}
 		}
 	}
 
-	public function createInpaymentSlip($withBackground = true) {
+	public function createInpaymentSlip($formatted = true, $fillZeroes = true, $withBackground = true) {
 		$pdfEngine = $this->pdfEngine;
 		$inpaymentSlip = $this->inpaymentSlip;
-		$inpaymentSlipData = $inpaymentSlip->getSlipData();
 
 		// Place background
 		if ($withBackground) {
-			// TODO check if slipBackground is a color or a path to a file
-			$pdfEngine->Image($inpaymentSlip->getSlipBackground(), $inpaymentSlip->getSlipPosX(), $inpaymentSlip->getSlipPosY(), $inpaymentSlip->getSlipWidth(), $inpaymentSlip->getSlipHeight(), "GIF");
+			$this->displayImage($inpaymentSlip->getSlipBackground());
 		}
 
-		// Place left bank lines
-		if ($inpaymentSlip->getDisplayBank()) {
-			$bankLines = array($inpaymentSlipData->getBankName(),
-								$inpaymentSlipData->getBankCity());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getBankLeftAttr());
-		}
-
-		// Place right bank lines
-		if ($inpaymentSlip->getDisplayBank()) {
-			$bankLines = array($inpaymentSlipData->getBankName(),
-				$inpaymentSlipData->getBankCity());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getBankRightAttr());
-		}
-
-		// Place left recipient lines
-		if ($inpaymentSlip->getDisplayRecipient()) {
-			$bankLines = array($inpaymentSlipData->getRecipientLine1(),
-				$inpaymentSlipData->getRecipientLine2(), $inpaymentSlipData->getRecipientLine3(),
-				$inpaymentSlipData->getRecipientLine4());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getRecipientLeftAttr());
-		}
-
-		// Place right recipient lines
-		if ($inpaymentSlip->getDisplayRecipient()) {
-			$bankLines = array($inpaymentSlipData->getRecipientLine1(),
-				$inpaymentSlipData->getRecipientLine2(), $inpaymentSlipData->getRecipientLine3(),
-				$inpaymentSlipData->getRecipientLine4());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getRecipientRightAttr());
-		}
-
-		// Place left account number
-		if ($inpaymentSlip->getDisplayAccount()) {
-			$bankLines = array($inpaymentSlipData->getAccountNumber());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getAccountLeftAttr());
-		}
-
-		// Place right account number
-		if ($inpaymentSlip->getDisplayAccount()) {
-			$bankLines = array($inpaymentSlipData->getAccountNumber());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getAccountRightAttr());
-		}
-
-		// Place left amount in francs
-		if ($inpaymentSlip->getDisplayAmount()) {
-			$bankLines = array($inpaymentSlipData->getAmountFrancs());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getAmountFrancsLeftAttr());
-		}
-
-		// Place right amount in francs
-		if ($inpaymentSlip->getDisplayAmount()) {
-			$bankLines = array($inpaymentSlipData->getAmountFrancs());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getAmountFrancsRightAttr());
-		}
-
-		// Place left amount in cents
-		if ($inpaymentSlip->getDisplayAmount()) {
-			$bankLines = array($inpaymentSlipData->getAmountCents());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getAmountCentsLeftAttr());
-		}
-
-		// Place right amount in cents
-		if ($inpaymentSlip->getDisplayAmount()) {
-			$bankLines = array($inpaymentSlipData->getAmountCents());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getAmountCentsRightAttr());
-		}
-
-		// Place left reference number
-		if ($inpaymentSlip->getDisplayReferenceNr()) {
-			$bankLines = array($inpaymentSlipData->getCompleteReferenceNumber());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getReferenceNumberLeftAttr());
-		}
-
-		// Place right reference number
-		if ($inpaymentSlip->getDisplayReferenceNr()) {
-			$bankLines = array($inpaymentSlipData->getCompleteReferenceNumber());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getReferenceNumberRightAttr());
-		}
-
-		// Place left payer lines
-		if ($inpaymentSlip->getDisplayPayer()) {
-			$bankLines = array($inpaymentSlipData->getPayerLine1(),
-				$inpaymentSlipData->getPayerLine2(), $inpaymentSlipData->getPayerLine3(),
-				$inpaymentSlipData->getPayerLine4());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getPayerLeftAttr());
-		}
-
-		// Place right payer lines
-		if ($inpaymentSlip->getDisplayPayer()) {
-			$bankLines = array($inpaymentSlipData->getPayerLine1(),
-				$inpaymentSlipData->getPayerLine2(), $inpaymentSlipData->getPayerLine3(),
-				$inpaymentSlipData->getPayerLine4());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getPayerRightAttr());
-		}
-
-		// Place code line
-		if ($inpaymentSlip->getDisplayCodeLine()) {
-			$bankLines = array($inpaymentSlipData->getCodeLine());
-
-			$this->writeInpaymentSlipLines($bankLines, $inpaymentSlip->getCodeLineAttr());
+		// go through all elements/element groups, write each line
+		foreach ($inpaymentSlip->getAllElements($formatted, $fillZeroes) as $elementNr => $element) {
+			$this->writeInpaymentSlipLines($element);
 		}
 	}
 }

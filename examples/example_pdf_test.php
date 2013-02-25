@@ -36,7 +36,7 @@ $fPdf->SetAutoPageBreak(false);
 
 $inpaymentSlip = new SwissInpaymentSlip(0, 0);
 
-$inpaymentSlipData = $inpaymentSlip->getSlipData();
+$inpaymentSlipData = $inpaymentSlip->getInpaymentSlipData();
 
 $inpaymentSlipData->setBankData('Seldwyla Bank', '8001 Zürich');
 $inpaymentSlipData->setAccountNumber('01-145-6');

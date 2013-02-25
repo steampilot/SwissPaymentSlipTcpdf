@@ -40,25 +40,25 @@ class SwissInpaymentSlip
 	 *
 	 * @var null|SwissInpaymentSlipData The inpayment slip object
 	 */
-	private $inpaymentSlipData = null;
+	protected $inpaymentSlipData = null;
 
 	/**
 	 * Starting X position of the slip
 	 *
 	 * @var int Starting X position of the slip in mm
 	 */
-	private $slipPosX = 0;
+	protected $slipPosX = 0;
 
 	/**
 	 * Starting Y position of the slip
 	 *
 	 * @var int Starting Y position of the slip in mm
 	 */
-	private $slipPosY = 191;
+	protected $slipPosY = 191;
 
-	private $slipHeight = 106; // default height of an orange slip
+	protected $slipHeight = 106; // default height of an orange slip
 
-	private $slipWidth = 210; // default width of an orange slip
+	protected $slipWidth = 210; // default width of an orange slip
 
 	/**
 	 * Background of the slip
@@ -67,100 +67,102 @@ class SwissInpaymentSlip
 	 *
 	 * @var null
 	 */
-	private $slipBackground = null;
+	protected $slipBackground = null;
 
-	private $defaultFontFamily = 'Arial';
+	protected $defaultFontFamily = 'Arial';
 
-	private $defaultFontSize = '10';
+	protected $defaultFontSize = '10';
 
-	private $defaultFontColor = '#000';
+	protected $defaultFontColor = '#000';
 
-	private $defaultLineHeight = 4;
+	protected $defaultLineHeight = 4;
 
-	private $defaultTextAlign = 'L';
+	protected $defaultTextAlign = 'L';
 
 	/**
 	 * Determines if the bank details should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayBank = true;
+	protected $displayBank = true;
 
 	/**
 	 * Determines if the recipient details should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayRecipient = true;
+	protected $displayRecipient = true;
 
 	/**
 	 * Determines if the account should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayAccount = true;
+	protected $displayAccount = true;
 
 	/**
 	 * Determines if the amount should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayAmount = true;
+	protected $displayAmount = true;
 
 	/**
 	 * Determines if the reference number should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayReferenceNr = true;
+	protected $displayReferenceNr = true;
 
 	/**
 	 * Determines if the payer details should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayPayer = true;
+	protected $displayPayer = true;
 
 	/**
 	 * Determines if the IBAN should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayIban = false;
+	protected $displayIban = false;
 
 	/**
 	 * Determines if the payment reason should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayPaymentReason = false;
+	protected $displayPaymentReason = false;
 
 	/**
 	 * Determines if the code line at the bottom should be displayed
 	 *
 	 * @var bool True if yes, false if no
 	 */
-	private $displayCodeLine = true;
+	protected $displayCodeLine = true;
 
-	private $bankLeftAttr = array();
-	private $bankRightAttr = array();
-	private $recipientLeftAttr = array();
-	private $recipientRightAttr = array();
-	private $accountLeftAttr = array();
-	private $accountRightAttr = array();
-	private $amountFrancsLeftAttr = array();
-	private $amountFrancsRightAttr = array();
-	private $amountCentsLeftAttr = array();
-	private $amountCentsRightAttr = array();
-	private $referenceNumberLeftAttr = array();
-	private $referenceNumberRightAttr = array();
-	private $payerLeftAttr = array();
-	private $payerRightAttr = array();
-	private $codeLineAttr = array();
+	protected $bankLeftAttr = array();
+	protected $bankRightAttr = array();
+	protected $recipientLeftAttr = array();
+	protected $recipientRightAttr = array();
+	protected $accountLeftAttr = array();
+	protected $accountRightAttr = array();
+	protected $amountFrancsLeftAttr = array();
+	protected $amountFrancsRightAttr = array();
+	protected $amountCentsLeftAttr = array();
+	protected $amountCentsRightAttr = array();
+	protected $referenceNumberLeftAttr = array();
+	protected $referenceNumberRightAttr = array();
+	protected $payerLeftAttr = array();
+	protected $payerRightAttr = array();
+	protected $codeLineAttr = array();
 
+	// TODO optionally height and width as parameters
 	public function __construct($slipPosX = null, $slipPosY = null)
 	{
-		$this->inpaymentSlipData = new SwissInpaymentSlipData();
+		$this->inpaymentSlipData = $this->createInpaymentSlipData();
+
 		if (!is_null($slipPosX)) {
 			if (!$this->setSlipPosX($slipPosX)) {
 				// throw error
@@ -171,29 +173,56 @@ class SwissInpaymentSlip
 				// throw error
 			}
 		}
-
-		// TODO distinguish between red and orange type (get from SwissInpaymentSlipData class)
-
-		$this->setBankLeftAttr(3, 8, 50, 4);
-		$this->setBankRightAttr(66, 8, 50, 4);
-		$this->setRecipientLeftAttr(3, 23, 50, 4);
-		$this->setRecipientRightAttr(66, 23, 50, 4);
-		$this->setAccountLeftAttr(27, 43, 30, 4);
-		$this->setAccountRightAttr(90, 43, 30, 4);
-		$this->setAmountFrancsLeftAttr(5, 50.5, 35, 4);
-		$this->setAmountFrancsRightAttr(66, 50.5, 35, 4);
-		$this->setAmountCentsLeftAttr(50, 50.5, 6, 4);
-		$this->setAmountCentsRightAttr(111, 50.5, 6, 4);
-		$this->setReferenceNumberLeftAttr(3, 60, 50, 4, null, null, 8);
-		$this->setReferenceNumberRightAttr(125, 33.5, 80, 4);
-		$this->setPayerLeftAttr(3, 65, 50, 4);
-		$this->setPayerRightAttr(125, 48, 50, 4);
-		$this->setCodeLineAttr(64, 85, 140, 4, null, 'OCRB10');
-
-		$this->setSlipBackground(__DIR__.'/Resources/img/ezs_orange.gif');
+		$this->setDefaults();
 	}
 
-	public function getSlipData() {
+	protected function setDefaults()
+	{
+		if ($this->inpaymentSlipData->getType() == SwissInpaymentSlipData::ORANGE) {
+			$this->setBankLeftAttr(3, 8, 50, 4);
+			$this->setBankRightAttr(66, 8, 50, 4);
+			$this->setRecipientLeftAttr(3, 23, 50, 4);
+			$this->setRecipientRightAttr(66, 23, 50, 4);
+			$this->setAccountLeftAttr(27, 43, 30, 4);
+			$this->setAccountRightAttr(90, 43, 30, 4);
+			$this->setAmountFrancsLeftAttr(5, 50.5, 35, 4);
+			$this->setAmountFrancsRightAttr(66, 50.5, 35, 4);
+			$this->setAmountCentsLeftAttr(50, 50.5, 6, 4);
+			$this->setAmountCentsRightAttr(111, 50.5, 6, 4);
+			$this->setReferenceNumberLeftAttr(3, 60, 50, 4, null, null, 8);
+			$this->setReferenceNumberRightAttr(125, 33.5, 80, 4);
+			$this->setPayerLeftAttr(3, 65, 50, 4);
+			$this->setPayerRightAttr(125, 48, 50, 4);
+			$this->setCodeLineAttr(64, 85, 140, 4, null, 'OCRB10');
+
+			$this->setSlipBackground(__DIR__.'/Resources/img/ezs_orange.gif');
+
+		} elseif ($this->inpaymentSlipData->getType() == SwissInpaymentSlipData::RED) {
+			$this->setBankLeftAttr(3, 8, 50, 4);
+			$this->setBankRightAttr(66, 8, 50, 4);
+			$this->setRecipientLeftAttr(3, 23, 50, 4);
+			$this->setRecipientRightAttr(66, 23, 50, 4);
+			$this->setAccountLeftAttr(27, 43, 30, 4);
+			$this->setAccountRightAttr(90, 43, 30, 4);
+			$this->setAmountFrancsLeftAttr(5, 50.5, 35, 4);
+			$this->setAmountFrancsRightAttr(66, 50.5, 35, 4);
+			$this->setAmountCentsLeftAttr(50, 50.5, 6, 4);
+			$this->setAmountCentsRightAttr(111, 50.5, 6, 4);
+			$this->setReferenceNumberLeftAttr(3, 60, 50, 4, null, null, 8);
+			$this->setReferenceNumberRightAttr(125, 33.5, 80, 4);
+			$this->setPayerLeftAttr(3, 65, 50, 4);
+			$this->setPayerRightAttr(125, 48, 50, 4);
+			$this->setCodeLineAttr(64, 85, 140, 4, null, 'OCRB10');
+
+			$this->setSlipBackground(__DIR__.'/Resources/img/ezs_red.gif');
+		}
+	}
+
+	protected function createInpaymentSlipData() {
+		return new SwissInpaymentSlipData();
+	}
+
+	public function getInpaymentSlipData() {
 		return $this->inpaymentSlipData;
 	}
 
@@ -213,7 +242,7 @@ class SwissInpaymentSlip
 		return false;
 	}
 
-	private function setSlipPosX($slipPosX)
+	protected function setSlipPosX($slipPosX)
 	{
 		if (is_int($slipPosX) || is_float($slipPosX)) {
 			$this->slipPosX = $slipPosX;
@@ -222,7 +251,7 @@ class SwissInpaymentSlip
 		return false;
 	}
 
-	private function setSlipPosY($slipPosY)
+	protected function setSlipPosY($slipPosY)
 	{
 		if (is_int($slipPosY) || is_float($slipPosY)) {
 			$this->slipPosY = $slipPosY;
@@ -247,7 +276,7 @@ class SwissInpaymentSlip
 		return false;
 	}
 
-	private function setSlipHeight($slipHeight)
+	protected function setSlipHeight($slipHeight)
 	{
 		if (is_int($slipHeight) || is_float($slipHeight)) {
 			$this->slipPosX = $slipHeight;
@@ -256,7 +285,7 @@ class SwissInpaymentSlip
 		return false;
 	}
 
-	private function setSlipWidth($slipWidth)
+	protected function setSlipWidth($slipWidth)
 	{
 		if (is_int($slipWidth) || is_float($slipWidth)) {
 			$this->slipPosY = $slipWidth;
@@ -274,7 +303,7 @@ class SwissInpaymentSlip
 		$this->slipBackground = $slipBackground;
 	}
 
-	private function setAttributes(&$attributes, $posX = null, $posY = null, $height = null, $width = null, $background = null,
+	protected function setAttributes(&$attributes, $posX = null, $posY = null, $height = null, $width = null, $background = null,
 								   $fontFamily = null, $fontSize = null, $fontColor = null,
 								   $lineHeight = null, $textAlign = null) {
 		if ($posX) {
@@ -786,5 +815,142 @@ class SwissInpaymentSlip
 	public function getDisplayCodeLine()
 	{
 		return $this->displayCodeLine;
+	}
+
+	public function getAllElements($formatted = true, $fillZeroes = true) {
+		$inpaymentSlipData = $this->inpaymentSlipData;
+
+		$elements = array();
+		// Place left bank lines
+		if ($this->getDisplayBank()) {
+			$lines = array($inpaymentSlipData->getBankName(),
+				$inpaymentSlipData->getBankCity());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getBankLeftAttr()
+			);
+		}
+
+		// Place right bank lines
+		if ($this->getDisplayBank()) {
+			$lines = array($inpaymentSlipData->getBankName(),
+				$inpaymentSlipData->getBankCity());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getBankRightAttr()
+			);
+		}
+
+		// Place left recipient lines
+		if ($this->getDisplayRecipient()) {
+			$lines = array($inpaymentSlipData->getRecipientLine1(),
+				$inpaymentSlipData->getRecipientLine2(), $inpaymentSlipData->getRecipientLine3(),
+				$inpaymentSlipData->getRecipientLine4());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getRecipientLeftAttr()
+			);
+		}
+
+		// Place right recipient lines
+		if ($this->getDisplayRecipient()) {
+			$lines = array($inpaymentSlipData->getRecipientLine1(),
+				$inpaymentSlipData->getRecipientLine2(), $inpaymentSlipData->getRecipientLine3(),
+				$inpaymentSlipData->getRecipientLine4());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getRecipientRightAttr()
+			);
+		}
+
+		// Place left account number
+		if ($this->getDisplayAccount()) {
+			$lines = array($inpaymentSlipData->getAccountNumber());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getAccountLeftAttr()
+			);
+		}
+
+		// Place right account number
+		if ($this->getDisplayAccount()) {
+			$lines = array($inpaymentSlipData->getAccountNumber());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getAccountRightAttr()
+			);
+		}
+
+		// Place left amount in francs
+		if ($this->getDisplayAmount()) {
+			$lines = array($this->inpaymentSlipData->getAmountFrancs());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getAmountFrancsLeftAttr()
+			);
+		}
+
+		// Place right amount in francs
+		if ($this->getDisplayAmount()) {
+			$lines = array($this->inpaymentSlipData->getAmountFrancs());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getAmountFrancsRightAttr()
+			);
+		}
+
+		// Place left amount in cents
+		if ($this->getDisplayAmount()) {
+			$lines = array($this->inpaymentSlipData->getAmountCents());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getAmountCentsLeftAttr()
+			);
+		}
+
+		// Place right amount in cents
+		if ($this->getDisplayAmount()) {
+			$lines = array($this->inpaymentSlipData->getAmountCents());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getAmountCentsRightAttr()
+			);
+		}
+
+		// Place left reference number
+		if ($this->getDisplayReferenceNr()) {
+			$lines = array($this->inpaymentSlipData->getCompleteReferenceNumber($formatted, $fillZeroes));
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getReferenceNumberLeftAttr()
+			);
+		}
+
+		// Place right reference number
+		if ($this->getDisplayReferenceNr()) {
+			$lines = array($this->inpaymentSlipData->getCompleteReferenceNumber($formatted, $fillZeroes));
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getReferenceNumberRightAttr()
+			);
+		}
+
+		// Place left payer lines
+		if ($this->getDisplayPayer()) {
+			$lines = array($inpaymentSlipData->getPayerLine1(),
+				$inpaymentSlipData->getPayerLine2(), $inpaymentSlipData->getPayerLine3(),
+				$inpaymentSlipData->getPayerLine4());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getPayerLeftAttr()
+			);
+		}
+
+		// Place right payer lines
+		if ($this->getDisplayPayer()) {
+			$lines = array($inpaymentSlipData->getPayerLine1(),
+				$inpaymentSlipData->getPayerLine2(), $inpaymentSlipData->getPayerLine3(),
+				$inpaymentSlipData->getPayerLine4());
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getPayerRightAttr()
+			);
+		}
+
+		// Place code line
+		if ($this->getDisplayCodeLine()) {
+			$lines = array($this->inpaymentSlipData->getCodeLine($fillZeroes));
+			$elements[] = array('lines' => $lines,
+				'attributes' => $this->getCodeLineAttr()
+			);
+		}
+
+		return $elements;
 	}
 }

@@ -24,17 +24,38 @@ use fpdf\FPDF;
  */
 class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 {
-	protected function setFont($fontFamily, $fontSize) {
+	/**
+	 * The PDF engine object to generate the PDF output
+	 *
+	 * @var null|FPDF The PDF engine object
+	 */
+	protected $pdfEngine = null;
+
+	protected function displayImage($background) {
+		// TODO check if slipBackground is a color or a path to a file
+
+		$this->pdfEngine->Image($background,
+			$this->inpaymentSlip->getSlipPosX(),
+			$this->inpaymentSlip->getSlipPosY(),
+			$this->inpaymentSlip->getSlipWidth(),
+			$this->inpaymentSlip->getSlipHeight(),
+			strtoupper(substr($background, -3, 3)));
+	}
+
+	protected function setFont($fontFamily, $fontSize, $fontColor) {
+		$rgbArray = $this->hex2RGB($fontColor);
+
+		$this->pdfEngine->SetTextColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
 		$this->pdfEngine->SetFont($fontFamily, '', $fontSize);
 	}
 
 	protected function setBackground($background) {
 		if ($background == 'transparent') {
-
+			$this->pdfEngine->SetFillColor(255, 0 , 0); // TODO unset?
 		} else {
 			// TODO check if it's a path to a file
 			// TODO else it should be a color
-			//$fPdf->SetFillColor(255, 0 , 0);
+			$this->pdfEngine->SetFillColor(255, 0 , 0);
 		}
 	}
 
@@ -42,7 +63,36 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 		$this->pdfEngine->SetXY($posX, $posY);
 	}
 
-	protected function createCell($height, $width, $line,$textAlign, $fill) {
-		$this->pdfEngine->Cell($height, $width, utf8_decode($line), $textAlign, $fill);
+	protected function createCell($height, $width, $line, $textAlign, $fill) {
+		$this->pdfEngine->Cell($height, $width, utf8_decode($line), 0, 0, $textAlign, $fill);
+	}
+
+	/**
+	 * Convert hexadecimal values into an array of RGB
+	 *
+	 * @param $hexStr
+	 * @param bool $returnAsString
+	 * @param string $seperator
+	 * @return array|bool|string
+	 *
+	 * @copyright 2010 hafees at msn dot com
+	 * @link http://www.php.net/manual/en/function.hexdec.php#99478
+	 */
+	private function hex2RGB($hexStr, $returnAsString = false, $seperator = ',') {
+		$hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr); // Gets a proper hex string
+		$rgbArray = array();
+		if (strlen($hexStr) == 6) { //If a proper hex code, convert using bitwise operation. No overhead... faster
+			$colorVal = hexdec($hexStr);
+			$rgbArray['red'] = 0xFF & ($colorVal >> 0x10);
+			$rgbArray['green'] = 0xFF & ($colorVal >> 0x8);
+			$rgbArray['blue'] = 0xFF & $colorVal;
+		} elseif (strlen($hexStr) == 3) { //if shorthand notation, need some string manipulations
+			$rgbArray['red'] = hexdec(str_repeat(substr($hexStr, 0, 1), 2));
+			$rgbArray['green'] = hexdec(str_repeat(substr($hexStr, 1, 1), 2));
+			$rgbArray['blue'] = hexdec(str_repeat(substr($hexStr, 2, 1), 2));
+		} else {
+			return false; //Invalid hex color code
+		}
+		return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray; // returns the rgb string or the associative array
 	}
 }
