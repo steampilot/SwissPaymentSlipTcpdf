@@ -19,16 +19,16 @@ use fpdf\FPDF;
 
 /**
  * Responsible for generating standard Swiss inpayment Slips using FPDF as engine.
- * Layouting done by utilizing SwissInpaymentSlip
+ * Layout done by utilizing SwissInpaymentSlip
  * Data organisation through SwissInpaymentSlipData
  */
 abstract class SwissInpaymentSlipPdf
 {
 
 	/**
-	 * The FPDF engine object to generate the PDF output
+	 * The PDF engine object to generate the PDF output
 	 *
-	 * @var null|FPDF The FPDF engine object
+	 * @var null|object The PDF engine object
 	 */
 	protected $pdfEngine = null;
 
@@ -68,11 +68,7 @@ abstract class SwissInpaymentSlipPdf
 	abstract protected function createCell($height, $width, $line,$textAlign, $fill);
 
 	private function writeInpaymentSlipLines($lines, $attributes) {
-
-		$pdfEngine = $this->pdfEngine;
-
 		if (is_array($lines) && is_array($attributes)) {
-
 			$posX = $attributes['PosX'];
 			$posY = $attributes['PosY'];
 			$height = $attributes['Height'];
@@ -84,12 +80,12 @@ abstract class SwissInpaymentSlipPdf
 			$lineHeight = $attributes['LineHeight'];
 			$textAlign = $attributes['TextAlign'];
 
-			$pdfEngine->SetFont($fontFamily, '', $fontSize);
-			//$pdfEngine->SetFillColor(255, 0 , 0);  // TODO replace with conditional coloring (check for transparent) color conversion?
+			$this->setFont($fontFamily, $fontSize);
+			$this->setBackground($background);// TODO replace with conditional coloring (check for transparent) color conversion?
 
 			foreach ($lines as $lineNr => $line) {
-				$pdfEngine->SetXY($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
-				$pdfEngine->Cell($height, $width, utf8_decode($line), 0, 0, $textAlign, false);
+				$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
+				$this->createCell($height, $width, $line, 0, 0, $textAlign, false);
 			}
 		}
 	}

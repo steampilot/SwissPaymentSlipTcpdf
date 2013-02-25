@@ -45,27 +45,4 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 	protected function createCell($height, $width, $line,$textAlign, $fill) {
 		$this->pdfEngine->Cell($height, $width, utf8_decode($line), $textAlign, $fill);
 	}
-
-	private function writeInpaymentSlipLines($lines, $attributes) {
-		if (is_array($lines) && is_array($attributes)) {
-			$posX = $attributes['PosX'];
-			$posY = $attributes['PosY'];
-			$height = $attributes['Height'];
-			$width = $attributes['Width'];
-			$fontFamily = $attributes['FontFamily'];
-			$background = $attributes['Background'];
-			$fontSize = $attributes['FontSize'];
-			$fontColor = $attributes['FontColor'];
-			$lineHeight = $attributes['LineHeight'];
-			$textAlign = $attributes['TextAlign'];
-
-			$this->setFont($fontFamily, $fontSize);
-			$this->setBackground($background);// TODO replace with conditional coloring (check for transparent) color conversion?
-
-			foreach ($lines as $lineNr => $line) {
-				$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
-				$this->createCell($height, $width, $line, 0, 0, $textAlign, false);
-			}
-		}
-	}
 }

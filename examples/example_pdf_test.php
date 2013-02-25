@@ -67,7 +67,7 @@ var_dump($inpaymentSlip);
 
 $inpaymentSlip->createInpaymentSlip(false);
 */
-$fPdf->Output('d:\test.pdf', 'F');
+$fPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'test.pdf', 'F');
 
 //var_dump($inpaymentSlip);
 
