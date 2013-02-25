@@ -22,11 +22,11 @@
 
 // TODO Explain
 require __DIR__.'/../vendor/autoload.php';
-
 define('FPDF_FONTPATH', __DIR__.'/../src/Gridonic/ESR/Resources/font');
 
 use Gridonic\ESR\SwissInpaymentSlip;
-use Gridonic\ESR\SwissInpaymentSlipPdf;
+use Gridonic\ESR\SwissInpaymentSlipData;
+use Gridonic\ESR\SwissInpaymentSlipFpdf;
 use fpdf\FPDF;
 
 $fPdf = new FPDF('P','mm','A4');
@@ -34,39 +34,44 @@ $fPdf->AddFont('OCRB10');
 $fPdf->AddPage();
 $fPdf->SetAutoPageBreak(false);
 
-$inpaymentSlip = new SwissInpaymentSlip();
+$inpaymentSlip = new SwissInpaymentSlip(0, 0);
 
-$inpaymentSlip->setBankData('Seldwyla Bank', '8001 Zürich');
-$inpaymentSlip->setAccountNumber('01-145-6');
-$inpaymentSlip->setRecipientData('H. Muster AG', 'Versandhaus', 'Industriestrasse 88', '8000 Zürich');
-$inpaymentSlip->setPayerData('Rutschmann Pia', 'Marktgasse 28', '9400 Rorschach');
-$inpaymentSlip->setAmount(2830.50);
-$inpaymentSlip->setReferenceNumber('7520033455900012');
-$inpaymentSlip->setBankingCustomerId('215703');
+$inpaymentSlipData = $inpaymentSlip->getSlipData();
 
-$inpaymentSlipPdf = new SwissInpaymentSlipPdf($fPdf, $inpaymentSlip, 0, 0);
+$inpaymentSlipData->setBankData('Seldwyla Bank', '8001 Zürich');
+$inpaymentSlipData->setAccountNumber('01-145-6');
+$inpaymentSlipData->setRecipientData('H. Muster AG', 'Versandhaus', 'Industriestrasse 88', '8000 Zürich');
+$inpaymentSlipData->setPayerData('Rutschmann Pia', 'Marktgasse 28', '9400 Rorschach');
+$inpaymentSlipData->setAmount(2830.50);
+$inpaymentSlipData->setReferenceNumber('7520033455900012');
+$inpaymentSlipData->setBankingCustomerId('215703');
 
-var_dump($inpaymentSlipPdf);
+//var_dump($inpaymentSlip);
 
-$inpaymentSlipPdf->setBankLeftAttr(null, null, null, null, null, 'Helvetica');
+$inpaymentSlip->setBankLeftAttr(null, null, null, null, null, 'Helvetica');
 
-$inpaymentSlipPdf->createInpaymentSlip(false);
+$inpaymentSlipFpdf = new SwissInpaymentSlipFpdf($fPdf, $inpaymentSlip);
 
-$inpaymentSlipPdf = new SwissInpaymentSlipPdf($fPdf, $inpaymentSlip);
+$inpaymentSlipFpdf->createInpaymentSlip();
 
-$inpaymentSlipPdf->createInpaymentSlip(true);
+$inpaymentSlip->setSlipPosition(0, 191);
+
+$inpaymentSlipFpdf->createInpaymentSlip();
+
 /*
-var_dump($inpaymentSlipPdf);
+var_dump($inpaymentSlip);
 
-$inpaymentSlipPdf->setSlipPosition(0, 191);
+$inpaymentSlip->setSlipPosition(0, 191);
 
-var_dump($inpaymentSlipPdf);
+var_dump($inpaymentSlip);
 
-$inpaymentSlipPdf->createInpaymentSlip(false);
+$inpaymentSlip->createInpaymentSlip(false);
 */
 $fPdf->Output('d:\test.pdf', 'F');
 
-var_dump($inpaymentSlipPdf);
+//var_dump($inpaymentSlip);
+
+echo 'Peak memory usage: ' . memory_get_peak_usage() / 1024 / 1024 . '<br>';
 ?>
 </body>
 </html>
