@@ -4,7 +4,8 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.0",
-        "itbz/fpdf": "1.7.1"
+        "itbz/fpdf": "1.7.1",
+		"tcpdf/tcpdf": "dev-master"
     },
     "authors": [
         {
