@@ -69,7 +69,7 @@ class SwissInpaymentSlip
 	 */
 	protected $slipBackground = null;
 
-	protected $defaultFontFamily = 'Arial';
+	protected $defaultFontFamily = 'Helvetica';
 
 	protected $defaultFontSize = '10';
 
@@ -190,10 +190,10 @@ class SwissInpaymentSlip
 			$this->setAmountCentsLeftAttr(50, 50.5, 6, 4);
 			$this->setAmountCentsRightAttr(111, 50.5, 6, 4);
 			$this->setReferenceNumberLeftAttr(3, 60, 50, 4, null, null, 8);
-			$this->setReferenceNumberRightAttr(125, 33.5, 80, 4);
+			$this->setReferenceNumberRightAttr(125, 33.5, 80, 4, 'FFFF00');
 			$this->setPayerLeftAttr(3, 65, 50, 4);
 			$this->setPayerRightAttr(125, 48, 50, 4);
-			$this->setCodeLineAttr(64, 85, 140, 4, null, 'OCRB10');
+			$this->setCodeLineAttr(64, 85, 140, 4, null, 'Helvetica');
 
 			$this->setSlipBackground(__DIR__.'/Resources/img/ezs_orange.gif');
 
@@ -832,8 +832,7 @@ class SwissInpaymentSlip
 
 		// Place right bank lines
 		if ($this->getDisplayBank()) {
-			$lines = array($inpaymentSlipData->getBankName(),
-				$inpaymentSlipData->getBankCity());
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getBankRightAttr()
 			);
@@ -851,9 +850,7 @@ class SwissInpaymentSlip
 
 		// Place right recipient lines
 		if ($this->getDisplayRecipient()) {
-			$lines = array($inpaymentSlipData->getRecipientLine1(),
-				$inpaymentSlipData->getRecipientLine2(), $inpaymentSlipData->getRecipientLine3(),
-				$inpaymentSlipData->getRecipientLine4());
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getRecipientRightAttr()
 			);
@@ -869,7 +866,7 @@ class SwissInpaymentSlip
 
 		// Place right account number
 		if ($this->getDisplayAccount()) {
-			$lines = array($inpaymentSlipData->getAccountNumber());
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getAccountRightAttr()
 			);
@@ -885,7 +882,7 @@ class SwissInpaymentSlip
 
 		// Place right amount in francs
 		if ($this->getDisplayAmount()) {
-			$lines = array($this->inpaymentSlipData->getAmountFrancs());
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getAmountFrancsRightAttr()
 			);
@@ -901,7 +898,7 @@ class SwissInpaymentSlip
 
 		// Place right amount in cents
 		if ($this->getDisplayAmount()) {
-			$lines = array($this->inpaymentSlipData->getAmountCents());
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getAmountCentsRightAttr()
 			);
@@ -917,7 +914,7 @@ class SwissInpaymentSlip
 
 		// Place right reference number
 		if ($this->getDisplayReferenceNr()) {
-			$lines = array($this->inpaymentSlipData->getCompleteReferenceNumber($formatted, $fillZeroes));
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getReferenceNumberRightAttr()
 			);
@@ -935,9 +932,7 @@ class SwissInpaymentSlip
 
 		// Place right payer lines
 		if ($this->getDisplayPayer()) {
-			$lines = array($inpaymentSlipData->getPayerLine1(),
-				$inpaymentSlipData->getPayerLine2(), $inpaymentSlipData->getPayerLine3(),
-				$inpaymentSlipData->getPayerLine4());
+			// reuse lines from above
 			$elements[] = array('lines' => $lines,
 				'attributes' => $this->getPayerRightAttr()
 			);

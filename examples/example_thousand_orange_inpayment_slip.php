@@ -35,6 +35,7 @@ use fpdf\FPDF;
 $fPdf = new FPDF('P','mm','A4');
 $fPdf->AddFont('OCRB10');
 
+
 // setup objects
 $inpaymentSlip = new SwissInpaymentSlip();
 $inpaymentSlipData = $inpaymentSlip->getInpaymentSlipData();

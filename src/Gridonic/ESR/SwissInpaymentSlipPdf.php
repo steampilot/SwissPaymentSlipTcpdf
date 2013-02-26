@@ -89,11 +89,16 @@ abstract class SwissInpaymentSlipPdf
 					$textAlign = $attributes['TextAlign'];
 
 					$this->setFont($fontFamily, $fontSize, $fontColor);
-					$this->setBackground($background);// TODO replace with conditional coloring (check for transparent) color conversion?
+					if ($background != 'transparent') {
+						$this->setBackground($background);
+						$fill = true;
+					} else {
+						$fill = false;
+					}
 
 					foreach ($lines as $lineNr => $line) {
 						$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
-						$this->createCell($height, $width, $line, $textAlign, false);
+						$this->createCell($height, $width, $line, $textAlign, $fill);
 					}
 				}
 			}

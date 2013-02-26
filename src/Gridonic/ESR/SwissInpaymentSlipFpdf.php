@@ -24,6 +24,8 @@ use fpdf\FPDF;
  */
 class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 {
+	protected $rgbColors = array();
+
 	/**
 	 * The PDF engine object to generate the PDF output
 	 *
@@ -43,20 +45,18 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 	}
 
 	protected function setFont($fontFamily, $fontSize, $fontColor) {
-		$rgbArray = $this->hex2RGB($fontColor);
-
-		$this->pdfEngine->SetTextColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
+		if ($fontColor) {
+			$rgbArray = $this->convertColor2Rgb($fontColor);
+			$this->pdfEngine->SetTextColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
+		}
 		$this->pdfEngine->SetFont($fontFamily, '', $fontSize);
 	}
 
 	protected function setBackground($background) {
-		if ($background == 'transparent') {
-			$this->pdfEngine->SetFillColor(255, 0 , 0); // TODO unset?
-		} else {
-			// TODO check if it's a path to a file
-			// TODO else it should be a color
-			$this->pdfEngine->SetFillColor(255, 0 , 0);
-		}
+		// TODO check if it's a path to a file
+		// TODO else it should be a color
+		$rgbArray = $this->convertColor2Rgb($background);
+		$this->pdfEngine->SetFillColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
 	}
 
 	protected function setPosition($posX, $posY) {
@@ -65,6 +65,14 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 
 	protected function createCell($height, $width, $line, $textAlign, $fill) {
 		$this->pdfEngine->Cell($height, $width, utf8_decode($line), 0, 0, $textAlign, $fill);
+	}
+
+	protected function convertColor2Rgb($color) {
+		if (isset($this->rgbColors[$color])) {
+			return $this->rgbColors[$color];
+		}
+		$this->rgbColors[$color] = $this->hex2RGB($color);
+		return $this->rgbColors[$color];
 	}
 
 	/**
