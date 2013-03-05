@@ -15,6 +15,8 @@
 
 namespace Gridonic\ESR;
 
+use InvalidArgumentException;
+
 // TODO include CHF boxed slip image (609, ESR+)
 // TODO include EUR framed slip image (701) --> back side!
 // TODO include EUR boxed slip image (701) --> back side!
@@ -158,20 +160,29 @@ class SwissInpaymentSlip
 	protected $payerRightAttr = array();
 	protected $codeLineAttr = array();
 
-	// TODO optionally height and width as parameters
+	/**
+	 * @param $inpaymentSlipData
+	 * @param null $slipPosX
+	 * @param null $slipPosY
+	 *
+	 * @throws \InvalidArgumentException
+	 * @todo Implement width and height as optional parameters
+	 */
 	public function __construct($inpaymentSlipData, $slipPosX = null, $slipPosY = null)
 	{
+		if (!is_object($inpaymentSlipData)) {
+			throw new InvalidArgumentException('InpaymentSlipData parameter is not an object!');
+		}
+		if (!$inpaymentSlipData instanceof SwissInpaymentSlipData) {
+			throw new InvalidArgumentException('InpaymentSlipData parameter is not an instance of SwissInpaymentSlipData!');
+		}
 		$this->inpaymentSlipData = $inpaymentSlipData;
 
 		if (!is_null($slipPosX)) {
-			if (!$this->setSlipPosX($slipPosX)) {
-				// throw error
-			}
+			$this->setSlipPosX($slipPosX);
 		}
 		if (!is_null($slipPosY)) {
-			if (!$this->setSlipPosY($slipPosY)) {
-				// throw error
-			}
+			$this->setSlipPosY($slipPosY);
 		}
 		$this->setDefaults();
 	}
