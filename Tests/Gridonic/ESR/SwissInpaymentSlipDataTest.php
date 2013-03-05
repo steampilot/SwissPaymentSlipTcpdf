@@ -49,7 +49,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::__construct
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testConstructorFirstParameterIsEmptyString()
 	{
@@ -59,7 +59,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::__construct
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testConstructorFirstParameterIsInvalidString()
 	{
@@ -69,7 +69,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::__construct
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testConstructorFirstParameterIsArray()
 	{
@@ -255,7 +255,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetTypeFirstParameterIsEmptyString()
 	{
@@ -264,7 +264,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetTypeFirstParameterIsInvalidString()
 	{
@@ -273,7 +273,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetTypeFirstParameterIsArray()
 	{
@@ -282,7 +282,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetTypeSecondParameterIsEmptyString()
 	{
@@ -291,7 +291,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetTypeSecondParameterIsInvalidString()
 	{
@@ -300,7 +300,7 @@ class SwissInpaymentSlipDataTest extends \PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Gridonic\ESR\SwissInpaymentSlipData::setType
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetTypeSecondParameterIsArray()
 	{
