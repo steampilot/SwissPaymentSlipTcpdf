@@ -10,7 +10,7 @@
  * @author Peter Siska <pesche@gridonic.ch>
  * @author Marc Würth ravage@bluewin.ch
  * @link https://github.com/sprain/class.Einzahlungsschein.php
- * @version: 0.2.0
+ * @version: 0.3.0
  */
 
 namespace Gridonic\ESR;
@@ -301,7 +301,7 @@ class SwissInpaymentSlip
 		$this->slipBackground = $slipBackground;
 	}
 
-	protected function setAttributes(&$attributes, $posX = null, $posY = null, $height = null, $width = null, $background = null,
+	protected function setAttributes(&$attributes, $posX = null, $posY = null, $width = null, $height = null, $background = null,
 								   $fontFamily = null, $fontSize = null, $fontColor = null,
 								   $lineHeight = null, $textAlign = null) {
 		if ($posX) {
@@ -314,15 +314,15 @@ class SwissInpaymentSlip
 		} elseif (!isset($attributes['PosY'])) {
 			$attributes['PosY'] = 0;
 		}
-		if ($height) {
-			$attributes['Height'] = $height;
-		} elseif (!isset($attributes['Height'])) {
-			$attributes['Height'] = 0;
-		}
 		if ($width) {
 			$attributes['Width'] = $width;
 		} elseif (!isset($attributes['Width'])) {
 			$attributes['Width'] = 0;
+		}
+		if ($height) {
+			$attributes['Height'] = $height;
+		} elseif (!isset($attributes['Height'])) {
+			$attributes['Height'] = 0;
 		}
 		if ($background) {
 			$attributes['Background'] = $background;
@@ -358,124 +358,124 @@ class SwissInpaymentSlip
 
 	}
 
-	public function setBankLeftAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setBankLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->bankLeftAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->bankLeftAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 									$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setBankRightAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setBankRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->bankRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->bankRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setRecipientLeftAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setRecipientLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->recipientLeftAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->recipientLeftAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setRecipientRightAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setRecipientRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->recipientRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->recipientRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setAccountLeftAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setAccountLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->accountLeftAttr, $posX, $posY, $height, $width, $background,	$fontFamily,
+		return $this->setAttributes($this->accountLeftAttr, $posX, $posY, $width, $height, $background,	$fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setAccountRightAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setAccountRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->accountRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->accountRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setAmountFrancsLeftAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setAmountFrancsLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
 		if (!$textAlign) {
 			$textAlign = 'R';
 		}
 
-		return $this->setAttributes($this->amountFrancsLeftAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->amountFrancsLeftAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setAmountFrancsRightAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setAmountFrancsRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
 		if (!$textAlign) {
 			$textAlign = 'R';
 		}
 
-		return $this->setAttributes($this->amountFrancsRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->amountFrancsRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setAmountCentsLeftAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setAmountCentsLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->amountCentsLeftAttr, $posX, $posY, $height, $width, $background,	$fontFamily,
+		return $this->setAttributes($this->amountCentsLeftAttr, $posX, $posY, $width, $height, $background,	$fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setAmountCentsRightAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setAmountCentsRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->amountCentsRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->amountCentsRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setReferenceNumberLeftAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setReferenceNumberLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->referenceNumberLeftAttr, $posX, $posY, $height, $width, $background,	$fontFamily,
+		return $this->setAttributes($this->referenceNumberLeftAttr, $posX, $posY, $width, $height, $background,	$fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
-	public function setReferenceNumberRightAttr($posX = null, $posY = null, $height = null, $width = null,
-		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
-		$lineHeight = null, $textAlign = null) {
-		if (!$textAlign) {
-			$textAlign = 'R';
-		}
-
-		return $this->setAttributes($this->referenceNumberRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
-			$fontSize, $fontColor, $lineHeight, $textAlign);
-	}
-
-	public function setPayerLeftAttr($posX = null, $posY = null, $height = null, $width = null,
-		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
-		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->payerLeftAttr, $posX, $posY, $height, $width, $background, $fontFamily,
-			$fontSize, $fontColor, $lineHeight, $textAlign);
-	}
-
-	public function setPayerRightAttr($posX = null, $posY = null, $height = null, $width = null,
-		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
-		$lineHeight = null, $textAlign = null) {
-		return $this->setAttributes($this->payerRightAttr, $posX, $posY, $height, $width, $background, $fontFamily,
-			$fontSize, $fontColor, $lineHeight, $textAlign);
-	}
-
-	public function setCodeLineAttr($posX = null, $posY = null, $height = null, $width = null,
+	public function setReferenceNumberRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
 		if (!$textAlign) {
 			$textAlign = 'R';
 		}
 
-		return $this->setAttributes($this->codeLineAttr, $posX, $posY, $height, $width, $background, $fontFamily,
+		return $this->setAttributes($this->referenceNumberRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
+			$fontSize, $fontColor, $lineHeight, $textAlign);
+	}
+
+	public function setPayerLeftAttr($posX = null, $posY = null, $width = null, $height = null,
+		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
+		$lineHeight = null, $textAlign = null) {
+		return $this->setAttributes($this->payerLeftAttr, $posX, $posY, $width, $height, $background, $fontFamily,
+			$fontSize, $fontColor, $lineHeight, $textAlign);
+	}
+
+	public function setPayerRightAttr($posX = null, $posY = null, $width = null, $height = null,
+		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
+		$lineHeight = null, $textAlign = null) {
+		return $this->setAttributes($this->payerRightAttr, $posX, $posY, $width, $height, $background, $fontFamily,
+			$fontSize, $fontColor, $lineHeight, $textAlign);
+	}
+
+	public function setCodeLineAttr($posX = null, $posY = null, $width = null, $height = null,
+		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
+		$lineHeight = null, $textAlign = null) {
+		if (!$textAlign) {
+			$textAlign = 'R';
+		}
+
+		return $this->setAttributes($this->codeLineAttr, $posX, $posY, $width, $height, $background, $fontFamily,
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 

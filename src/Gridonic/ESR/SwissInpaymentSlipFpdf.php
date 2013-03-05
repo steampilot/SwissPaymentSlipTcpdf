@@ -10,7 +10,7 @@
  * @author Peter Siska <pesche@gridonic.ch>
  * @author Marc Würth ravage@bluewin.ch
  * @link https://github.com/sprain/class.Einzahlungsschein.php
- * @version: 0.2.0
+ * @version: 0.3.0
  */
 
 namespace Gridonic\ESR;
@@ -63,7 +63,7 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 		$this->pdfEngine->SetXY($posX, $posY);
 	}
 
-	protected function createCell($height, $width, $line, $textAlign, $fill) {
+	protected function createCell($width, $height, $line, $textAlign, $fill) {
 		$this->pdfEngine->Cell($width, $height, utf8_decode($line), 0, 0, $textAlign, $fill);
 	}
 
