@@ -10,7 +10,7 @@
  * @author Peter Siska <pesche@gridonic.ch>
  * @author Marc Würth ravage@bluewin.ch
  * @link https://github.com/sprain/class.Einzahlungsschein.php
- * @version: 0.3.0
+ * @version: 0.4.0
  */
 
 namespace Gridonic\ESR;
@@ -261,11 +261,11 @@ class SwissInpaymentSlip
 	/**
 	 * Set slip height & width
 	 *
-	 * @param $slipHeight
 	 * @param $slipWidth
+	 * @param $slipHeight
 	 * @return bool True if successful, else false
 	 */
-	public function setSlipSize($slipHeight, $slipWidth)
+	public function setSlipSize($slipWidth, $slipHeight)
 	{
 		if ($this->setSlipHeight($slipHeight) &&
 			$this->setSlipWidth($slipWidth)) {
@@ -274,19 +274,19 @@ class SwissInpaymentSlip
 		return false;
 	}
 
-	protected function setSlipHeight($slipHeight)
+	protected function setSlipWidth($slipWidth)
 	{
-		if (is_int($slipHeight) || is_float($slipHeight)) {
-			$this->slipPosX = $slipHeight;
+		if (is_int($slipWidth) || is_float($slipWidth)) {
+			$this->slipWidth = $slipWidth;
 			return true;
 		}
 		return false;
 	}
 
-	protected function setSlipWidth($slipWidth)
+	protected function setSlipHeight($slipHeight)
 	{
-		if (is_int($slipWidth) || is_float($slipWidth)) {
-			$this->slipPosY = $slipWidth;
+		if (is_int($slipHeight) || is_float($slipHeight)) {
+			$this->slipHeight = $slipHeight;
 			return true;
 		}
 		return false;
@@ -562,11 +562,6 @@ class SwissInpaymentSlip
 		return $this->slipBackground;
 	}
 
-	public function getSlipHeight()
-	{
-		return $this->slipHeight;
-	}
-
 	/**
 	 * @return int
 	 */
@@ -586,6 +581,11 @@ class SwissInpaymentSlip
 	public function getSlipWidth()
 	{
 		return $this->slipWidth;
+	}
+
+	public function getSlipHeight()
+	{
+		return $this->slipHeight;
 	}
 
 
