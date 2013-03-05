@@ -66,7 +66,7 @@ abstract class SwissInpaymentSlipPdf
 
 	abstract protected function setPosition($posX, $posY);
 
-	abstract protected function createCell($height, $width, $line,$textAlign, $fill);
+	abstract protected function createCell($width, $height, $line,$textAlign, $fill);
 
 	protected function writeInpaymentSlipLines($element) {
 
@@ -98,7 +98,7 @@ abstract class SwissInpaymentSlipPdf
 
 					foreach ($lines as $lineNr => $line) {
 						$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
-						$this->createCell($height, $width, $line, $textAlign, $fill);
+						$this->createCell($width, $height, $line, $textAlign, $fill);
 					}
 				}
 			}
@@ -106,7 +106,6 @@ abstract class SwissInpaymentSlipPdf
 	}
 
 	public function createInpaymentSlip($formatted = true, $fillZeroes = true, $withBackground = true) {
-		$pdfEngine = $this->pdfEngine;
 		$inpaymentSlip = $this->inpaymentSlip;
 
 		// Place background
@@ -115,7 +114,7 @@ abstract class SwissInpaymentSlipPdf
 		}
 
 		// go through all elements/element groups, write each line
-		foreach ($inpaymentSlip->getAllElements($formatted, $fillZeroes) as $elementNr => $element) {
+		foreach ($inpaymentSlip->getAllElements($formatted, $fillZeroes) as $elementName => $element) {
 			$this->writeInpaymentSlipLines($element);
 		}
 	}

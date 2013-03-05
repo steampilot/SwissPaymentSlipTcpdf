@@ -64,7 +64,7 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 	}
 
 	protected function createCell($height, $width, $line, $textAlign, $fill) {
-		$this->pdfEngine->Cell($height, $width, utf8_decode($line), 0, 0, $textAlign, $fill);
+		$this->pdfEngine->Cell($width, $height, utf8_decode($line), 0, 0, $textAlign, $fill);
 	}
 
 	protected function convertColor2Rgb($color) {
