@@ -15,11 +15,6 @@
 
 namespace Gridonic\ESR;
 
-// TODO create tests
-// TODO test docs generated
-
-use InvalidArgumentException;
-
 /**
  * Creates data containers for standard Swiss inpayment slips with or without reference number.
  * It doesn't actually do much. It's mostly a data container class to keep
@@ -45,6 +40,7 @@ use InvalidArgumentException;
  * 		Red inpayment slip for paying into a post cheque or bank account without reference number but message box
  *
  * @link https://www.postfinance.ch/content/dam/pf/de/doc/consult/manual/dlserv/inpayslip_isr_man_de.pdf German manual
+ * @link http://www.six-interbank-clearing.com/en/home/standardization/dta.html
  *
  * @todo implement full red slip support (code line + additional code line)
  * @todo implement currency (CHF, EUR), means different prefixes in code line
@@ -64,6 +60,13 @@ class SwissInpaymentSlipData
 	 * Constant for red inpayment slips
 	 */
 	const RED = 'red';
+
+	/**
+	 * Consists the array table for calculating the check digit by modulo 10
+	 *
+	 * @var array Table for calculating the check digit by modulo 10
+	 */
+	private $moduloTable = array(0,9,4,6,8,2,7,1,3,5);
 
 	/**
 	 * Determines the inpayment slip type.
@@ -764,7 +767,6 @@ class SwissInpaymentSlipData
 			$this->accountNumber = $accountNumber;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -815,7 +817,6 @@ class SwissInpaymentSlipData
 			$this->recipientLine1 = $recipientLine1;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -844,7 +845,6 @@ class SwissInpaymentSlipData
 			$this->recipientLine2 = $recipientLine2;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -873,7 +873,6 @@ class SwissInpaymentSlipData
 			$this->recipientLine3 = $recipientLine3;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -1006,7 +1005,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Sets the four lines of the recipient
+	 * Sets the four lines of the payer
 	 *
 	 * @param string $payerLine1 The first line of the payer, e.g. "Hans Mustermann"
 	 * @param string $payerLine2 The second line of the payer, e.g. "Main Street 11"
@@ -1037,7 +1036,6 @@ class SwissInpaymentSlipData
 			$this->payerLine1 = $payerLine1;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -1066,7 +1064,6 @@ class SwissInpaymentSlipData
 			$this->payerLine2 = $payerLine2;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -1095,7 +1092,6 @@ class SwissInpaymentSlipData
 			$this->payerLine3 = $payerLine3;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -1124,7 +1120,6 @@ class SwissInpaymentSlipData
 			$this->payerLine4 = $payerLine4;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -1144,7 +1139,7 @@ class SwissInpaymentSlipData
 	/**
 	 * Set the IBAN
 	 *
-	 * @param $iban The IBAN
+	 * @param $iban String The IBAN
 	 * @return bool True if successful, else false
 	 */
 	public function setIban($iban)
@@ -1152,6 +1147,7 @@ class SwissInpaymentSlipData
 		if ($this->getWithIban()) {
 			// TODO plausible IBAN method http://www.six-interbank-clearing.com/de/tkicch_financialinstitutions_ibanipi.htm
 			// TODO check if to implement http://code.google.com/p/php-iban/ (composer!)
+			// TODO At least strip spaces (may be more?)
 			$this->iban = $iban;
 			return true;
 		}
@@ -1363,6 +1359,8 @@ class SwissInpaymentSlipData
 	 *
 	 * @param bool $fillZeros Fill up with leading zeros
 	 * @return string|bool Either the full code line or false if something was wrong
+	 *
+	 * @todo implement red slip support
 	 */
 	public function getCodeLine($fillZeros = true)
 	{
@@ -1451,10 +1449,9 @@ class SwissInpaymentSlipData
 	 */
 	private function modulo10($number)
 	{
-		$table = array(0,9,4,6,8,2,7,1,3,5);
 		$next = 0;
 		for ($i=0; $i < strlen($number); $i++) {
-			$next = $table[($next + substr($number, $i, 1)) % 10];
+			$next = $this->moduloTable[($next + substr($number, $i, 1)) % 10];
 		}
 
 		return (10 - $next) % 10;
