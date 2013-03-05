@@ -10,10 +10,12 @@
  * @author Peter Siska <pesche@gridonic.ch>
  * @author Marc Würth ravage@bluewin.ch
  * @link https://github.com/sprain/class.Einzahlungsschein.php
- * @version: 0.0.1
+ * @version: 0.2.0
  */
 
 namespace Gridonic\ESR;
+
+use InvalidArgumentException;
 
 /**
  * Creates data containers for standard Swiss inpayment slips with or without reference number.
@@ -293,23 +295,35 @@ class SwissInpaymentSlipData
 	 *
 	 * @param string $type The slip type
 	 * @param bool $forceReset Force a data reset according to the given type
-	 * @return bool True if successful, else false
+	 * @throws \InvalidArgumentException
+	 * @return bool True if successful
 	 */
 	public function setType($type = self::ORANGE, $forceReset = false)
 	{
-		$type = strtolower($type);
+		if (is_string($type)) {
+			$type = strtolower($type);
+		} else {
+			throw new InvalidArgumentException('Type parameter is not a string!');
+		}
+		if (!is_bool($forceReset)) {
+			throw new InvalidArgumentException('ForceReset parameter is not a bool!');
+		}
+
 		if ($type == self::ORANGE || $type == self::RED) {
-			$this->type = $type;
 			if ($this->type != $type || $forceReset) {
+				$this->type = $type;
+
 				if ($type == self::ORANGE) {
 					$this->setOrangeDefaults();
 				} elseif ($type == self::RED) {
 					$this->setRedDefaults();
 				}
 			}
+
 			return true;
+		} else {
+			throw new InvalidArgumentException('Invalid type parameter ' . $type . '!');
 		}
-		return false;
 	}
 
 	protected function setOrangeDefaults() {
@@ -337,15 +351,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get inpayment slip type. Sets type to orange if not set yet.
+	 * Get inpayment slip type
 	 *
 	 * @return string The slip type
 	 */
 	public function getType()
 	{
-		if (!isset($this->type)) {
-			$this->setType();
-		}
 		return $this->type;
 	}
 
@@ -370,15 +381,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has recipient specified. Sets to true if not set yet.
+	 * Get if inpayment slip has recipient specified
 	 *
 	 * @return bool True if inpayment slip has the recipient specified, else false
 	 */
 	public function getWithBank()
 	{
-		if (!isset($this->withBank)) {
-			$this->setWithBank();
-		}
 		return $this->withBank;
 	}
 
@@ -402,15 +410,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has an account number specified. Sets to true if not set yet.
+	 * Get if inpayment slip has an account number specified
 	 *
 	 * @return bool True if inpayment slip has an account number specified, else false
 	 */
 	public function getWithAccountNumber()
 	{
-		if (!isset($this->withAccountNumber)) {
-			$this->setWithAccountNumber();
-		}
 		return $this->withAccountNumber;
 	}
 
@@ -437,15 +442,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a recipient specified. Sets to true if not set yet.
+	 * Get if inpayment slip has a recipient specified
 	 *
 	 * @return bool True if inpayment slip has a recipient specified, else false
 	 */
 	public function getWithRecipient()
 	{
-		if (!isset($this->withRecipient)) {
-			$this->setWithRecipient();
-		}
 		return $this->withRecipient;
 	}
 
@@ -469,15 +471,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has an amount specified. Sets to true if not set yet.
+	 * Get if inpayment slip has an amount specified
 	 *
 	 * @return bool True if inpayment slip has an amount specified, else false
 	 */
 	public function getWithAmount()
 	{
-		if (!isset($this->withAmount)) {
-			$this->setWithAmount();
-		}
 		return $this->withAmount;
 	}
 
@@ -508,15 +507,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a reference number specified. Sets to true if not set yet.
+	 * Get if inpayment slip has a reference number specified
 	 *
 	 * @return bool True if inpayment slip has a reference number specified, else false
 	 */
 	public function getWithReferenceNumber()
 	{
-		if (!isset($this->withReferenceNumber)) {
-			$this->setWithReferenceNumber();
-		}
 		return $this->withReferenceNumber;
 	}
 
@@ -546,15 +542,11 @@ class SwissInpaymentSlipData
 
 	/**
 	 * Get if the payment slip's reference number should contain the banking customer id.
-	 * Sets to true if not set yet.
 	 *
 	 * @return bool True if inpayment slip has the recipient specified, else false
 	 */
 	public function getWithBankingCustomerId()
 	{
-		if (!isset($this->withBankingCustomerId)) {
-			$this->setWithBankingCustomerId();
-		}
 		return $this->withBankingCustomerId;
 	}
 
@@ -581,15 +573,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a payer specified. Sets to true if not set yet.
+	 * Get if inpayment slip has a payer specified
 	 *
 	 * @return bool True if inpayment slip has a payer specified, else false
 	 */
 	public function getWithPayer()
 	{
-		if (!isset($this->withPayer)) {
-			$this->setWithPayer();
-		}
 		return $this->withPayer;
 	}
 
@@ -619,15 +608,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has an IBAN specified. Sets to false if not set yet.
+	 * Get if inpayment slip has an IBAN specified
 	 *
 	 * @return bool True if inpayment slip has an IBAN specified, else false
 	 */
 	public function getWithIban()
 	{
-		if (!isset($this->withIban)) {
-			$this->setWithIban();
-		}
 		return $this->withIban;
 	}
 
@@ -663,15 +649,12 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a payment reason specified. Sets to false if not set yet.
+	 * Get if inpayment slip has a payment reason specified
 	 *
 	 * @return bool True if inpayment slip has a payment reason specified, else false
 	 */
 	public function getWithPaymentReason()
 	{
-		if (!isset($this->withPaymentReason)) {
-			$this->setWithPaymentReason();
-		}
 		return $this->withPaymentReason;
 	}
 
@@ -680,17 +663,17 @@ class SwissInpaymentSlipData
 	 *
 	 * @param string $bankName       Name of the bank
 	 * @param string $bankCity       City of the bank
-	 * @param null $accountNumber The account number
-	 * @return bool Always True
+	 * @return bool True if successful, else false
 	 */
-	public function setBankData($bankName, $bankCity, $accountNumber = null)
+	public function setBankData($bankName, $bankCity)
 	{
-		// TODO check if sets work fine
-		$this->setBankName($bankName);
-		$this->setBankCity($bankCity);
-		if ($accountNumber) {
-			$this->setAccountNumber($accountNumber);
+		if (!$this->setBankName($bankName)) {
+			return false;
 		}
+		if (!$this->setBankCity($bankCity)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -790,15 +773,22 @@ class SwissInpaymentSlipData
 	 * @param string $recipientLine2 The second line of the recipient, e.g. "Examplestreet 61"
 	 * @param string $recipientLine3 The third line of the recipient, e.g. "8000 Zürich"
 	 * @param string $recipientLine4 The fourth line of the recipient, if needed
-	 * @return bool Always true
+	 * @return bool True if successful, else false
 	 */
 	public function setRecipientData($recipientLine1, $recipientLine2, $recipientLine3 = '', $recipientLine4 = '')
 	{
-		// TODO check if sets work fine
-		$this->setRecipientLine1($recipientLine1);
-		$this->setRecipientLine2($recipientLine2);
-		$this->setRecipientLine3($recipientLine3);
-		$this->setRecipientLine4($recipientLine4);
+		if (!$this->setRecipientLine1($recipientLine1)) {
+			return false;
+		}
+		if (!$this->setRecipientLine2($recipientLine2)) {
+			return false;
+		}
+		if (!$this->setRecipientLine3($recipientLine3)) {
+			return false;
+		}
+		if (!$this->setRecipientLine4($recipientLine4)) {
+			return false;
+		}
 
 		return true;
 	}
@@ -1011,15 +1001,22 @@ class SwissInpaymentSlipData
 	 * @param string $payerLine2 The second line of the payer, e.g. "Main Street 11"
 	 * @param string $payerLine3 The third line of the payer, e.g. "4052 Basel"
 	 * @param string $payerLine4 The fourth line of the payer, if needed
-	 * @return bool Always true
+	 * @return bool True if successful, else false
 	 */
 	public function setPayerData($payerLine1, $payerLine2, $payerLine3 = '', $payerLine4 = '')
 	{
-		// TODO check if sets work fine
-		$this->setPayerLine1($payerLine1);
-		$this->setPayerLine2($payerLine2);
-		$this->setPayerLine3($payerLine3);
-		$this->setPayerLine4($payerLine4);
+		if (!$this->setPayerLine1($payerLine1)) {
+			return false;
+		}
+		if (!$this->setPayerLine2($payerLine2)) {
+			return false;
+		}
+		if (!$this->setPayerLine3($payerLine3)) {
+			return false;
+		}
+		if (!$this->setPayerLine4($payerLine4)) {
+			return false;
+		}
 
 		return true;
 	}
@@ -1174,15 +1171,23 @@ class SwissInpaymentSlipData
 	 * @param string $paymentReasonLine2 The second line of the payment reason
 	 * @param string $paymentReasonLine3 The third line of the payment reason
 	 * @param string $paymentReasonLine4 The fourth line of the payment reason
-	 * @return bool Always true
+	 * @return bool True if successful, else false
 	 */
-	public function setPaymentReason($paymentReasonLine1 = '',$paymentReasonLine2 = '',
+	public function setPaymentReasonData($paymentReasonLine1 = '',$paymentReasonLine2 = '',
 									 $paymentReasonLine3 = '', $paymentReasonLine4 = '')
 	{
-		$this->setPaymentReasonLine1($paymentReasonLine1);
-		$this->setPaymentReasonLine2($paymentReasonLine2);
-		$this->setPaymentReasonLine3($paymentReasonLine3);
-		$this->setPaymentReasonLine4($paymentReasonLine4);
+		if (!$this->setPaymentReasonLine1($paymentReasonLine1)) {
+			return false;
+		}
+		if (!$this->setPaymentReasonLine2($paymentReasonLine2)) {
+			return false;
+		}
+		if (!$this->setPaymentReasonLine3($paymentReasonLine3)) {
+			return false;
+		}
+		if (!$this->setPaymentReasonLine4($paymentReasonLine4)) {
+			return false;
+		}
 
 		return true;
 	}
@@ -1365,13 +1370,7 @@ class SwissInpaymentSlipData
 	public function getCodeLine($fillZeros = true)
 	{
 		$francs = $this->getAmountFrancs();
-		if ($francs === false) {
-			return false;
-		}
 		$cents = $this->getAmountCents();
-		if ($cents === false) {
-			return false;
-		}
 
 		$referenceNumber = $this->getCompleteReferenceNumber(false, $fillZeros);
 		if ($referenceNumber === false) {
@@ -1436,7 +1435,7 @@ class SwissInpaymentSlipData
 			return false;
 		}
 		$francs = intval($amount);
-		$cents = ($amount - $francs) * 100;
+		$cents = round(($amount - $francs) * 100);
 		return str_pad($cents, 2 ,'0', STR_PAD_RIGHT);
 	}
 

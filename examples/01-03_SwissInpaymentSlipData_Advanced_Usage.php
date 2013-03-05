@@ -10,7 +10,7 @@
  * @author Peter Siska <pesche@gridonic.ch>
  * @author Marc Würth ravage@bluewin.ch
  * @link https://github.com/sprain/class.Einzahlungsschein.php
- * @version: 0.0.1
+ * @version: 0.2.0
  */
 ?>
 <!DOCTYPE html>
@@ -33,7 +33,7 @@ $inpaymentSlipData = new SwissInpaymentSlipData('red');
 
 // Fill some red slip data
 $inpaymentSlipData->setIban('CH3808888123456789012');
-$inpaymentSlipData->setPaymentReason('Rechnung', 'Nr.7496');
+$inpaymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
 
 // Change type and (optionally) force data reset
 $inpaymentSlipData->setType('orange');

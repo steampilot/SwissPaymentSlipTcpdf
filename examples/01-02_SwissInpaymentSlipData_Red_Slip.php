@@ -10,7 +10,7 @@
  * @author Peter Siska <pesche@gridonic.ch>
  * @author Marc Würth ravage@bluewin.ch
  * @link https://github.com/sprain/class.Einzahlungsschein.php
- * @version: 0.0.1
+ * @version: 0.2.0
  */
 ?>
 <!DOCTYPE html>
@@ -38,7 +38,7 @@ $inpaymentSlipData->setRecipientData('Muster AG', 'Bahnhofstrasse 5', '8001 Zuer
 $inpaymentSlipData->setIban('CH3808888123456789012');
 $inpaymentSlipData->setPayerData('M. Beispieler', 'Bahnhofstrasse 356', '', '7000 Chur');
 $inpaymentSlipData->setAmount(8479.25);
-$inpaymentSlipData->setPaymentReason('Rechnung', 'Nr.7496');
+$inpaymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
 
 // Output the data fields of the slip
 echo "Bank name: " . $inpaymentSlipData->getBankName() . "<br>";
