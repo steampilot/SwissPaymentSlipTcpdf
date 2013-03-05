@@ -78,10 +78,10 @@ $inpaymentSlipFpdf = new SwissInpaymentSlipFpdf($tcPdf, $inpaymentSlip); // for 
 // "Print" the slip with its elements according to their attributes
 $inpaymentSlipFpdf->createInpaymentSlip();
 
-// Output PDF named example_04-03.pdf to examples folder
-$tcPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_04-03.pdf', 'F');
+// Output PDF named example_04-01.pdf to examples folder
+$tcPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_04-01.pdf', 'F');
 
-echo "Inpayment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_04-03.pdf <br>';
+echo "Inpayment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_04-01.pdf <br>';
 
 echo "<br>";
 
