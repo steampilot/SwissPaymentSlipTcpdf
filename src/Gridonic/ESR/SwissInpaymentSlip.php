@@ -304,12 +304,16 @@ class SwissInpaymentSlip
 	}
 
 	/**
-	 * @param null $slipBackground
+	 * @param string $slipBackground
+	 * @return bool Always true
+	 *
+	 * @todo Implement sanity checks on parameter (filename or color)
 	 */
 	public function setSlipBackground($slipBackground)
 	{
-		// TODO check if it's a color or a path to a file
 		$this->slipBackground = $slipBackground;
+
+		return true;
 	}
 
 	protected function setAttributes(&$attributes, $posX = null, $posY = null, $width = null, $height = null, $background = null,
