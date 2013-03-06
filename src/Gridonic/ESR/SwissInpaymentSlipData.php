@@ -326,6 +326,9 @@ class SwissInpaymentSlipData
 		}
 	}
 
+	/**
+	 *
+	 */
 	protected function setOrangeDefaults() {
 		$this->setWithBank(true);
 		$this->setWithAccountNumber(true);
@@ -338,6 +341,9 @@ class SwissInpaymentSlipData
 		$this->setWithPaymentReason(false);
 	}
 
+	/**
+	 *
+	 */
 	protected function setRedDefaults() {
 		$this->setWithBank(true);
 		$this->setWithAccountNumber(true);
@@ -684,11 +690,12 @@ class SwissInpaymentSlipData
 	 *
 	 * @param string $bankName The name of the bank
 	 * @return bool True if successful, else false
+	 *
+	 * @todo Implement max length check
 	 */
 	protected function setBankName($bankName)
 	{
 		if ($this->getWithBank()) {
-			// TODO check max length
 			$this->bankName = $bankName;
 			return true;
 		}
@@ -713,11 +720,12 @@ class SwissInpaymentSlipData
 	 *
 	 * @param string $bankCity The postal code and city of the bank
 	 * @return bool True if successful, else false
+	 *
+	 * @todo Implement max length check
 	 */
 	protected function setBankCity($bankCity)
 	{
 		if ($this->getWithBank()) {
-			// TODO check max length
 			$this->bankCity = $bankCity;
 			return true;
 		}
@@ -742,10 +750,11 @@ class SwissInpaymentSlipData
 	 *
 	 * @param string $accountNumber The bank or post cheque account
 	 * @return bool True if successful, else false
+	 *
+	 * @todo Implement parameter validation (two hyphens, min & max length)
 	 */
 	public function setAccountNumber($accountNumber)
 	{
-		// TODO validate account number (two hyphens, min & max length)
 		if ($this->getWithAccountNumber()) {
 			$this->accountNumber = $accountNumber;
 			return true;
@@ -1420,6 +1429,11 @@ class SwissInpaymentSlipData
 		return false;
 	}
 
+	/**
+	 * Returns francs amount without cents
+	 *
+	 * @return bool|int Francs amount without cents
+	 */
 	public function getAmountFrancs() {
 		$amount = $this->getAmount();
 		if ($amount === false) {
@@ -1429,6 +1443,11 @@ class SwissInpaymentSlipData
 		return $francs;
 	}
 
+	/**
+	 * Returns zero filled, right padded, two digits long cents amount
+	 *
+	 * @return bool|string Amount of Cents, zero filled, right padded, two digits long
+	 */
 	public function getAmountCents() {
 		$amount = $this->getAmount();
 		if ($amount === false) {
@@ -1462,7 +1481,7 @@ class SwissInpaymentSlipData
 	 *
 	 * @param string $string To be formatted string
 	 * @param int $blockSize Block size of choice
-	 * @param bool $alignFromRight Right aligned
+	 * @param bool $alignFromRight Right aligned, blocks are build from right
 	 * @return string Given string divided in blocks of given block size separated by one space
 	 */
 	private function breakStringIntoBlocks($string, $blockSize = 5, $alignFromRight = true)

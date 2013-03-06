@@ -58,16 +58,46 @@ abstract class SwissInpaymentSlipPdf
 		}
 	}
 
+	/**
+	 * @param $background
+	 * @return mixed
+	 */
 	abstract protected function displayImage($background);
 
+	/**
+	 * @param $fontFamily
+	 * @param $fontSize
+	 * @param $fontColor
+	 * @return mixed
+	 */
 	abstract protected function setFont($fontFamily, $fontSize, $fontColor);
 
+	/**
+	 * @param $background
+	 * @return mixed
+	 */
 	abstract protected function setBackground($background);
 
+	/**
+	 * @param $posX
+	 * @param $posY
+	 * @return mixed
+	 */
 	abstract protected function setPosition($posX, $posY);
 
+	/**
+	 * @param $width
+	 * @param $height
+	 * @param $line
+	 * @param $textAlign
+	 * @param $fill
+	 * @return mixed
+	 */
 	abstract protected function createCell($width, $height, $line,$textAlign, $fill);
 
+	/**
+	 * @param $element
+	 */
 	protected function writeInpaymentSlipLines($element) {
 
 		if (is_array($element)) {
@@ -105,6 +135,11 @@ abstract class SwissInpaymentSlipPdf
 		}
 	}
 
+	/**
+	 * @param bool $formatted
+	 * @param bool $fillZeroes
+	 * @param bool $withBackground
+	 */
 	public function createInpaymentSlip($formatted = true, $fillZeroes = true, $withBackground = true) {
 		$inpaymentSlip = $this->inpaymentSlip;
 

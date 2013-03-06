@@ -33,6 +33,10 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 	 */
 	protected $pdfEngine = null;
 
+	/**
+	 * @param $background
+	 * @return mixed|void
+	 */
 	protected function displayImage($background) {
 		// TODO check if slipBackground is a color or a path to a file
 
@@ -44,6 +48,12 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 			strtoupper(substr($background, -3, 3)));
 	}
 
+	/**
+	 * @param $fontFamily
+	 * @param $fontSize
+	 * @param $fontColor
+	 * @return mixed|void
+	 */
 	protected function setFont($fontFamily, $fontSize, $fontColor) {
 		if ($fontColor) {
 			$rgbArray = $this->convertColor2Rgb($fontColor);
@@ -52,6 +62,10 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 		$this->pdfEngine->SetFont($fontFamily, '', $fontSize);
 	}
 
+	/**
+	 * @param $background
+	 * @return mixed|void
+	 */
 	protected function setBackground($background) {
 		// TODO check if it's a path to a file
 		// TODO else it should be a color
@@ -59,14 +73,31 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 		$this->pdfEngine->SetFillColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
 	}
 
+	/**
+	 * @param $posX
+	 * @param $posY
+	 * @return mixed|void
+	 */
 	protected function setPosition($posX, $posY) {
 		$this->pdfEngine->SetXY($posX, $posY);
 	}
 
+	/**
+	 * @param $width
+	 * @param $height
+	 * @param $line
+	 * @param $textAlign
+	 * @param $fill
+	 * @return mixed|void
+	 */
 	protected function createCell($width, $height, $line, $textAlign, $fill) {
 		$this->pdfEngine->Cell($width, $height, utf8_decode($line), 0, 0, $textAlign, $fill);
 	}
 
+	/**
+	 * @param $color
+	 * @return mixed
+	 */
 	protected function convertColor2Rgb($color) {
 		if (isset($this->rgbColors[$color])) {
 			return $this->rgbColors[$color];

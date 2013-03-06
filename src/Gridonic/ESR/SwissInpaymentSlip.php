@@ -40,7 +40,7 @@ class SwissInpaymentSlip
 	/**
 	 * The inpayment slip value object, which contains the inpayment slip data
 	 *
-	 * @var null|SwissInpaymentSlipData The inpayment slip value object
+	 * @var SwissInpaymentSlipData The inpayment slip value object
 	 */
 	protected $inpaymentSlipData = null;
 
@@ -58,8 +58,14 @@ class SwissInpaymentSlip
 	 */
 	protected $slipPosY = 191;
 
+	/**
+	 * @var int
+	 */
 	protected $slipHeight = 106; // default height of an orange slip
 
+	/**
+	 * @var int
+	 */
 	protected $slipWidth = 210; // default width of an orange slip
 
 	/**
@@ -71,14 +77,29 @@ class SwissInpaymentSlip
 	 */
 	protected $slipBackground = null;
 
+	/**
+	 * @var string
+	 */
 	protected $defaultFontFamily = 'Helvetica';
 
+	/**
+	 * @var string
+	 */
 	protected $defaultFontSize = '10';
 
+	/**
+	 * @var string
+	 */
 	protected $defaultFontColor = '#000';
 
+	/**
+	 * @var int
+	 */
 	protected $defaultLineHeight = 4;
 
+	/**
+	 * @var string
+	 */
 	protected $defaultTextAlign = 'L';
 
 	/**
@@ -144,26 +165,85 @@ class SwissInpaymentSlip
 	 */
 	protected $displayCodeLine = true;
 
+	/**
+	 * @var array
+	 */
 	protected $bankLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $bankRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $recipientLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $recipientRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $accountLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $accountRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $amountFrancsLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $amountFrancsRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $amountCentsLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $amountCentsRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $referenceNumberLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $referenceNumberRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $payerLeftAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $payerRightAttr = array();
+
+	/**
+	 * @var array
+	 */
 	protected $codeLineAttr = array();
 
 	/**
-	 * @param $inpaymentSlipData
-	 * @param null $slipPosX
-	 * @param null $slipPosY
+	 * @param SwissInpaymentSlipData $inpaymentSlipData
+	 * @param integer $slipPosX
+	 * @param integer $slipPosY
 	 *
 	 * @throws \InvalidArgumentException
 	 * @todo Implement width and height as optional parameters
@@ -187,6 +267,11 @@ class SwissInpaymentSlip
 		$this->setDefaults();
 	}
 
+	/**
+	 * Sets the default attributes of the elements according to the type
+	 *
+	 * @todo Eliminate the direct system dependency, make the background image a mandatory constructor parameter
+	 */
 	protected function setDefaults()
 	{
 		if ($this->inpaymentSlipData->getType() == SwissInpaymentSlipData::ORANGE) {
@@ -231,6 +316,9 @@ class SwissInpaymentSlip
 		}
 	}
 
+	/**
+	 * @return SwissInpaymentSlipData
+	 */
 	public function getInpaymentSlipData() {
 		return $this->inpaymentSlipData;
 	}
@@ -251,6 +339,10 @@ class SwissInpaymentSlip
 		return false;
 	}
 
+	/**
+	 * @param $slipPosX
+	 * @return bool
+	 */
 	protected function setSlipPosX($slipPosX)
 	{
 		if (is_int($slipPosX) || is_float($slipPosX)) {
@@ -260,6 +352,10 @@ class SwissInpaymentSlip
 		return false;
 	}
 
+	/**
+	 * @param $slipPosY
+	 * @return bool
+	 */
 	protected function setSlipPosY($slipPosY)
 	{
 		if (is_int($slipPosY) || is_float($slipPosY)) {
@@ -285,6 +381,10 @@ class SwissInpaymentSlip
 		return false;
 	}
 
+	/**
+	 * @param $slipWidth
+	 * @return bool
+	 */
 	protected function setSlipWidth($slipWidth)
 	{
 		if (is_int($slipWidth) || is_float($slipWidth)) {
@@ -294,6 +394,10 @@ class SwissInpaymentSlip
 		return false;
 	}
 
+	/**
+	 * @param $slipHeight
+	 * @return bool
+	 */
 	protected function setSlipHeight($slipHeight)
 	{
 		if (is_int($slipHeight) || is_float($slipHeight)) {
@@ -316,6 +420,20 @@ class SwissInpaymentSlip
 		return true;
 	}
 
+	/**
+	 * @param $attributes
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	protected function setAttributes(&$attributes, $posX = null, $posY = null, $width = null, $height = null, $background = null,
 								   $fontFamily = null, $fontSize = null, $fontColor = null,
 								   $lineHeight = null, $textAlign = null) {
@@ -373,6 +491,19 @@ class SwissInpaymentSlip
 
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setBankLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -380,6 +511,19 @@ class SwissInpaymentSlip
 									$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setBankRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -387,6 +531,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setRecipientLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -394,6 +551,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setRecipientRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -401,6 +571,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setAccountLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -408,6 +591,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setAccountRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -415,6 +611,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setAmountFrancsLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -426,6 +635,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setAmountFrancsRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -437,6 +659,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setAmountCentsLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -444,6 +679,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setAmountCentsRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -451,6 +699,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setReferenceNumberLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -458,6 +719,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setReferenceNumberRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -469,6 +743,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setPayerLeftAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -476,6 +763,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setPayerRightAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -483,6 +783,19 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @param null $posX
+	 * @param null $posY
+	 * @param null $width
+	 * @param null $height
+	 * @param null $background
+	 * @param null $fontFamily
+	 * @param null $fontSize
+	 * @param null $fontColor
+	 * @param null $lineHeight
+	 * @param null $textAlign
+	 * @return bool
+	 */
 	public function setCodeLineAttr($posX = null, $posY = null, $width = null, $height = null,
 		$background = null,	$fontFamily = null, $fontSize = null, $fontColor = null,
 		$lineHeight = null, $textAlign = null) {
@@ -494,76 +807,121 @@ class SwissInpaymentSlip
 			$fontSize, $fontColor, $lineHeight, $textAlign);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAccountLeftAttr()
 	{
 		return $this->accountLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAccountRightAttr()
 	{
 		return $this->accountRightAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAmountCentsRightAttr()
 	{
 		return $this->amountCentsRightAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAmountCentsLeftAttr()
 	{
 		return $this->amountCentsLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAmountFrancsLeftAttr()
 	{
 		return $this->amountFrancsLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAmountFrancsRightAttr()
 	{
 		return $this->amountFrancsRightAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getBankLeftAttr()
 	{
 		return $this->bankLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getBankRightAttr()
 	{
 		return $this->bankRightAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCodeLineAttr()
 	{
 		return $this->codeLineAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRecipientRightAttr()
 	{
 		return $this->recipientRightAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getRecipientLeftAttr()
 	{
 		return $this->recipientLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getPayerRightAttr()
 	{
 		return $this->payerRightAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getPayerLeftAttr()
 	{
 		return $this->payerLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getReferenceNumberLeftAttr()
 	{
 		return $this->referenceNumberLeftAttr;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getReferenceNumberRightAttr()
 	{
 		return $this->referenceNumberRightAttr;
@@ -593,17 +951,21 @@ class SwissInpaymentSlip
 		return $this->slipPosY;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getSlipWidth()
 	{
 		return $this->slipWidth;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getSlipHeight()
 	{
 		return $this->slipHeight;
 	}
-
-
 
 	/**
 	 * Set whether or not to display the account
@@ -830,6 +1192,11 @@ class SwissInpaymentSlip
 		return $this->displayCodeLine;
 	}
 
+	/**
+	 * @param bool $formatted
+	 * @param bool $fillZeroes
+	 * @return array
+	 */
 	public function getAllElements($formatted = true, $fillZeroes = true) {
 		$inpaymentSlipData = $this->inpaymentSlipData;
 
