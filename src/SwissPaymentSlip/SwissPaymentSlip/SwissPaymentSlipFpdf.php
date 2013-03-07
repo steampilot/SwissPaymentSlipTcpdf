@@ -1,6 +1,6 @@
 <?php
 /**
- * Swiss Inpayment Slip as PDF
+ * Swiss Payment Slip as PDF
  *
  * PHP version >= 5.3.0
  *
@@ -13,16 +13,16 @@
  * @version: 0.4.0
  */
 
-namespace Gridonic\ESR;
+namespace SwissPaymentSlip\SwissPaymentSlip;
 
 use fpdf\FPDF;
 
 /**
- * Responsible for generating standard Swiss inpayment Slips using FPDF as engine.
- * Layouting done by utilizing SwissInpaymentSlip
- * Data organisation through SwissInpaymentSlipData
+ * Responsible for generating standard Swiss payment Slips using FPDF as engine.
+ * Layouting done by utilizing SwissPaymentSlip
+ * Data organisation through SwissPaymentSlipData
  */
-class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
+class SwissPaymentSlipFpdf extends SwissPaymentSlipPdf
 {
 	protected $rgbColors = array();
 
@@ -41,10 +41,10 @@ class SwissInpaymentSlipFpdf extends SwissInpaymentSlipPdf
 		// TODO check if slipBackground is a color or a path to a file
 
 		$this->pdfEngine->Image($background,
-			$this->inpaymentSlip->getSlipPosX(),
-			$this->inpaymentSlip->getSlipPosY(),
-			$this->inpaymentSlip->getSlipWidth(),
-			$this->inpaymentSlip->getSlipHeight(),
+			$this->paymentSlip->getSlipPosX(),
+			$this->paymentSlip->getSlipPosY(),
+			$this->paymentSlip->getSlipWidth(),
+			$this->paymentSlip->getSlipHeight(),
 			strtoupper(substr($background, -3, 3)));
 	}
 

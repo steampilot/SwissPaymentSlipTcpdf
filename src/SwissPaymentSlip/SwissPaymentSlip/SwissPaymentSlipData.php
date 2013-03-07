@@ -1,6 +1,6 @@
 <?php
 /**
- * Swiss Inpayment Slip
+ * Swiss Payment Slip
  *
  * PHP version >= 5.3.0
  *
@@ -13,53 +13,53 @@
  * @version: 0.4.0
  */
 
-namespace Gridonic\ESR;
+namespace SwissPaymentSlip\SwissPaymentSlip;
 
 use InvalidArgumentException;
 
 /**
- * Creates data containers for standard Swiss inpayment slips with or without reference number.
+ * Creates data containers for standard Swiss payment slips with or without reference number.
  * It doesn't actually do much. It's mostly a data container class to keep
- * including classes from having to care about how ESR works.
+ * including classes from having to care about how SwissPaymentSlip works.
  * But it provides a flexibility of which data it holds, because not always
  * all slip fields are needed in an application.
  *
  * Glossary:
- * ESR = Einzahlungsschein mit Referenznummer
- * 		Inpayment slip with reference number
- * 		Summary term for orange inpayment slips in Switzerland
+ * SwissPaymentSlip = Einzahlungsschein mit Referenznummer
+ * 		Payment slip with reference number
+ * 		Summary term for orange payment slips in Switzerland
  * BESR = Banken-Einzahlungsschein mit Referenznummer
- * 		Banking inpayment slip with reference number
+ * 		Banking payment slip with reference number
  * 		Orange payment slip for paying into a bank account (in contrast to a post cheque account with a VESR)
  * VESR = Verfahren für Einzahlungsschein mit Referenznummer
- * 		Procedure for inpayment slip with reference number
+ * 		Procedure for payment slip with reference number
  * 		Orange payment slip for paying into a post cheque account (in contrast to a banking account with a BESR)
- * (B|V)ESR+ = Einzahlungsschein mit Referenznummer ohne Betragsangabe
- * 		Inpayment slip with reference number without amount specification
- * 		An inpayment slip can be issued without a predefined payment amount
+ * (B|V)SwissPaymentSlip+ = Einzahlungsschein mit Referenznummer ohne Betragsangabe
+ * 		Payment slip with reference number without amount specification
+ * 		An payment slip can be issued without a predefined payment amount
  * ES = Einzahlungsschein
- * 		Inpayment slip
- * 		Red inpayment slip for paying into a post cheque or bank account without reference number but message box
+ * 		Payment slip
+ * 		Red payment slip for paying into a post cheque or bank account without reference number but message box
  *
  * @link https://www.postfinance.ch/content/dam/pf/de/doc/consult/manual/dlserv/inpayslip_isr_man_de.pdf German manual
  * @link http://www.six-interbank-clearing.com/en/home/standardization/dta.html
  *
  * @todo implement full red slip support (code line + additional code line)
  * @todo implement currency (CHF, EUR), means different prefixes in code line
- * @todo implement inpayment on own account, means different prefixes in code line --> edge case!
+ * @todo implement payment on own account, means different prefixes in code line --> edge case!
  * @todo implement notForInpaying (XXXX.XX)
  * @todo implement cash on delivery (Nachnahme), means different prefixes in code line --> do it on demand
  * @todo implement amount check for unrounded (.05) cents, document why (see manual)
  */
-class SwissInpaymentSlipData
+class SwissPaymentSlipData
 {
 	/**
-	 * Constant for orange inpayment slips
+	 * Constant for orange payment slips
 	 */
 	const ORANGE = 'orange';
 
 	/**
-	 * Constant for red inpayment slips
+	 * Constant for red payment slips
 	 */
 	const RED = 'red';
 
@@ -71,43 +71,43 @@ class SwissInpaymentSlipData
 	private $moduloTable = array(0,9,4,6,8,2,7,1,3,5);
 
 	/**
-	 * Determines the inpayment slip type.
+	 * Determines the payment slip type.
 	 * Either orange or red
 	 *
-	 * @var string Orange or red inpayment slip
+	 * @var string Orange or red payment slip
 	 */
 	protected $type = self::ORANGE;
 
 	/**
-	 * Determines if the inpayment slip has a recipient bank. Can be disabled for preprinted inpayment slips
+	 * Determines if the payment slip has a recipient bank. Can be disabled for preprinted payment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
 	protected $withBank = true;
 
 	/**
-	 * Determines if the inpayment slip has a account number. Can be disabled for preprinted inpayment slips
+	 * Determines if the payment slip has a account number. Can be disabled for preprinted payment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
 	protected $withAccountNumber = true;
 
 	/**
-	 * Determines if the inpayment slip has a recipient. Can be disabled for preprinted inpayment slips
+	 * Determines if the payment slip has a recipient. Can be disabled for preprinted payment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
 	protected $withRecipient = true;
 
 	/**
-	 * Determines if it's an ESR or an ESR+
+	 * Determines if it's an SwissPaymentSlip or an SwissPaymentSlip+
 	 *
-	 * @var bool True for ESR, false for ESR+
+	 * @var bool True for SwissPaymentSlip, false for SwissPaymentSlip+
 	 */
 	protected $withAmount = true;
 
 	/**
-	 * Determines if the inpayment slip has a reference number. Can be disabled for preprinted inpayment slips
+	 * Determines if the payment slip has a reference number. Can be disabled for preprinted payment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
@@ -122,23 +122,23 @@ class SwissInpaymentSlipData
 	protected $withBankingCustomerId = true;
 
 	/**
-	 * Determines if the payment slip has a payer. Can be disabled for preprinted inpayment slips
+	 * Determines if the payment slip has a payer. Can be disabled for preprinted payment slips
 	 *
 	 * @var bool True if yes, false if no
 	 */
 	protected $withPayer = true;
 
 	/**
-	 * Determines if the payment slip has a IBAN specified. Can be disabled for preprinted inpayment slips
-	 * Only possible for ES, but not for ESR
+	 * Determines if the payment slip has a IBAN specified. Can be disabled for preprinted payment slips
+	 * Only possible for ES, but not for SwissPaymentSlip
 	 *
 	 * @var bool True if yes, false if no
 	 */
 	protected $withIban = false;
 
 	/**
-	 * Determines if the payment slip has a payment reason. Can be disabled for preprinted inpayment slips
-	 * Only possible for ES, but not for ESR
+	 * Determines if the payment slip has a payment reason. Can be disabled for preprinted payment slips
+	 * Only possible for ES, but not for SwissPaymentSlip
 	 *
 	 * @var bool True if yes, false if no
 	 */
@@ -194,7 +194,7 @@ class SwissInpaymentSlipData
 	protected $recipientLine4 = '';
 
 	/**
-	 * The amount to be payed into. Can be disabled with withAmount = false for ESR+ slips
+	 * The amount to be payed into. Can be disabled with withAmount = false for SwissPaymentSlip+ slips
 	 *
 	 * @var float The amount to be payed into
 	 */
@@ -243,44 +243,44 @@ class SwissInpaymentSlipData
 	protected $payerLine4 = '';
 
 	/**
-	 * The IBAN of the recipient of a ES. Not available on a ESR
+	 * The IBAN of the recipient of a ES. Not available on a SwissPaymentSlip
 	 *
 	 * @var string The IBAN of the recipient
 	 */
 	protected $iban = '';
 
 	/**
-	 * The first line of the payment reason of a ES. Not available on a ESR
+	 * The first line of the payment reason of a ES. Not available on a SwissPaymentSlip
 	 *
 	 * @var string The first line of the payment reason
 	 */
 	protected $paymentReasonLine1 = '';
 
 	/**
-	 * The second line of the payment reason of a ES. Not available on a ESR
+	 * The second line of the payment reason of a ES. Not available on a SwissPaymentSlip
 	 *
 	 * @var string The second line of the payment reason
 	 */
 	protected $paymentReasonLine2 = '';
 
 	/**
-	 * The third line of the payment reason of a ES. Not available on a ESR
+	 * The third line of the payment reason of a ES. Not available on a SwissPaymentSlip
 	 *
 	 * @var string The third line of the payment reason
 	 */
 	protected $paymentReasonLine3 = '';
 
 	/**
-	 * The fourth line of the payment reason of a ES. Not available on a ESR
+	 * The fourth line of the payment reason of a ES. Not available on a SwissPaymentSlip
 	 *
 	 * @var string The fourth line of the payment reason
 	 */
 	protected $paymentReasonLine4 = '';
 
 	/**
-	 * Construct an empty inpayment slip
+	 * Construct an empty payment slip
 	 *
-	 * By default it creates an empty orange inpayment slip.
+	 * By default it creates an empty orange payment slip.
 	 * Can be changed to a red one by supplying red as parameter.
 	 *
 	 * @param string $type The slip type, either orange or red
@@ -291,7 +291,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set inpayment slip type. Resets settings and data if changing the type or being forced to
+	 * Set payment slip type. Resets settings and data if changing the type or being forced to
 	 *
 	 * @param string $type The slip type
 	 * @param bool $forceReset Force a data reset according to the given type
@@ -357,7 +357,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get inpayment slip type
+	 * Get payment slip type
 	 *
 	 * @return string The slip type
 	 */
@@ -367,7 +367,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has a bank specified
+	 * Set if payment slip has a bank specified
 	 *
 	 * @param bool $withBank True for yes, false for no
 	 * @return bool True if successful, else false
@@ -387,9 +387,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has recipient specified
+	 * Get if payment slip has recipient specified
 	 *
-	 * @return bool True if inpayment slip has the recipient specified, else false
+	 * @return bool True if payment slip has the recipient specified, else false
 	 */
 	public function getWithBank()
 	{
@@ -397,7 +397,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has an account number specified
+	 * Set if payment slip has an account number specified
 	 *
 	 * @param bool $withAccountNumber True if yes, false if no
 	 * @return bool True if successful, else false
@@ -416,9 +416,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has an account number specified
+	 * Get if payment slip has an account number specified
 	 *
-	 * @return bool True if inpayment slip has an account number specified, else false
+	 * @return bool True if payment slip has an account number specified, else false
 	 */
 	public function getWithAccountNumber()
 	{
@@ -426,7 +426,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has a recipient specified
+	 * Set if payment slip has a recipient specified
 	 *
 	 * @param bool $withRecipient True if yes, false if no
 	 * @return bool True if successful, else false
@@ -448,9 +448,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a recipient specified
+	 * Get if payment slip has a recipient specified
 	 *
-	 * @return bool True if inpayment slip has a recipient specified, else false
+	 * @return bool True if payment slip has a recipient specified, else false
 	 */
 	public function getWithRecipient()
 	{
@@ -458,7 +458,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has an amount specified
+	 * Set if payment slip has an amount specified
 	 *
 	 * @param bool $withAmount True for yes, false for no
 	 * @return bool True if successful, else false
@@ -477,9 +477,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has an amount specified
+	 * Get if payment slip has an amount specified
 	 *
-	 * @return bool True if inpayment slip has an amount specified, else false
+	 * @return bool True if payment slip has an amount specified, else false
 	 */
 	public function getWithAmount()
 	{
@@ -487,7 +487,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has a reference number specified
+	 * Set if payment slip has a reference number specified
 	 *
 	 * Resets reference number if disabled
 	 *
@@ -513,9 +513,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a reference number specified
+	 * Get if payment slip has a reference number specified
 	 *
-	 * @return bool True if inpayment slip has a reference number specified, else false
+	 * @return bool True if payment slip has a reference number specified, else false
 	 */
 	public function getWithReferenceNumber()
 	{
@@ -549,7 +549,7 @@ class SwissInpaymentSlipData
 	/**
 	 * Get if the payment slip's reference number should contain the banking customer id.
 	 *
-	 * @return bool True if inpayment slip has the recipient specified, else false
+	 * @return bool True if payment slip has the recipient specified, else false
 	 */
 	public function getWithBankingCustomerId()
 	{
@@ -557,7 +557,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has a payer specified
+	 * Set if payment slip has a payer specified
 	 *
 	 * @param bool $withPayer True if yes, false if no
 	 * @return bool True if successful, else false
@@ -579,9 +579,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a payer specified
+	 * Get if payment slip has a payer specified
 	 *
-	 * @return bool True if inpayment slip has a payer specified, else false
+	 * @return bool True if payment slip has a payer specified, else false
 	 */
 	public function getWithPayer()
 	{
@@ -589,8 +589,8 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has an IBAN specified.
-	 * Only available for red inpayment slips
+	 * Set if payment slip has an IBAN specified.
+	 * Only available for red payment slips
 	 *
 	 * @param bool $withIban True if yes, false if no
 	 * @return bool True if successful, else false
@@ -614,9 +614,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has an IBAN specified
+	 * Get if payment slip has an IBAN specified
 	 *
-	 * @return bool True if inpayment slip has an IBAN specified, else false
+	 * @return bool True if payment slip has an IBAN specified, else false
 	 */
 	public function getWithIban()
 	{
@@ -624,8 +624,8 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set if inpayment slip has a payment reason specified.
-	 * Only available for red inpayment slips
+	 * Set if payment slip has a payment reason specified.
+	 * Only available for red payment slips
 	 *
 	 * @param bool $withPaymentReason
 	 * @return bool True if successful, else false
@@ -655,9 +655,9 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get if inpayment slip has a payment reason specified
+	 * Get if payment slip has a payment reason specified
 	 *
-	 * @return bool True if inpayment slip has a payment reason specified, else false
+	 * @return bool True if payment slip has a payment reason specified, else false
 	 */
 	public function getWithPaymentReason()
 	{
@@ -918,7 +918,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Set the amount of the inpayment slip. Only possible if it's not a ESR+
+	 * Set the amount of the payment slip. Only possible if it's not a SwissPaymentSlip+
 	 *
 	 * @param float $amount The amount to be payed into
 	 * @return bool True if successful, else false
@@ -1369,7 +1369,7 @@ class SwissInpaymentSlipData
 	}
 
 	/**
-	 * Get the full code line at the bottom of the ESR
+	 * Get the full code line at the bottom of the SwissPaymentSlip
 	 *
 	 * @param bool $fillZeros Fill up with leading zeros
 	 * @return string|bool Either the full code line or false if something was wrong

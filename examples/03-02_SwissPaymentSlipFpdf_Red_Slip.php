@@ -1,6 +1,6 @@
 <?php
 /**
- * Example of SwissInpaymentSlipFpdf red slip
+ * Example of SwissPaymentSlipFpdf red slip
  *
  * PHP version >= 5.3.0
  *
@@ -17,10 +17,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>SwissInpaymentSlip Example 03-02: SwissInpaymentSlipFpdf red slip</title>
+	<title>SwissPaymentSlip Example 03-02: SwissPaymentSlipFpdf red slip</title>
 </head>
 <body>
-<h1>SwissInpaymentSlip Example 03-02: SwissInpaymentSlipFpdf red slip</h1>
+<h1>SwissPaymentSlip Example 03-02: SwissPaymentSlipFpdf red slip</h1>
 <?php
 // Measure script execution/generating time
 $time_start = microtime(true);
@@ -29,13 +29,13 @@ $time_start = microtime(true);
 require __DIR__.'/../vendor/autoload.php';
 
 // Import necessary classes
-use Gridonic\ESR\SwissInpaymentSlipData;
-use Gridonic\ESR\SwissInpaymentSlip;
-use Gridonic\ESR\SwissInpaymentSlipFpdf;
+use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
+use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
+use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipFpdf;
 use fpdf\FPDF;
 
 // Make sure FPDF has access to the additional fonts
-define('FPDF_FONTPATH', __DIR__.'/../src/Gridonic/ESR/Resources/font');
+define('FPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlip/Resources/font');
 
 // Create an instance of FPDF, setup default settings
 $fPdf = new FPDF('P','mm','A4');
@@ -47,35 +47,35 @@ $fPdf->AddFont('OCRB10');
 $fPdf->AddPage();
 $fPdf->SetAutoPageBreak(false);
 
-// Insert a dummy invoice text, not part of the inpayment slip itself
+// Insert a dummy invoice text, not part of the payment slip itself
 $fPdf->SetFont('Helvetica','',9);
 $fPdf->Cell(50, 4, "Just some dummy text.");
 
-// Create an inpayment slip data container (value object)
-$inpaymentSlipData = new SwissInpaymentSlipData('red');
+// Create an payment slip data container (value object)
+$paymentSlipData = new SwissPaymentSlipData('red');
 
 // Fill the data container with your data
-$inpaymentSlipData->setBankData('Seldwyla Bank', '8021 Zuerich');
-$inpaymentSlipData->setAccountNumber('80-939-3');
-$inpaymentSlipData->setRecipientData('Muster AG', 'Bahnhofstrasse 5', '8001 Zuerich');
-$inpaymentSlipData->setIban('CH3808888123456789012');
-$inpaymentSlipData->setPayerData('M. Beispieler', 'Bahnhofstrasse 356', '', '7000 Chur');
-$inpaymentSlipData->setAmount(8479.25);
-$inpaymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
+$paymentSlipData->setBankData('Seldwyla Bank', '8021 Zuerich');
+$paymentSlipData->setAccountNumber('80-939-3');
+$paymentSlipData->setRecipientData('Muster AG', 'Bahnhofstrasse 5', '8001 Zuerich');
+$paymentSlipData->setIban('CH3808888123456789012');
+$paymentSlipData->setPayerData('M. Beispieler', 'Bahnhofstrasse 356', '', '7000 Chur');
+$paymentSlipData->setAmount(8479.25);
+$paymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
 
-// Create an inpayment slip object, pass in the prepared data container
-$inpaymentSlip = new SwissInpaymentSlip($inpaymentSlipData, 0, 191);
+// Create an payment slip object, pass in the prepared data container
+$paymentSlip = new SwissPaymentSlip($paymentSlipData, 0, 191);
 
 // Create an instance of the FPDF implementation
-$inpaymentSlipFpdf = new SwissInpaymentSlipFpdf($fPdf, $inpaymentSlip);
+$paymentSlipFpdf = new SwissPaymentSlipFpdf($fPdf, $paymentSlip);
 
 // "Print" the slip with its elements according to their attributes
-$inpaymentSlipFpdf->createInpaymentSlip();
+$paymentSlipFpdf->createPaymentSlip();
 
 // Output PDF named example_03-02.pdf to examples folder
 $fPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_03-02.pdf', 'F');
 
-echo "Inpayment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_03-02.pdf <br>';
+echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_03-02.pdf <br>';
 
 echo "<br>";
 

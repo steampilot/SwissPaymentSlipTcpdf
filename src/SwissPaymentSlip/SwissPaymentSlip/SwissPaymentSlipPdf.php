@@ -1,6 +1,6 @@
 <?php
 /**
- * Swiss Inpayment Slip as PDF
+ * Swiss Payment Slip as PDF
  *
  * PHP version >= 5.3.0
  *
@@ -13,16 +13,16 @@
  * @version: 0.4.0
  */
 
-namespace Gridonic\ESR;
+namespace SwissPaymentSlip\SwissPaymentSlip;
 
 use fpdf\FPDF;
 
 /**
- * Responsible for generating standard Swiss inpayment Slips using FPDF as engine.
- * Layout done by utilizing SwissInpaymentSlip
- * Data organisation through SwissInpaymentSlipData
+ * Responsible for generating standard Swiss payment Slips using FPDF as engine.
+ * Layout done by utilizing SwissPaymentSlip
+ * Data organisation through SwissPaymentSlipData
  */
-abstract class SwissInpaymentSlipPdf
+abstract class SwissPaymentSlipPdf
 {
 	/**
 	 * The PDF engine object to generate the PDF output
@@ -32,27 +32,27 @@ abstract class SwissInpaymentSlipPdf
 	protected $pdfEngine = null;
 
 	/**
-	 * The inpayment slip object, which contains the inpayment slip data
+	 * The payment slip object, which contains the payment slip data
 	 *
-	 * @var null|SwissInpaymentSlip The inpayment slip object
+	 * @var null|SwissPaymentSlip The payment slip object
 	 */
-	protected $inpaymentSlip = null;
+	protected $paymentSlip = null;
 
 	/**
 	 *
 	 *
 	 * @param object $pdfEngine
-	 * @param SwissInpaymentSlip $inpaymentSlip
+	 * @param SwissPaymentSlip $paymentSlip
 	 */
-	public function __construct($pdfEngine, $inpaymentSlip)
+	public function __construct($pdfEngine, $paymentSlip)
 	{
 		if (is_object($pdfEngine)) {
 			$this->pdfEngine = $pdfEngine;
 		} else {
 			// throw error
 		}
-		if (is_object($inpaymentSlip)) {
-			$this->inpaymentSlip = $inpaymentSlip;
+		if (is_object($paymentSlip)) {
+			$this->paymentSlip = $paymentSlip;
 		} else {
 			// throw error
 		}
@@ -98,7 +98,7 @@ abstract class SwissInpaymentSlipPdf
 	/**
 	 * @param $element
 	 */
-	protected function writeInpaymentSlipLines($element) {
+	protected function writePaymentSlipLines($element) {
 
 		if (is_array($element)) {
 
@@ -127,7 +127,7 @@ abstract class SwissInpaymentSlipPdf
 					}
 
 					foreach ($lines as $lineNr => $line) {
-						$this->setPosition($this->inpaymentSlip->getSlipPosX() + $posX, $this->inpaymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
+						$this->setPosition($this->paymentSlip->getSlipPosX() + $posX, $this->paymentSlip->getSlipPosY() + $posY + ($lineNr * $lineHeight));
 						$this->createCell($width, $height, $line, $textAlign, $fill);
 					}
 				}
@@ -140,17 +140,17 @@ abstract class SwissInpaymentSlipPdf
 	 * @param bool $fillZeroes
 	 * @param bool $withBackground
 	 */
-	public function createInpaymentSlip($formatted = true, $fillZeroes = true, $withBackground = true) {
-		$inpaymentSlip = $this->inpaymentSlip;
+	public function createPaymentSlip($formatted = true, $fillZeroes = true, $withBackground = true) {
+		$paymentSlip = $this->paymentSlip;
 
 		// Place background
 		if ($withBackground) {
-			$this->displayImage($inpaymentSlip->getSlipBackground());
+			$this->displayImage($paymentSlip->getSlipBackground());
 		}
 
 		// go through all elements/element groups, write each line
-		foreach ($inpaymentSlip->getAllElements($formatted, $fillZeroes) as $elementName => $element) {
-			$this->writeInpaymentSlipLines($element);
+		foreach ($paymentSlip->getAllElements($formatted, $fillZeroes) as $elementName => $element) {
+			$this->writePaymentSlipLines($element);
 		}
 	}
 }

@@ -1,13 +1,13 @@
 {
-    "name": "gridonic/esr",
-    "description": "A class to create Swiss inpayment slips with ESR number in pdf format.",
+    "name": "swiss-payment-slip/swiss-payment-slip",
+    "description": "A class to create Swiss payment slips with reference number (ESR) in pdf format.",
 	"version": "0.4.0",
 	"time": "2013-03-06",
     "license": "MIT",
 	"homepage": "https://github.com/ravage84/class.Einzahlungsschein.php",
 	"keywords": [
-			"Inpayment slip",
 			"Payment slip",
+			"Inpayment slip",
 			"Einzahlungsschein",
 			"ESR"
 	],
@@ -42,7 +42,7 @@
 	},
     "autoload": {
         "psr-0": {
-            "Gridonic\\ESR": "src"
+            "SwissPaymentSlip\\SwissPaymentSlip": "src"
         }
     }
 }

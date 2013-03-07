@@ -1,8 +1,8 @@
 <phpunit>
     <testsuites>
-        <testsuite name="ESR">
-            <file>Tests/Gridonic/ESR/SwissInpaymentSlipDataTest.php</file>
-            <file>Tests/Gridonic/ESR/SwissInpaymentSlipTest.php</file>
+        <testsuite name="SwissPaymentSlip">
+            <file>Tests/SwissPaymentSlip/SwissPaymentSlip/SwissPaymentSlipDataTest.php</file>
+            <file>Tests/SwissPaymentSlip/SwissPaymentSlip/SwissPaymentSlipTest.php</file>
         </testsuite>
     </testsuites>
     <logging>

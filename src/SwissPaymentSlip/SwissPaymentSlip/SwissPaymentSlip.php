@@ -1,6 +1,6 @@
 <?php
 /**
- * Swiss Inpayment Slip as PDF
+ * Swiss Payment Slip as PDF
  *
  * PHP version >= 5.3.0
  *
@@ -13,11 +13,11 @@
  * @version: 0.4.0
  */
 
-namespace Gridonic\ESR;
+namespace SwissPaymentSlip\SwissPaymentSlip;
 
 use InvalidArgumentException;
 
-// TODO include CHF boxed slip image (609, ESR+)
+// TODO include CHF boxed slip image (609, SwissPaymentSlip+)
 // TODO include EUR framed slip image (701) --> back side!
 // TODO include EUR boxed slip image (701) --> back side!
 // TODO implement notForInpaying (XXXX.XX)
@@ -33,16 +33,16 @@ use InvalidArgumentException;
 // TODO test docs generated
 
 /**
- * A general purpose class for swiss inpayment slips. Data is organized by its sister class SwissInpaymentSLipData.
+ * A general purpose class for swiss payment slips. Data is organized by its sister class SwissPaymentSlipData.
  */
-class SwissInpaymentSlip
+class SwissPaymentSlip
 {
 	/**
-	 * The inpayment slip value object, which contains the inpayment slip data
+	 * The payment slip value object, which contains the payment slip data
 	 *
-	 * @var SwissInpaymentSlipData The inpayment slip value object
+	 * @var SwissPaymentSlipData The payment slip value object
 	 */
-	protected $inpaymentSlipData = null;
+	protected $paymentSlipData = null;
 
 	/**
 	 * Starting X position of the slip
@@ -241,22 +241,22 @@ class SwissInpaymentSlip
 	protected $codeLineAttr = array();
 
 	/**
-	 * @param SwissInpaymentSlipData $inpaymentSlipData
+	 * @param SwissPaymentSlipData $paymentSlipData
 	 * @param integer $slipPosX
 	 * @param integer $slipPosY
 	 *
 	 * @throws \InvalidArgumentException
 	 * @todo Implement width and height as optional parameters
 	 */
-	public function __construct($inpaymentSlipData, $slipPosX = null, $slipPosY = null)
+	public function __construct($paymentSlipData, $slipPosX = null, $slipPosY = null)
 	{
-		if (!is_object($inpaymentSlipData)) {
-			throw new InvalidArgumentException('InpaymentSlipData parameter is not an object!');
+		if (!is_object($paymentSlipData)) {
+			throw new InvalidArgumentException('PaymentSlipData parameter is not an object!');
 		}
-		if (!$inpaymentSlipData instanceof SwissInpaymentSlipData) {
-			throw new InvalidArgumentException('InpaymentSlipData parameter is not an instance of SwissInpaymentSlipData!');
+		if (!$paymentSlipData instanceof SwissPaymentSlipData) {
+			throw new InvalidArgumentException('PaymentSlipData parameter is not an instance of SwissPaymentSlipData!');
 		}
-		$this->inpaymentSlipData = $inpaymentSlipData;
+		$this->paymentSlipData = $paymentSlipData;
 
 		if (!is_null($slipPosX)) {
 			$this->setSlipPosX($slipPosX);
@@ -274,7 +274,7 @@ class SwissInpaymentSlip
 	 */
 	protected function setDefaults()
 	{
-		if ($this->inpaymentSlipData->getType() == SwissInpaymentSlipData::ORANGE) {
+		if ($this->paymentSlipData->getType() == SwissPaymentSlipData::ORANGE) {
 			$this->setBankLeftAttr(3, 8, 50, 4);
 			$this->setBankRightAttr(66, 8, 50, 4);
 			$this->setRecipientLeftAttr(3, 23, 50, 4);
@@ -294,7 +294,7 @@ class SwissInpaymentSlip
 			// TODO Eliminate system dependency
 			$this->setSlipBackground(__DIR__.'/Resources/img/ezs_orange.gif');
 
-		} elseif ($this->inpaymentSlipData->getType() == SwissInpaymentSlipData::RED) {
+		} elseif ($this->paymentSlipData->getType() == SwissPaymentSlipData::RED) {
 			$this->setBankLeftAttr(3, 8, 50, 4);
 			$this->setBankRightAttr(66, 8, 50, 4);
 			$this->setRecipientLeftAttr(3, 23, 50, 4);
@@ -317,10 +317,10 @@ class SwissInpaymentSlip
 	}
 
 	/**
-	 * @return SwissInpaymentSlipData
+	 * @return SwissPaymentSlipData
 	 */
-	public function getInpaymentSlipData() {
-		return $this->inpaymentSlipData;
+	public function getPaymentSlipData() {
+		return $this->paymentSlipData;
 	}
 
 	/**
@@ -1198,13 +1198,13 @@ class SwissInpaymentSlip
 	 * @return array
 	 */
 	public function getAllElements($formatted = true, $fillZeroes = true) {
-		$inpaymentSlipData = $this->inpaymentSlipData;
+		$paymentSlipData = $this->paymentSlipData;
 
 		$elements = array();
 		// Place left bank lines
 		if ($this->getDisplayBank()) {
-			$lines = array($inpaymentSlipData->getBankName(),
-				$inpaymentSlipData->getBankCity());
+			$lines = array($paymentSlipData->getBankName(),
+				$paymentSlipData->getBankCity());
 			$elements['bankLeft'] = array('lines' => $lines,
 				'attributes' => $this->getBankLeftAttr()
 			);
@@ -1220,9 +1220,9 @@ class SwissInpaymentSlip
 
 		// Place left recipient lines
 		if ($this->getDisplayRecipient()) {
-			$lines = array($inpaymentSlipData->getRecipientLine1(),
-				$inpaymentSlipData->getRecipientLine2(), $inpaymentSlipData->getRecipientLine3(),
-				$inpaymentSlipData->getRecipientLine4());
+			$lines = array($paymentSlipData->getRecipientLine1(),
+				$paymentSlipData->getRecipientLine2(), $paymentSlipData->getRecipientLine3(),
+				$paymentSlipData->getRecipientLine4());
 			$elements['recipientLeft'] = array('lines' => $lines,
 				'attributes' => $this->getRecipientLeftAttr()
 			);
@@ -1238,7 +1238,7 @@ class SwissInpaymentSlip
 
 		// Place left account number
 		if ($this->getDisplayAccount()) {
-			$lines = array($inpaymentSlipData->getAccountNumber());
+			$lines = array($paymentSlipData->getAccountNumber());
 			$elements['accountLeft'] = array('lines' => $lines,
 				'attributes' => $this->getAccountLeftAttr()
 			);
@@ -1254,7 +1254,7 @@ class SwissInpaymentSlip
 
 		// Place left amount in francs
 		if ($this->getDisplayAmount()) {
-			$lines = array($this->inpaymentSlipData->getAmountFrancs());
+			$lines = array($this->paymentSlipData->getAmountFrancs());
 			$elements['amountFrancsLeft'] = array('lines' => $lines,
 				'attributes' => $this->getAmountFrancsLeftAttr()
 			);
@@ -1270,7 +1270,7 @@ class SwissInpaymentSlip
 
 		// Place left amount in cents
 		if ($this->getDisplayAmount()) {
-			$lines = array($this->inpaymentSlipData->getAmountCents());
+			$lines = array($this->paymentSlipData->getAmountCents());
 			$elements['amountCentsLeft'] = array('lines' => $lines,
 				'attributes' => $this->getAmountCentsLeftAttr()
 			);
@@ -1286,7 +1286,7 @@ class SwissInpaymentSlip
 
 		// Place left reference number
 		if ($this->getDisplayReferenceNr()) {
-			$lines = array($this->inpaymentSlipData->getCompleteReferenceNumber($formatted, $fillZeroes));
+			$lines = array($this->paymentSlipData->getCompleteReferenceNumber($formatted, $fillZeroes));
 			$elements['referenceNumberLeft'] = array('lines' => $lines,
 				'attributes' => $this->getReferenceNumberLeftAttr()
 			);
@@ -1302,9 +1302,9 @@ class SwissInpaymentSlip
 
 		// Place left payer lines
 		if ($this->getDisplayPayer()) {
-			$lines = array($inpaymentSlipData->getPayerLine1(),
-				$inpaymentSlipData->getPayerLine2(), $inpaymentSlipData->getPayerLine3(),
-				$inpaymentSlipData->getPayerLine4());
+			$lines = array($paymentSlipData->getPayerLine1(),
+				$paymentSlipData->getPayerLine2(), $paymentSlipData->getPayerLine3(),
+				$paymentSlipData->getPayerLine4());
 			$elements['payerLeft'] = array('lines' => $lines,
 				'attributes' => $this->getPayerLeftAttr()
 			);
@@ -1320,7 +1320,7 @@ class SwissInpaymentSlip
 
 		// Place code line
 		if ($this->getDisplayCodeLine()) {
-			$lines = array($this->inpaymentSlipData->getCodeLine($fillZeroes));
+			$lines = array($this->paymentSlipData->getCodeLine($fillZeroes));
 			$elements['codeLine'] = array('lines' => $lines,
 				'attributes' => $this->getCodeLineAttr()
 			);
