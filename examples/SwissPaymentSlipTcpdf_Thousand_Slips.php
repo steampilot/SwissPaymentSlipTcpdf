@@ -1,6 +1,6 @@
 <?php
 /**
- * Example of SwissPaymentSlipFpdf Creating one thousand payment slips with TCPDF
+ * SwissPaymentSlipTcpdf Example 03: Create one thousand orange payment slips
  *
  * PHP version >= 5.3.0
  *
@@ -17,10 +17,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>SwissPaymentSlip Example 04-03: SwissPaymentSlipFpdf Creating one thousand payment slips with TCPDF</title>
+	<title>SwissPaymentSlipTcpdf Example 03: Create one thousand orange payment slips</title>
 </head>
 <body>
-<h1>SwissPaymentSlip Example 04-03: SwissPaymentSlipFpdf Creating one thousand payment slips with TCPDF</h1>
+<h1>SwissPaymentSlipTcpdf Example 03: Create one thousand orange payment slips</h1>
 <?php
 // Measure script execution/generating time
 $time_start = microtime(true);
@@ -31,12 +31,12 @@ require __DIR__.'/../vendor/autoload.php';
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
-use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipFpdf;
+use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipTcpdf;
 
 // Make sure TCPDF has access to the additional fonts
-define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlip/Resources/font');
+define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
 
-// Create an instance of FPDF, setup default settings
+// Create an instance of TCPDF, setup default settings
 $tcPdf = new TCPDF('P', 'mm','A4', false, 'ISO-8859-1');
 
 // Since we currently don't have a OCRB font for TCPDF, we disable this
@@ -74,17 +74,17 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
 	// Since we currently don't have a OCRB font for TCPDF, we set it to one we certainly have
 	$paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
 
-	// Create an instance of the FPDF implementation, can be used for TCPDF, too
-	$paymentSlipFpdf = new SwissPaymentSlipFpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
+	// Create an instance of the TCPDF implementation, can be used for TCPDF, too
+	$paymentSlipTcpdf = new SwissPaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
 
 	// "Print" the slip with its elements according to their attributes
-	$paymentSlipFpdf->createPaymentSlip();
+	$paymentSlipTcpdf->createPaymentSlip();
 }
 
-// Output PDF named example_04-03.pdf to examples folder
-$tcPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_04-03.pdf', 'F');
+// Output PDF named example_tcpdf_thousand_slips.pdf to examples folder
+$tcPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_tcpdf_thousand_slips.pdf', 'F');
 
-echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_04-03.pdf <br>';
+echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_tcpdf_thousand_slips.pdf <br>';
 
 echo "<br>";
 

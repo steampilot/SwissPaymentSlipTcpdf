@@ -13,7 +13,7 @@
  * @version: 0.5.0
  */
 
-namespace SwissPaymentSlip\SwissPaymentSlip;
+namespace SwissPaymentSlip\SwissPaymentSlipPdf;
 
 use fpdf\FPDF;
 

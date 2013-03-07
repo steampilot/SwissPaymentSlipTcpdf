@@ -13,16 +13,14 @@
  * @version: 0.5.0
  */
 
-namespace SwissPaymentSlip\SwissPaymentSlip;
-
-use fpdf\FPDF;
+namespace SwissPaymentSlip\SwissPaymentSlipPdf;
 
 /**
  * Responsible for generating standard Swiss payment Slips using FPDF as engine.
  * Layouting done by utilizing SwissPaymentSlip
  * Data organisation through SwissPaymentSlipData
  */
-class SwissPaymentSlipFpdf extends SwissPaymentSlipPdf
+class SwissPaymentSlipTcpdf extends SwissPaymentSlipPdf
 {
 	protected $rgbColors = array();
 
@@ -32,6 +30,21 @@ class SwissPaymentSlipFpdf extends SwissPaymentSlipPdf
 	 * @var null|FPDF The PDF engine object
 	 */
 	protected $pdfEngine = null;
+
+	/**
+	 * @var string;
+	 */
+	protected  $lastFontFamily = '';
+
+	/**
+	 * @var string;
+	 */
+	protected  $lastFontSize = '';
+
+	/**
+	 * @var string;
+	 */
+	protected  $lastFontColor = '';
 
 	/**
 	 * @param $background
@@ -56,10 +69,19 @@ class SwissPaymentSlipFpdf extends SwissPaymentSlipPdf
 	 */
 	protected function setFont($fontFamily, $fontSize, $fontColor) {
 		if ($fontColor) {
-			$rgbArray = $this->convertColor2Rgb($fontColor);
-			$this->pdfEngine->SetTextColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
+			if ($this->lastFontColor != $fontColor) {
+				$this->lastFontColor = $fontColor;
+
+				$rgbArray = $this->convertColor2Rgb($fontColor);
+				$this->pdfEngine->SetTextColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
+			}
 		}
-		$this->pdfEngine->SetFont($fontFamily, '', $fontSize);
+		if ($this->lastFontFamily != $fontFamily || $this->lastFontSize != $fontSize) {
+			$this->lastFontFamily = $fontFamily;
+			$this->lastFontSize = $fontSize;
+
+			$this->pdfEngine->SetFont($fontFamily, '', $fontSize);
+		}
 	}
 
 	/**
@@ -111,13 +133,13 @@ class SwissPaymentSlipFpdf extends SwissPaymentSlipPdf
 	 *
 	 * @param $hexStr
 	 * @param bool $returnAsString
-	 * @param string $seperator
+	 * @param string $separator
 	 * @return array|bool|string
 	 *
 	 * @copyright 2010 hafees at msn dot com
 	 * @link http://www.php.net/manual/en/function.hexdec.php#99478
 	 */
-	private function hex2RGB($hexStr, $returnAsString = false, $seperator = ',') {
+	private function hex2RGB($hexStr, $returnAsString = false, $separator = ',') {
 		$hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr); // Gets a proper hex string
 		$rgbArray = array();
 		if (strlen($hexStr) == 6) { //If a proper hex code, convert using bitwise operation. No overhead... faster
@@ -132,6 +154,6 @@ class SwissPaymentSlipFpdf extends SwissPaymentSlipPdf
 		} else {
 			return false; //Invalid hex color code
 		}
-		return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray; // returns the rgb string or the associative array
+		return $returnAsString ? implode($separator, $rgbArray) : $rgbArray; // returns the rgb string or the associative array
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Example of SwissPaymentSlipFpdf Creating one thousand payment slips
+ * SwissPaymentSlipFpdf Example 03: Create one thousand orange payment slips
  *
  * PHP version >= 5.3.0
  *
@@ -17,10 +17,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>SwissPaymentSlip Example 03-01: SwissPaymentSlipFpdf Creating one thousand payment slips</title>
+	<title>SwissPaymentSlipFpdf Example 03: Create one thousand orange payment slips</title>
 </head>
 <body>
-<h1>SwissPaymentSlip Example 03-01: SwissPaymentSlipFpdf Creating one thousand payment slips</h1>
+<h1>SwissPaymentSlipFpdf Example 03: Create one thousand orange payment slips</h1>
 <?php
 // Measure script execution/generating time
 $time_start = microtime(true);
@@ -31,11 +31,11 @@ require __DIR__.'/../vendor/autoload.php';
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
-use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipFpdf;
+use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipFpdf;
 use fpdf\FPDF;
 
 // Make sure FPDF has access to the additional fonts
-define('FPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlip/Resources/font');
+define('FPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
 
 // Create an instance of FPDF, setup default settings
 $fPdf = new FPDF('P','mm','A4');
@@ -53,7 +53,7 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
 	$fPdf->SetFont('Helvetica','',9);
 	$fPdf->Cell(50, 4, "Just some dummy text.");
 
-	// Create an payment slip data container (value object)
+	// Create a payment slip data container (value object)
 	$paymentSlipData = new SwissPaymentSlipData(); // for better performance, take outside of the loop
 
 	// Fill the data container with your data
@@ -65,7 +65,7 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
 	$paymentSlipData->setReferenceNumber('7520033455900012');
 	$paymentSlipData->setBankingCustomerId('215703');
 
-	// Create an payment slip object, pass in the prepared data container
+	// Create a payment slip object, pass in the prepared data container
 	$paymentSlip = new SwissPaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
 
 	// Create an instance of the FPDF implementation
@@ -75,10 +75,10 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
 	$paymentSlipFpdf->createPaymentSlip();
 }
 
-// Output PDF named example_03-03.pdf to examples folder
-$fPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_03-03.pdf', 'F');
+// Output PDF named example_fpdf_thousand_slips.pdf to examples folder
+$fPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_fpdf_thousand_slips.pdf', 'F');
 
-echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_03-03.pdf <br>';
+echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_fpdf_thousand_slips.pdf <br>';
 
 echo "<br>";
 
