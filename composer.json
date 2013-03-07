@@ -1,5 +1,5 @@
 {
-    "name": "swiss-payment-slip/swiss-payment-slip",
+    "name": "swiss-payment-slip/swiss-payment-slip-fpdf",
     "description": "A class to create Swiss payment slips with reference number (ESR) in pdf format.",
 	"version": "0.5.0",
 	"time": "2013-03-07",
@@ -14,7 +14,8 @@
     "require": {
         "php": ">=5.3.0",
         "itbz/fpdf": "1.7.1",
-		"tcpdf/tcpdf": "dev-master"
+		"tcpdf/tcpdf": "dev-master",
+		"swiss-payment-slip/swiss-payment-slip": "dev-master"
     },
     "authors": [
 		{
@@ -42,7 +43,7 @@
 	},
     "autoload": {
         "psr-0": {
-            "SwissPaymentSlip\\SwissPaymentSlip": "src"
+            "SwissPaymentSlip\\SwissPaymentSlipPdf": "src"
         }
     }
 }
