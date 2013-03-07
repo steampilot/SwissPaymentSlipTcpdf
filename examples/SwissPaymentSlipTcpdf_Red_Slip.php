@@ -27,12 +27,11 @@ $time_start = microtime(true);
 
 // Make sure the classes get auto-loaded
 $loader = require __DIR__. '/../vendor/autoload.php';
-$loader->add('tcpdf', __DIR__ . '/../vendor/tcpdf');
 
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
-use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipTcpdf;
+use SwissPaymentSlip\SwissPaymentSlipTcpdf\SwissPaymentSlipTcpdf;
 
 // Make sure TCPDF has access to the additional fonts
 define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');

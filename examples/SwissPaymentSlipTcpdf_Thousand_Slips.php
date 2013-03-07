@@ -31,7 +31,7 @@ require __DIR__.'/../vendor/autoload.php';
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
-use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipTcpdf;
+use SwissPaymentSlip\SwissPaymentSlipTcpdf\SwissPaymentSlipTcpdf;
 
 // Make sure TCPDF has access to the additional fonts
 define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');

@@ -13,10 +13,13 @@
  * @version: 0.5.0
  */
 
-namespace SwissPaymentSlip\SwissPaymentSlipPdf;
+namespace SwissPaymentSlip\SwissPaymentSlipTcpdf;
+
+use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipPdf;
+
 
 /**
- * Responsible for generating standard Swiss payment Slips using FPDF as engine.
+ * Responsible for generating standard Swiss payment Slips using TCPDF as engine.
  * Layouting done by utilizing SwissPaymentSlip
  * Data organisation through SwissPaymentSlipData
  */

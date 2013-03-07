@@ -1,6 +1,6 @@
 {
-    "name": "swiss-payment-slip/swiss-payment-slip-fpdf",
-    "description": "A class to create Swiss payment slips with reference number (ESR) in pdf format.",
+    "name": "swiss-payment-slip/swiss-payment-slip-tcpdf",
+    "description": "A class to create Swiss payment slips with reference number (ESR) in pdf format with TCPDF",
 	"version": "0.5.0",
 	"time": "2013-03-07",
     "license": "MIT",
@@ -9,11 +9,12 @@
 			"Payment slip",
 			"Inpayment slip",
 			"Einzahlungsschein",
-			"ESR"
+			"ESR",
+			"PDF",
+			"TCPDF"
 	],
     "require": {
         "php": ">=5.3.0",
-        "itbz/fpdf": "1.7.1",
 		"tcpdf/tcpdf": "dev-master",
 		"swiss-payment-slip/swiss-payment-slip": "dev-master",
 		"swiss-payment-slip/swiss-payment-slip-pdf": "dev-master"
@@ -44,7 +45,7 @@
 	},
     "autoload": {
         "psr-0": {
-            "SwissPaymentSlip\\SwissPaymentSlipPdf": "src"
+            "SwissPaymentSlip\\SwissPaymentSlipTcpdf": "src"
         }
     }
 }

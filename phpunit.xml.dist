@@ -1,8 +1,6 @@
 <phpunit>
     <testsuites>
         <testsuite name="SwissPaymentSlip">
-            <file>Tests/SwissPaymentSlip/SwissPaymentSlip/SwissPaymentSlipDataTest.php</file>
-            <file>Tests/SwissPaymentSlip/SwissPaymentSlip/SwissPaymentSlipTest.php</file>
         </testsuite>
     </testsuites>
     <logging>
