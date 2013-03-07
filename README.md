@@ -87,7 +87,7 @@ See Background Story for more details.
 License
 -------
 
-SwissPaymentSlipFpdf is licensed under the MIT License - see the [LICENSE](https://github.com/ravage84/SwissPaymentSlipFpdf/blob/master/LICENSE) file for details.
+SwissPaymentSlipFpdf is licensed under the MIT License - see the [LICENSE](https://github.com/ravage84/SwissPaymentSlipTcpdf/blob/master/LICENSE) file for details.
 
 Thanks to
 ---------
