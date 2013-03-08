@@ -1,5 +1,5 @@
-SwissPaymentSlipFpdf - Swiss Payment Slips with TCPDF
-=====================================================
+SwissPaymentSlipTcpdf - Swiss Payment Slips with TCPDF
+======================================================
 
 [![Build Status](https://travis-ci.org/ravage84/SwissPaymentSlipTcpdf.png?branch=master)](https://travis-ci.org/ravage84/SwissPaymentSlipTcpdf)
 
@@ -88,7 +88,7 @@ See Background Story for more details.
 License
 -------
 
-SwissPaymentSlipFpdf is licensed under the MIT License - see the [LICENSE](https://github.com/ravage84/SwissPaymentSlipTcpdf/blob/master/LICENSE) file for details.
+SwissPaymentSlipTcpdf is licensed under the MIT License - see the [LICENSE](https://github.com/ravage84/SwissPaymentSlipTcpdf/blob/master/LICENSE) file for details.
 
 Thanks to
 ---------
