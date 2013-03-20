@@ -1,1 +1,100 @@
-# class.einzahlungsschein.phpA class to create Swiss payment slips with ESR number in pdf format. See http://sprain.ch/blog/downloads/class-esr-besr-einzahlungsschein-php/ for more information.## InstallationThe recommended way to install the library is [through composer](http://packagist.org).Just create a composer.json file for your project:```JSON{    "require": {        "gridonic/esr": "*"    }}```And run these two commands to install it:    $ curl -s http://getcomposer.org/installer | php    $ php composer.phar installNow you can add the autoloader, and you will have access to the library:```php<?phprequire 'vendor/autoload.php';```## Usage- Set the font path in your script to the font directory distributed with this source```phpdefine('FPDF_FONTPATH', __DIR__.'/../src/Gridonic/ESR/Resources/font');```- See `example_orange.php` or `example_red.php` in the examples directory to get started.## Thanks to- <http://www.smoke8.net/> for public designs of Einzahlungsscheinen- <http://www.developers-guide.net/forums/5431,modulo10-rekursiv> for Modulo10 function- <http://ansuz.sooke.bc.ca/software/ocrb.php> for OCRB font- <http://blog.fruit-lab.de/fpdf-font-converter/> for FPDF font converter- <http://www.fpdf.de/> for the pdf class## History- 2012/11/13 - PSR-0 compatibility, added composer- 2012/10/31 - minor bugfixes, better readme- 2012/04/16 - added functionality for red Einzahlungsscheine, added possibility of `$ezs_payerFullAddress`, changed class name to `Einzahlungsschein`, several minor improvements- 2011/12/22 - got rid of GNU license. Do whatever you want with it.- 2011/05/31 - improved behaviour of `$this->ezs_bankingCustomerIdentification`, minor bugfixes- 2011/02/14 - added project to Github, again- 2010/05/06 - added project to Github- 2010/05/06 - corrected position on bottom line after feedback from bank- 2010/04/24 - when it all started## AuthorsOriginal library written by Manuel Reinhard, <manu@sprain.ch>. Converted to a PSR-0 library with the ability to use it with composer by Peter siska, <pesche@gridonic.ch>.## LicenseMIT, see LICENSE.## Help- <https://github.com/sprain/class.Einzahlungsschein.php>- <http://sprain.ch/blog/downloads/class-esr-besr-einzahlungsschein-php/>
+SwissPaymentSlipTcpdf - Swiss Payment Slips with TCPDF
+======================================================
+
+[![Build Status](https://travis-ci.org/ravage84/SwissPaymentSlipTcpdf.png?branch=master)](https://travis-ci.org/ravage84/SwissPaymentSlipTcpdf)
+
+Do you need to create Swiss payment slips (called ESR) as PDF files in a project of yours?
+Then you found the right place, read on...
+
+By the way if you don't like [TCPDF](http://www.tcpdf.org/) or don't want to use it for whatever reason, checkout [SwissPaymentSlipFpdf](https://github.com/ravage84/SwissPaymentSlipFpdf/).
+
+How to use
+----------
+
+Just install the the package (see [Installation](https://github.com/ravage84/SwissPaymentSlipTcpdf#installation)) and check out the contained examples in the [examples folder](https://github.com/ravage84/SwissPaymentSlipTcpdf/tree/master/examples).
+
+How to extend for custom needs
+------------------------------
+
+[TODO]
+If you need help, ask for help.
+
+Installation
+------------
+
+### Requirements
+
+- PHP 5.3.x+
+- [SwissPaymentSlip](https://github.com/ravage84/SwissPaymentSlip/) (automatically installed by Composer)
+- [SwissPaymentSlipPdf](https://github.com/ravage84/SwissPaymentSlipPdf/) (automatically installed by Composer)
+
+### Composer
+
+Just [install composer](http://getcomposer.org/doc/00-intro.md#system-requirements) on your system, if not already there.
+Then create a [composer.json](http://getcomposer.org/doc/04-schema.md) file in your project's root folder and copy the following into it:
+
+```JSON
+{
+    "require": {
+        "swiss-payment-slip/swiss-payment-slip-tcpdf": "dev-master"
+    }
+}
+```
+
+After that you can install the package using
+
+    $ php composer.phar install
+
+in your project's root folder.
+
+### Git Submodule
+
+[TODO]
+
+Background Story
+----------------
+
+In february 2013 I was looking for a solution to create swiss payment slips for a project I had to do at my work place.
+After a short Google search I came accros Manuel Reinhard's [blog post](http://sprain.ch/blog/downloads/class-esr-besr-einzahlungsschein-php/) about the class he made for that.
+On his [Github project's page](https://github.com/sprain/class.Einzahlungsschein.php) I found [Peter Siska's](https://github.com/peschee) [pull request](https://github.com/sprain/class.Einzahlungsschein.php/pull/5).
+His pull request introduced PSR-0 compatibility and he created a composer package on [Packagist](http://packagist.org/).
+So I tried Peter's version and it suited my basic needs.
+
+BUT since the customer I was working for used custom designed payment slips I couldn't use Manuel's/Peter's script since it wasn't flexible enough.
+Now I had to decide whether I want to "just" change the script to fit my needs or to rewrite it and make it as flexible as possible.
+I decided myself for the latter.
+
+Todos
+-----
+
+- Finish support for red inpayment slips
+- Improve code documentation
+- Add more exampples/improve existing ones
+- Write tests/Improve tests
+- Add an [.editorconfig](http://editorconfig.org/) file
+- Release the stable release of the API
+
+Submitting bugs and feature requests
+------------------------------------
+
+Bugs and feature request are tracked on [GitHub](https://github.com/ravage84/SwissPaymentSlipTcpdf/issues).
+
+Author
+------
+
+This project was created by [Marc Würth](https://github.com/ravage84).
+See Background Story for more details.
+
+License
+-------
+
+SwissPaymentSlipTcpdf is licensed under the MIT License - see the [LICENSE](https://github.com/ravage84/SwissPaymentSlipTcpdf/blob/master/LICENSE) file for details.
+
+Thanks to
+---------
+
+- <http://www.smoke8.net/> for public designs of Einzahlungsscheinen
+- <http://www.developers-guide.net/forums/5431,modulo10-rekursiv> for Modulo10 function
+- <http://ansuz.sooke.bc.ca/software/ocrb.php> for OCRB font
+- <http://blog.fruit-lab.de/fpdf-font-converter/> for FPDF font converter
+- <http://www.fpdf.de/> for the pdf class
