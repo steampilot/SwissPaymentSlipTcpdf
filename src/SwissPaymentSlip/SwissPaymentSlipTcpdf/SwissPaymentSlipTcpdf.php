@@ -116,7 +116,7 @@ class SwissPaymentSlipTcpdf extends SwissPaymentSlipPdf
 	 * @return mixed|void
 	 */
 	protected function createCell($width, $height, $line, $textAlign, $fill) {
-		$this->pdfEngine->Cell($width, $height, utf8_decode($line), 0, 0, $textAlign, $fill);
+		$this->pdfEngine->Cell($width, $height, $line, 0, 0, $textAlign, $fill);
 	}
 
 	/**
