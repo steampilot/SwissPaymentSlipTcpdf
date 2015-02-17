@@ -78,10 +78,10 @@ $paymentSlipTcpdf = new SwissPaymentSlipTcpdf($tcPdf, $paymentSlip);
 // "Print" the slip with its elements according to their attributes
 $paymentSlipTcpdf->createPaymentSlip();
 
-// Output PDF named example_tcpdf_orange_slips.pdf to examples folder
-$tcPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_tcpdf_orange_slips.pdf', 'F');
+// Output PDF named example_tcpdf_orange_slip.pdf to examples folder
+$tcPdf->Output(__DIR__ . DIRECTORY_SEPARATOR . 'example_tcpdf_orange_slip.pdf', 'F');
 
-echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_tcpdf_orange_slips.pdf <br>';
+echo "Payment slip created in " . __DIR__ . DIRECTORY_SEPARATOR . 'example_tcpdf_orange_slip.pdf <br>';
 
 echo "<br>";
 
