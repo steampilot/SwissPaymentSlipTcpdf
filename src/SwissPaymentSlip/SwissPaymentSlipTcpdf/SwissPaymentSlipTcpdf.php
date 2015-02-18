@@ -15,7 +15,7 @@
 
 namespace SwissPaymentSlip\SwissPaymentSlipTcpdf;
 
-use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipPdf;
+use SwissPaymentSlip\SwissPaymentSlipPdf\PaymentSlipPdf;
 
 
 /**
@@ -23,14 +23,14 @@ use SwissPaymentSlip\SwissPaymentSlipPdf\SwissPaymentSlipPdf;
  * Layouting done by utilizing SwissPaymentSlip
  * Data organisation through SwissPaymentSlipData
  */
-class SwissPaymentSlipTcpdf extends SwissPaymentSlipPdf
+class SwissPaymentSlipTcpdf extends PaymentSlipPdf
 {
 	protected $rgbColors = array();
 
 	/**
 	 * The PDF engine object to generate the PDF output
 	 *
-	 * @var null|FPDF The PDF engine object
+	 * @var null|\TCPDF The PDF engine object
 	 */
 	protected $pdfEngine = null;
 
