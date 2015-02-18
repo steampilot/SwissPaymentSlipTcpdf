@@ -47,8 +47,13 @@
             "source": "https://github.com/ravage84/SwissPaymentSlipTcpdf"
     },
     "autoload": {
-        "psr-0": {
-            "SwissPaymentSlip\\SwissPaymentSlipTcpdf": "src"
+        "psr-4": {
+            "SwissPaymentSlip\\SwissPaymentSlipTcpdf\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SwissPaymentSlip\\SwissPaymentSlipTcpdf\\Tests\\": "tests"
         }
     }
 }
