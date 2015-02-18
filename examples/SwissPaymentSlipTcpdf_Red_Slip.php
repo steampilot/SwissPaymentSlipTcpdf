@@ -31,7 +31,7 @@ $loader = require __DIR__. '/../vendor/autoload.php';
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
 use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
-use SwissPaymentSlip\SwissPaymentSlipTcpdf\SwissPaymentSlipTcpdf;
+use SwissPaymentSlip\SwissPaymentSlipTcpdf\PaymentSlipTcpdf;
 
 // Make sure TCPDF has access to the additional fonts
 define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
@@ -73,7 +73,7 @@ $paymentSlip = new SwissPaymentSlip($paymentSlipData, 0, 191); // for better per
 $paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
 
 // Create an instance of the TCPDF implementation, can be used for TCPDF, too
-$paymentSlipTcpdf = new SwissPaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
+$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
 
 // "Print" the slip with its elements according to their attributes
 $paymentSlipTcpdf->createPaymentSlip();

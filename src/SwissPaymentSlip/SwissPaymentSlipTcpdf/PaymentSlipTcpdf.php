@@ -23,7 +23,7 @@ use SwissPaymentSlip\SwissPaymentSlipPdf\PaymentSlipPdf;
  * Layouting done by utilizing SwissPaymentSlip
  * Data organisation through SwissPaymentSlipData
  */
-class SwissPaymentSlipTcpdf extends PaymentSlipPdf
+class PaymentSlipTcpdf extends PaymentSlipPdf
 {
 	protected $rgbColors = array();
 
