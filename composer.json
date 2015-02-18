@@ -11,7 +11,6 @@
 			"PDF",
 			"TCPDF"
 	],
-	"minimum-stability": "dev",
     "require": {
         "php": ">=5.3.0",
 		"tecnick.com/tcpdf": "*",
