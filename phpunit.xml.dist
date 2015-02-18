@@ -5,6 +5,7 @@
     verbose="false">
     <testsuites>
         <testsuite name="All SwissPaymentSlipTcpdf tests">
+            <file>./tests/PaymentSlipTcpdfTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
