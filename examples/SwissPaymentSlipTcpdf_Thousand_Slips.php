@@ -37,7 +37,7 @@ use SwissPaymentSlip\SwissPaymentSlipTcpdf\PaymentSlipTcpdf;
 define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
 
 // Create an instance of TCPDF, setup default settings
-$tcPdf = new TCPDF('P', 'mm','A4', false, 'ISO-8859-1');
+$tcPdf = new TCPDF('P', 'mm', 'A4', false, 'ISO-8859-1');
 
 // Since we currently don't have a OCRB font for TCPDF, we disable this
 //$tcPdf->AddFont('OCRB10');
@@ -48,37 +48,37 @@ $tcPdf->setPrintFooter(false);
 
 // create 1000 payment slips
 for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
-	// Add page, don't break page automatically
-	$tcPdf->AddPage();
-	$tcPdf->SetAutoPageBreak(false);
+    // Add page, don't break page automatically
+    $tcPdf->AddPage();
+    $tcPdf->SetAutoPageBreak(false);
 
-	// Insert a dummy invoice text, not part of the payment slip itself
-	$tcPdf->SetFont('Arial','',9);
-	$tcPdf->Cell(50, 4, "Just some dummy text.");
+    // Insert a dummy invoice text, not part of the payment slip itself
+    $tcPdf->SetFont('Arial', '', 9);
+    $tcPdf->Cell(50, 4, "Just some dummy text.");
 
-	// Create an payment slip data container (value object)
-	$paymentSlipData = new SwissPaymentSlipData(); // for better performance, take outside of the loop
+    // Create an payment slip data container (value object)
+    $paymentSlipData = new SwissPaymentSlipData(); // for better performance, take outside of the loop
 
-	// Fill the data container with your data
-	$paymentSlipData->setBankData('Seldwyla Bank', '8001 Zürich');
-	$paymentSlipData->setAccountNumber('01-145-6');
-	$paymentSlipData->setRecipientData('H. Muster AG', 'Versandhaus', 'Industriestrasse 88', '8000 Zürich');
-	$paymentSlipData->setPayerData('Rutschmann Pia', 'Marktgasse 28', '9400 Rorschach', 'Slip # ' . $slipNr);
-	$paymentSlipData->setAmount(2830.50);
-	$paymentSlipData->setReferenceNumber('7520033455900012');
-	$paymentSlipData->setBankingCustomerId('215703');
+    // Fill the data container with your data
+    $paymentSlipData->setBankData('Seldwyla Bank', '8001 Zürich');
+    $paymentSlipData->setAccountNumber('01-145-6');
+    $paymentSlipData->setRecipientData('H. Muster AG', 'Versandhaus', 'Industriestrasse 88', '8000 Zürich');
+    $paymentSlipData->setPayerData('Rutschmann Pia', 'Marktgasse 28', '9400 Rorschach', 'Slip # ' . $slipNr);
+    $paymentSlipData->setAmount(2830.50);
+    $paymentSlipData->setReferenceNumber('7520033455900012');
+    $paymentSlipData->setBankingCustomerId('215703');
 
-	// Create an payment slip object, pass in the prepared data container
-	$paymentSlip = new SwissPaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
+    // Create an payment slip object, pass in the prepared data container
+    $paymentSlip = new SwissPaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
 
-	// Since we currently don't have a OCRB font for TCPDF, we set it to one we certainly have
-	$paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
+    // Since we currently don't have a OCRB font for TCPDF, we set it to one we certainly have
+    $paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
 
-	// Create an instance of the TCPDF implementation, can be used for TCPDF, too
-	$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
+    // Create an instance of the TCPDF implementation, can be used for TCPDF, too
+    $paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
 
-	// "Print" the slip with its elements according to their attributes
-	$paymentSlipTcpdf->createPaymentSlip();
+    // "Print" the slip with its elements according to their attributes
+    $paymentSlipTcpdf->createPaymentSlip();
 }
 
 // Output PDF named example_tcpdf_thousand_slips.pdf to examples folder
