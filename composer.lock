@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8daacec7d31aa89b66876e53387251d0",
+    "hash": "c27f2df71c5b83a511a7b8e1a725b16e",
     "packages": [
         {
             "name": "swiss-payment-slip/swiss-payment-slip",
-            "version": "0.7.0",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ravage84/SwissPaymentSlip.git",
-                "reference": "c6fd681bf02f9c57f1738a6d852b52dcaa9138e8"
+                "reference": "8c2ddca4e7dfc568a7f1cfdf25a748192ebca16e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlip/zipball/c6fd681bf02f9c57f1738a6d852b52dcaa9138e8",
-                "reference": "c6fd681bf02f9c57f1738a6d852b52dcaa9138e8",
+                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlip/zipball/8c2ddca4e7dfc568a7f1cfdf25a748192ebca16e",
+                "reference": "8c2ddca4e7dfc568a7f1cfdf25a748192ebca16e",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                     "role": "Lead developer"
                 }
             ],
-            "description": "A class to create Swiss payment slips with reference number (ESR)",
+            "description": "A library for creating Swiss payment slips",
             "homepage": "https://github.com/ravage84/SwissPaymentSlip",
             "keywords": [
                 "ESR",
@@ -65,25 +65,25 @@
                 "Payment slip",
                 "es"
             ],
-            "time": "2013-09-16 00:00:00"
+            "time": "2015-02-12 17:25:46"
         },
         {
             "name": "swiss-payment-slip/swiss-payment-slip-pdf",
-            "version": "0.8.0",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ravage84/SwissPaymentSlipPdf.git",
-                "reference": "c69e09cca6adb2634342a7dec8b9046dfd44f18b"
+                "reference": "75d7a115559ca68e3123618a0f2f9426fd4f427c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlipPdf/zipball/c69e09cca6adb2634342a7dec8b9046dfd44f18b",
-                "reference": "c69e09cca6adb2634342a7dec8b9046dfd44f18b",
+                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlipPdf/zipball/75d7a115559ca68e3123618a0f2f9426fd4f427c",
+                "reference": "75d7a115559ca68e3123618a0f2f9426fd4f427c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "swiss-payment-slip/swiss-payment-slip": "0.7.0"
+                "swiss-payment-slip/swiss-payment-slip": "0.8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.38",
@@ -128,7 +128,7 @@
                 "es",
                 "pdf"
             ],
-            "time": "2015-02-17 16:29:42"
+            "time": "2015-02-17 17:07:16"
         },
         {
             "name": "tecnick.com/tcpdf",
