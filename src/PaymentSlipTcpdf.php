@@ -15,43 +15,58 @@ namespace SwissPaymentSlip\SwissPaymentSlipTcpdf;
 use SwissPaymentSlip\SwissPaymentSlipPdf\PaymentSlipPdf;
 
 /**
- * Responsible for generating standard Swiss payment Slips using TCPDF as engine.
- * Layouting done by utilizing SwissPaymentSlip
- * Data organisation through SwissPaymentSlipData
+ * Create Swiss payment slips (ESR/ES) as PDFs with TCPDF
+ *
+ * Responsible for generating standard Swiss payment Slips as PDFs using TCPDF as engine.
+ * Layout done by utilizing PaymentSlip and
+ * data organisation through PaymentSlipData.
+ *
+ * @link https://github.com/ravage84/SwissPaymentSlipPdf/ SwissPaymentSlipPdf
+ * @link https://github.com/ravage84/SwissPaymentSlip/ SwissPaymentSlip
  */
 class PaymentSlipTcpdf extends PaymentSlipPdf
 {
+    /**
+     * A caching table for hex to RGB conversions
+     *
+     * @var array
+     */
     protected $rgbColors = array();
 
     /**
-     * The PDF engine object to generate the PDF output
+     * The PDF engine object to generate the PDF output with
      *
      * @var null|\TCPDF The PDF engine object
      */
     protected $pdfEngine = null;
 
     /**
+     * The last set font family, prevents the PDF engine to re-set the same values over and over
+     *
      * @var string;
      */
     protected $lastFontFamily = '';
 
     /**
+     * The last set font size, prevents the PDF engine to re-set the same values over and over
+     *
      * @var string;
      */
     protected $lastFontSize = '';
 
     /**
+     * The last set font color, prevents the PDF engine to re-set the same values over and over
+     *
      * @var string;
      */
     protected $lastFontColor = '';
 
     /**
-     * @param $background
-     * @return mixed|void
+     * {@inheritDoc}
      */
     protected function displayImage($background)
     {
-     // TODO check if slipBackground is a color or a path to a file
+        // TODO check if slipBackground is a color or a path to a file
 
         $this->pdfEngine->Image(
             $background,
@@ -64,10 +79,7 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     }
 
     /**
-     * @param $fontFamily
-     * @param $fontSize
-     * @param $fontColor
-     * @return mixed|void
+     * {@inheritDoc}
      */
     protected function setFont($fontFamily, $fontSize, $fontColor)
     {
@@ -88,21 +100,18 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     }
 
     /**
-     * @param $background
-     * @return mixed|void
+     * {@inheritDoc}
      */
     protected function setBackground($background)
     {
-     // TODO check if it's a path to a file
-     // TODO else it should be a color
+        // TODO check if it's a path to a file
+        // TODO else it should be a color
         $rgbArray = $this->convertColor2Rgb($background);
         $this->pdfEngine->SetFillColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
     }
 
     /**
-     * @param $posX
-     * @param $posY
-     * @return mixed|void
+     * {@inheritDoc}
      */
     protected function setPosition($posX, $posY)
     {
@@ -110,12 +119,7 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     }
 
     /**
-     * @param $width
-     * @param $height
-     * @param $line
-     * @param $textAlign
-     * @param $fill
-     * @return mixed|void
+     * {@inheritDoc}
      */
     protected function createCell($width, $height, $line, $textAlign, $fill)
     {
@@ -123,8 +127,7 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     }
 
     /**
-     * @param $color
-     * @return mixed
+     * {@inheritDoc}
      */
     protected function convertColor2Rgb($color)
     {
@@ -136,15 +139,17 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     }
 
     /**
-     * Convert hexadecimal values into an array of RGB
+     * Convert hexadecimal color code into an associative array or string of RGB values
      *
-     * @param $hexStr
-     * @param bool $returnAsString
-     * @param string $separator
-     * @return array|bool|string
+     * @param string $hexStr The hexadecimal color code (3 or 6 characters long)
+     * @param bool $returnAsString Whether to return as a string or array.
+     * @param string $separator The separator for the RGB value string, defaults to ",".
+     * @return array|string|false The RGB values as an associative array or a string.
+     * False if an invalid color code was given.
      *
      * @copyright 2010 hafees at msn dot com
      * @link http://www.php.net/manual/en/function.hexdec.php#99478
+     * @todo Throw an exception if an invalid hex color code was given
      */
     protected function hex2RGB($hexStr, $returnAsString = false, $separator = ',')
     {
@@ -164,6 +169,8 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
         } else {
             return false; //Invalid hex color code
         }
-        return $returnAsString ? implode($separator, $rgbArray) : $rgbArray; // returns the rgb string or the associative array
+
+        // Returns the RGB values either as string or as associative array
+        return $returnAsString ? implode($separator, $rgbArray) : $rgbArray;
     }
 }
