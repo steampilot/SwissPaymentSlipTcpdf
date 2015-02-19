@@ -26,8 +26,8 @@ $time_start = microtime(true);
 $loader = require __DIR__. '/../vendor/autoload.php';
 
 // Import necessary classes
-use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlipData;
-use SwissPaymentSlip\SwissPaymentSlip\SwissPaymentSlip;
+use SwissPaymentSlip\SwissPaymentSlip\PaymentSlipData;
+use SwissPaymentSlip\SwissPaymentSlip\PaymentSlip;
 use SwissPaymentSlip\SwissPaymentSlipTcpdf\PaymentSlipTcpdf;
 
 // Make sure TCPDF has access to the additional fonts
@@ -52,7 +52,7 @@ $tcPdf->SetFont('Helvetica', '', 9);
 $tcPdf->Cell(50, 4, "Just some dummy text.");
 
 // Create a payment slip data container (value object)
-$paymentSlipData = new SwissPaymentSlipData();
+$paymentSlipData = new PaymentSlipData();
 
 // Fill the data container with your data
 $paymentSlipData->setBankData('Seldwyla Bank', '8001 Zürich');
@@ -64,7 +64,7 @@ $paymentSlipData->setReferenceNumber('7520033455900012');
 $paymentSlipData->setBankingCustomerId('215703');
 
 // Create a payment slip object, pass in the prepared data container
-$paymentSlip = new SwissPaymentSlip($paymentSlipData, 0, 191);
+$paymentSlip = new PaymentSlip($paymentSlipData, 0, 191);
 
 // Since we currently don't have a OCRB font for TCPDF, we set it to one we certainly have
 $paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
