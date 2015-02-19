@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b62231c93fec7f2d167ca9e14fbb6d21",
+    "hash": "00772dd26f5807e8315700561e482e82",
     "packages": [
         {
             "name": "swiss-payment-slip/swiss-payment-slip",
-            "version": "0.5.0",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ravage84/SwissPaymentSlip.git",
-                "reference": "9c3f79c03c0764fc9e1dea4b2c7116bd6ae6b6da"
+                "reference": "b8e69af15eca0edab8d18dba537ca5a90a6889da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlip/zipball/9c3f79c03c0764fc9e1dea4b2c7116bd6ae6b6da",
-                "reference": "9c3f79c03c0764fc9e1dea4b2c7116bd6ae6b6da",
+                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlip/zipball/b8e69af15eca0edab8d18dba537ca5a90a6889da",
+                "reference": "b8e69af15eca0edab8d18dba537ca5a90a6889da",
                 "shasum": ""
             },
             "require": {
@@ -60,25 +60,25 @@
                 "Inpayment slip",
                 "Payment slip"
             ],
-            "time": "2013-03-07 00:00:00"
+            "time": "2013-09-16 00:00:00"
         },
         {
             "name": "swiss-payment-slip/swiss-payment-slip-pdf",
-            "version": "0.7.0",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ravage84/SwissPaymentSlipPdf.git",
-                "reference": "1434a88b17af198cc27284ee4c93558759c02cbb"
+                "reference": "745babce202a6e8ca20b3341ad0f67d3eb26da97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlipPdf/zipball/1434a88b17af198cc27284ee4c93558759c02cbb",
-                "reference": "1434a88b17af198cc27284ee4c93558759c02cbb",
+                "url": "https://api.github.com/repos/ravage84/SwissPaymentSlipPdf/zipball/745babce202a6e8ca20b3341ad0f67d3eb26da97",
+                "reference": "745babce202a6e8ca20b3341ad0f67d3eb26da97",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "swiss-payment-slip/swiss-payment-slip": "0.5.0"
+                "swiss-payment-slip/swiss-payment-slip": "0.6.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.38",
@@ -123,7 +123,7 @@
                 "es",
                 "pdf"
             ],
-            "time": "2015-02-17 15:51:07"
+            "time": "2015-02-17 16:14:48"
         },
         {
             "name": "tecnick.com/tcpdf",
