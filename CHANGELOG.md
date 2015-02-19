@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+## [0.7.0](https://github.com/ravage84/SwissPaymentSlipTcpdf/releases/tag/0.7.0) - 2015-02-19
+### Changed
+- Updated the swiss-payment-slip/swiss-payment-slip-pdf dependency to version 0.8.0 (API breaking)
+
 ## [0.6.1](https://github.com/ravage84/SwissPaymentSlipTcpdf/releases/tag/0.6.1) - 2015-02-19
 ### Changed
 - Updated the swiss-payment-slip/swiss-payment-slip-pdf dependency to version 0.7.1 (API compatible)
