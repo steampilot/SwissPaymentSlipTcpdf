@@ -50,7 +50,7 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     /**
      * The last set font size, prevents the PDF engine to re-set the same values over and over
      *
-     * @var string;
+     * @var int|double;
      */
     protected $lastFontSize = '';
 
