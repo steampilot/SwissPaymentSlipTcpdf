@@ -2,7 +2,14 @@
 All notable changes to this project are documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased](https://github.com/ravage84/SwissPaymentSlipTcpdf/compare/0.5.0...master)
+## [Unreleased](https://github.com/ravage84/SwissPaymentSlipTcpdf/compare/0.6.0...master)
+### Added
+
+### Changed
+
+### Fixed
+
+## [0.6.0](https://github.com/ravage84/SwissPaymentSlipTcpdf/releases/tag/0.6.0) - 2015-02-19
 ### Added
 - This change log
 - Scrutinizer CI integration & badges
