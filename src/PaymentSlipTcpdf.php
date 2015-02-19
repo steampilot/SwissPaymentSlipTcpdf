@@ -76,6 +76,8 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
             $this->paymentSlip->getSlipHeight(),
             strtoupper(substr($background, -3, 3))
         );
+
+        return $this;
     }
 
     /**
@@ -97,6 +99,8 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
 
             $this->pdfEngine->SetFont($fontFamily, '', $fontSize);
         }
+
+        return $this;
     }
 
     /**
@@ -108,6 +112,8 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
         // TODO else it should be a color
         $rgbArray = $this->convertColor2Rgb($background);
         $this->pdfEngine->SetFillColor($rgbArray['red'], $rgbArray['green'], $rgbArray['blue']);
+
+        return $this;
     }
 
     /**
@@ -116,6 +122,8 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     protected function setPosition($posX, $posY)
     {
         $this->pdfEngine->SetXY($posX, $posY);
+
+        return $this;
     }
 
     /**
@@ -124,6 +132,8 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
     protected function createCell($width, $height, $line, $textAlign, $fill)
     {
         $this->pdfEngine->Cell($width, $height, $line, 0, 0, $textAlign, $fill);
+
+        return $this;
     }
 
     /**
