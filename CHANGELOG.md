@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - composer.lock (not ignored anymore)
 - Packagist Download & Latest badges to the README
 - A .gitattributes
+- A bunch of incomplete tests
 
 ### Changed
 - Set swiss-payment-slip/swiss-payment-slip-pdf dependency to 0.7.0
@@ -24,6 +25,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Adopted the PSR-4 autoloader standard
 - Improved CS, DobBlocks and documentation
 - Exclude development/testing only related stuff from the Composer package
+- Implement a fluent interface
 
 ### Fixed
 - Removed misleading time key, which fooled Packagist
