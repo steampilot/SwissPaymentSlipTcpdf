@@ -67,10 +67,10 @@ $paymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
 $paymentSlip = new RedPaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
 
 // Create an instance of the TCPDF implementation, can be used for TCPDF, too
-$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
+$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf); // for better performance, take outside of the loop
 
 // "Print" the slip with its elements according to their attributes
-$paymentSlipTcpdf->createPaymentSlip();
+$paymentSlipTcpdf->createPaymentSlip($paymentSlip);
 
 // Output PDF named example_tcpdf_red_slip.pdf to examples folder
 $pdfName = 'example_tcpdf_red_slip.pdf';

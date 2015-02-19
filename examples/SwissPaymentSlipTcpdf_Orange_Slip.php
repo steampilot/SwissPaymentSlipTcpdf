@@ -70,10 +70,10 @@ $paymentSlip = new OrangePaymentSlip($paymentSlipData, 0, 191);
 $paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
 
 // Create an instance of the TCPDF implementation, can be used for TCPDF, too
-$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf, $paymentSlip);
+$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf);
 
 // "Print" the slip with its elements according to their attributes
-$paymentSlipTcpdf->createPaymentSlip();
+$paymentSlipTcpdf->createPaymentSlip($paymentSlip);
 
 // Output PDF named example_tcpdf_orange_slip.pdf to examples folder
 $pdfName = 'example_tcpdf_orange_slip.pdf';
