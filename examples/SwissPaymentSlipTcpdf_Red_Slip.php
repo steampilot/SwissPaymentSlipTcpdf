@@ -66,9 +66,6 @@ $paymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
 // Create an payment slip object, pass in the prepared data container
 $paymentSlip = new RedPaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
 
-// Since we currently don't have a OCRB font for TCPDF, we set it to one we certainly have
-$paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
-
 // Create an instance of the TCPDF implementation, can be used for TCPDF, too
 $paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf, $paymentSlip); // for better performance, take outside of the loop
 
