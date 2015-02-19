@@ -4,10 +4,29 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/ravage84/SwissPaymentSlipTcpdf/compare/0.5.0...master)
 ### Added
+- This change log
+- Scrutinizer CI integration & badges
+- .editorconfig file
+- PHPUnit 3.7.38 as development dependency
+- PHPMD 2.1.* as development dependency
+- Testing with newer PHP versions and HHVM through Travis CI
+- composer.lock (not ignored anymore)
+- Packagist Download & Latest badges to the README
+- A .gitattributes
 
 ### Changed
+- Set swiss-payment-slip/swiss-payment-slip-pdf dependency to 0.7.0
+  Earlier versions can't resolve properly because they depend on dev-master of swiss-payment-slip/swiss-payment-slip
+- Remove set minimum-stability ("dev"), get stable version of dependencies
+- Set tecnick.com/tcpdf dependency to 6.2.6
+- Fully adopted the PSR2 Code Style
+- Renamed SwissPaymentSlipTcpdf to PaymentSlipTcpdf
+- Adopted the PSR-4 autoloader standard
+- Improved CS, DobBlocks and documentation
+- Exclude development/testing only related stuff from the Composer package
 
 ### Fixed
+- Removed misleading time key, which fooled Packagist
 
 ## [0.5.0](https://github.com/ravage84/SwissPaymentSlipTcpdf/releases/tag/0.5.0) - 2013-07-04
 ### Added
