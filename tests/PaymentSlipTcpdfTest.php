@@ -15,7 +15,7 @@ namespace SwissPaymentSlip\SwissPaymentSlipTcpdf\Tests;
 /**
  * Tests for the PaymentSlipTcpdf class
  *
- * @coversDefaultClass
+ * @coversDefaultClass SwissPaymentSlip\SwissPaymentSlipPdf\PaymentSlipTcpdf
  */
 class PaymentSlipTcpdfTest extends \PHPUnit_Framework_TestCase
 {
