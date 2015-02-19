@@ -146,7 +146,7 @@ class PaymentSlipTcpdf extends PaymentSlipPdf
      * @copyright 2010 hafees at msn dot com
      * @link http://www.php.net/manual/en/function.hexdec.php#99478
      */
-    private function hex2RGB($hexStr, $returnAsString = false, $separator = ',')
+    protected function hex2RGB($hexStr, $returnAsString = false, $separator = ',')
     {
         $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr); // Gets a proper hex string
         $rgbArray = array();
