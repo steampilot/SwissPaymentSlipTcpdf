@@ -34,7 +34,7 @@ use SwissPaymentSlip\SwissPaymentSlipTcpdf\PaymentSlipTcpdf;
 define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
 
 // Create an instance of TCPDF, setup default settings
-$tcPdf = new TCPDF('P', 'mm', 'A4', false, 'ISO-8859-1');
+$tcPdf = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
 
 // Since we currently don't have a OCRB font for TCPDF, we disable this
 //$tcPdf->AddFont('OCRB10');
@@ -48,7 +48,7 @@ $tcPdf->AddPage();
 $tcPdf->SetAutoPageBreak(false);
 
 // Insert a dummy invoice text, not part of the payment slip itself
-$tcPdf->SetFont('Arial', '', 9);
+$tcPdf->SetFont('Helvetica', '', 9);
 $tcPdf->Cell(50, 4, "Just some dummy text.");
 
 // Create a payment slip data container (value object)

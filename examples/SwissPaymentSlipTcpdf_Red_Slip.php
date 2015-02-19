@@ -34,7 +34,7 @@ use SwissPaymentSlip\SwissPaymentSlipTcpdf\PaymentSlipTcpdf;
 define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
 
 // Create an instance of TCPDF, setup default settings
-$tcPdf = new TCPDF('P', 'mm', 'A4', false, 'ISO-8859-1');
+$tcPdf = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
 
 // Since we currently don't have a OCRB font for TCPDF, we disable this
 //$tcPdf->AddFont('OCRB10');
@@ -48,16 +48,16 @@ $tcPdf->AddPage();
 $tcPdf->SetAutoPageBreak(false);
 
 // Insert a dummy invoice text, not part of the payment slip itself
-$tcPdf->SetFont('Arial', '', 9);
+$tcPdf->SetFont('Helvetica', '', 9);
 $tcPdf->Cell(50, 4, "Just some dummy text.");
 
 // Create an payment slip data container (value object)
 $paymentSlipData = new SwissPaymentSlipData('red');
 
 // Fill the data container with your data
-$paymentSlipData->setBankData('Seldwyla Bank', '8021 Zuerich');
+$paymentSlipData->setBankData('Seldwyla Bank', '8021 Zürich');
 $paymentSlipData->setAccountNumber('80-939-3');
-$paymentSlipData->setRecipientData('Muster AG', 'Bahnhofstrasse 5', '8001 Zuerich');
+$paymentSlipData->setRecipientData('Muster AG', 'Bahnhofstrasse 5', '8001 Zürich');
 $paymentSlipData->setIban('CH3808888123456789012');
 $paymentSlipData->setPayerData('M. Beispieler', 'Bahnhofstrasse 356', '', '7000 Chur');
 $paymentSlipData->setAmount(8479.25);
