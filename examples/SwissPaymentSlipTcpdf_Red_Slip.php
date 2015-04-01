@@ -30,9 +30,6 @@ use SwissPaymentSlip\SwissPaymentSlip\RedPaymentSlipData;
 use SwissPaymentSlip\SwissPaymentSlip\RedPaymentSlip;
 use SwissPaymentSlip\SwissPaymentSlipTcpdf\PaymentSlipTcpdf;
 
-// Make sure TCPDF has access to the additional fonts
-define('TCPDF_FONTPATH', __DIR__.'/../src/SwissPaymentSlip/SwissPaymentSlipPdf/Resources/font');
-
 // Create an instance of TCPDF, setup default settings
 $tcPdf = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-1');
 
