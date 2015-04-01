@@ -4,13 +4,13 @@
     "license": "MIT",
     "homepage": "https://github.com/ravage84/SwissPaymentSlipTcpdf",
     "keywords": [
-            "Payment slip",
-            "Inpayment slip",
-            "Einzahlungsschein",
-            "ESR",
-            "ES",
-            "PDF",
-            "TCPDF"
+        "Payment slip",
+        "Inpayment slip",
+        "Einzahlungsschein",
+        "ESR",
+        "ES",
+        "PDF",
+        "TCPDF"
     ],
     "require": {
         "php": ">=5.3.0",
@@ -42,9 +42,9 @@
         }
     ],
     "support": {
-            "email": "ravage@bluewin.ch",
-            "issues": "https://github.com/ravage84/SwissPaymentSlipTcpdf/issues",
-            "source": "https://github.com/ravage84/SwissPaymentSlipTcpdf"
+        "email": "ravage@bluewin.ch",
+        "issues": "https://github.com/ravage84/SwissPaymentSlipTcpdf/issues",
+        "source": "https://github.com/ravage84/SwissPaymentSlipTcpdf"
     },
     "autoload": {
         "psr-4": {
