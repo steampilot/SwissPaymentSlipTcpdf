@@ -13,8 +13,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>SwissPaymentSlipTcpdf Example 03: Create one thousand orange payment slips</title>
+    <meta charset="utf-8">
+    <title>SwissPaymentSlipTcpdf Example 03: Create one thousand orange payment slips</title>
 </head>
 <body>
 <h1>SwissPaymentSlipTcpdf Example 03: Create one thousand orange payment slips</h1>
@@ -23,7 +23,7 @@
 $time_start = microtime(true);
 
 // Make sure the classes get auto-loaded
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\OrangePaymentSlipData;
@@ -53,8 +53,8 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
     $tcPdf->SetFont('Helvetica', '', 9);
     $tcPdf->Cell(50, 4, "Just some dummy text.");
 
-    // Create an payment slip data container (value object)
-    $paymentSlipData = new OrangePaymentSlipData(); // for better performance, take outside of the loop
+    // Create a payment slip data container (value object)
+    $paymentSlipData = new OrangePaymentSlipData();
 
     // Fill the data container with your data
     $paymentSlipData->setBankData('Seldwyla Bank', '8001 Zürich');
@@ -65,14 +65,14 @@ for ($slipNr = 1; $slipNr <= 1000; $slipNr++) {
     $paymentSlipData->setReferenceNumber('7520033455900012');
     $paymentSlipData->setBankingCustomerId('215703');
 
-    // Create an payment slip object, pass in the prepared data container
-    $paymentSlip = new OrangePaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
+    // Create a payment slip object, pass in the prepared data container
+    $paymentSlip = new OrangePaymentSlip($paymentSlipData, 0, 191);
 
     // Since we currently don't have a OCRB font for TCPDF, we set it to one we certainly have
     $paymentSlip->setCodeLineAttr(null, null, null, null, null, 'Helvetica');
 
     // Create an instance of the TCPDF implementation, can be used for TCPDF, too
-    $paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf); // for better performance, take outside of the loop
+    $paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf);
 
     // "Print" the slip with its elements according to their attributes
     $paymentSlipTcpdf->createPaymentSlip($paymentSlip);

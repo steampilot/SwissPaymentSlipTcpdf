@@ -13,8 +13,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>SwissPaymentSlipTcpdf Example 02: Create a red payment slip</title>
+    <meta charset="utf-8">
+    <title>SwissPaymentSlipTcpdf Example 02: Create a red payment slip</title>
 </head>
 <body>
 <h1>SwissPaymentSlipTcpdf Example 02: Create a red payment slip</h1>
@@ -23,7 +23,7 @@
 $time_start = microtime(true);
 
 // Make sure the classes get auto-loaded
-$loader = require __DIR__. '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\RedPaymentSlipData;
@@ -63,11 +63,11 @@ $paymentSlipData->setPayerData('M. Beispieler', 'Bahnhofstrasse 356', '', '7000 
 $paymentSlipData->setAmount(8479.25);
 $paymentSlipData->setPaymentReasonData('Rechnung', 'Nr.7496');
 
-// Create an payment slip object, pass in the prepared data container
-$paymentSlip = new RedPaymentSlip($paymentSlipData, 0, 191); // for better performance, take outside of the loop
+// Create a payment slip object, pass in the prepared data container
+$paymentSlip = new RedPaymentSlip($paymentSlipData, 0, 191);
 
-// Create an instance of the TCPDF implementation, can be used for TCPDF, too
-$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf); // for better performance, take outside of the loop
+// Create an instance of the TCPDF implementation
+$paymentSlipTcpdf = new PaymentSlipTcpdf($tcPdf);
 
 // "Print" the slip with its elements according to their attributes
 $paymentSlipTcpdf->createPaymentSlip($paymentSlip);

@@ -13,17 +13,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>SwissPaymentSlipTcpdf Example 01: SwissPaymentSlipTcpdf Creating an orange payment slip</title>
+    <meta charset="utf-8">
+    <title>SwissPaymentSlipTcpdf Example 01: SwissPaymentSlipTcpdf Create an orange payment slip</title>
 </head>
 <body>
-<h1>SwissPaymentSlipTcpdf Example 01: Creating an orange payment slip</h1>
+<h1>SwissPaymentSlipTcpdf Example 01: Create an orange payment slip</h1>
 <?php
 // Measure script execution/generating time
 $time_start = microtime(true);
 
 // Make sure the classes get auto-loaded
-$loader = require __DIR__. '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // Import necessary classes
 use SwissPaymentSlip\SwissPaymentSlip\OrangePaymentSlipData;
