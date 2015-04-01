@@ -4,11 +4,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/ravage84/SwissPaymentSlipTcpdf/compare/0.12.1...master)
 ### Added
+- Added note about OCR-B to the requirements in the README
+- Added testing with PHP 7.0 & HHVM to Travis, allow failures
 
 ### Changed
 - Relaxed version of swiss-payment-slip/swiss-payment-slip-pdf dependency to 0.13.*
+- Added PDFs generated through the examples to the ignore list
 
 ### Fixed
+- Various minor fixes (change log, examples, doc blocks & CS)
 
 ## [0.12.1](https://github.com/ravage84/SwissPaymentSlipTcpdf/releases/tag/0.12.1) - 2015-02-19
 ### Changed
