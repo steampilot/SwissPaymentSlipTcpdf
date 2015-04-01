@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+- Relaxed version of swiss-payment-slip/swiss-payment-slip-pdf dependency to 0.13.*
 
 ### Fixed
 
