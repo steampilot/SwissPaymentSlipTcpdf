@@ -47,7 +47,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Scrutinizer CI integration & badges
 - .editorconfig file
 - PHPUnit 3.7.38 as development dependency
-- PHPMD 2.1.* as development dependency
+- PHPCS 2.1.* as development dependency
 - Testing with newer PHP versions and HHVM through Travis CI
 - composer.lock (not ignored anymore)
 - Packagist Download & Latest badges to the README
@@ -74,7 +74,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - The README
 
 ### Changed
-- Added DocBlocks everywhere, some other minor clean up 
+- Added DocBlocks everywhere, some other minor clean up
 - Completed SwissInpaymentSlipTest
 - Improved the composer.json
 - Renamed namespace Gridonic\ESR to more general, library style SwissPaymentSlip\SwissPaymentSlip
