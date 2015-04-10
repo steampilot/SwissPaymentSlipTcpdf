@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Relaxed version of swiss-payment-slip/swiss-payment-slip-pdf dependency to 0.13.*
 - Relaxed version of tecnick.com/tcpdf dependency to 6.2.*
 - Added PDFs generated through the examples to the ignore list
+- Changed PHP dependencies to 4.5 and higher
 
 ### Fixed
 - Various minor fixes (change log, examples, doc blocks & CS)

@@ -32,7 +32,7 @@ Installation
 
 ### Requirements
 
-- PHP 5.3.x+
+- PHP 5.4.x+
 - [SwissPaymentSlip](https://github.com/ravage84/SwissPaymentSlip/) (automatically installed by Composer)
 - [SwissPaymentSlipPdf](https://github.com/ravage84/SwissPaymentSlipPdf/) (automatically installed by Composer)
 - A [TCPDF compatible](http://www.tcpdf.org/fonts.php) [OCR-B](http://en.wikipedia.org/wiki/OCR-B) font for the code line, see issue #1
